@@ -1,3 +1,5 @@
+import { cn } from "@util";
+
 interface CyberStatusBadgeProps {
   status: string;
   statusConfig: {
@@ -17,10 +19,17 @@ export const CyberStatusBadge = ({
       style={{ transform: "translateZ(40px)" }}
     >
       <div
-        className={`w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 rounded-full ${statusConfig.bg} ${statusConfig.glow} animate-pulse`}
+        className={cn(
+          "w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 rounded-full animate-pulse",
+          statusConfig.bg,
+          statusConfig.glow
+        )}
       />
       <span
-        className={`${statusConfig.text} font-bold text-xs sm:text-sm md:text-base uppercase tracking-wider`}
+        className={cn(
+          "font-bold text-xs sm:text-sm md:text-base uppercase tracking-wider",
+          statusConfig.text
+        )}
       >
         {status}
       </span>

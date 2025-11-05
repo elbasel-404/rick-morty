@@ -1,4 +1,5 @@
 import { textShadow } from "@styles";
+import { cn } from "@util";
 
 interface StatusBadgeProps {
   status: string;
@@ -22,7 +23,10 @@ export const StatusBadge = ({
       }}
     >
       <div
-        className={`w-2.5 h-2.5 rounded-full ${statusColor} animate-pulse shadow-lg`}
+        className={cn(
+          "w-2.5 h-2.5 rounded-full animate-pulse shadow-lg",
+          statusColor
+        )}
         style={{ boxShadow: `0 0 10px currentColor` }}
       />
       <span

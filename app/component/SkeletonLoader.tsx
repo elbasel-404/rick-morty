@@ -1,3 +1,5 @@
+import { cn } from "@util";
+
 interface SkeletonLoaderProps {
   opacity: number;
   variant?: "card-i" | "card-ii" | "default";
@@ -14,7 +16,10 @@ export const SkeletonLoader = ({
 
   return (
     <div
-      className={`absolute inset-0 bg-black rounded-xl overflow-hidden z-10 ${className}`}
+      className={cn(
+        "absolute inset-0 bg-black rounded-xl overflow-hidden z-10",
+        className
+      )}
       style={{
         opacity,
         transition: "opacity 800ms cubic-bezier(0.4, 0.0, 0.2, 1)",

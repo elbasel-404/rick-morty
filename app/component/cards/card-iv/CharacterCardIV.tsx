@@ -1,5 +1,6 @@
 import { Character } from "@schema";
 import { Star } from "lucide-react";
+import { cn } from "@util";
 
 interface CharacterCardProps {
   character: Character;
@@ -33,6 +34,12 @@ export const CharacterCardIV = ({ character }: CharacterCardProps) => {
 
   const gradient = gradients[Math.floor(Math.random() * gradients.length)];
 
+  const statusColors = {
+    Alive: "bg-green-400",
+    Dead: "bg-red-400",
+    unknown: "bg-gray-400",
+  };
+
   return (
     <div className="glass-card group">
       <div className="card-ambient-glow" />
@@ -42,13 +49,11 @@ export const CharacterCardIV = ({ character }: CharacterCardProps) => {
         <div className="absolute top-4 left-4 z-20">
           <div className="px-3 py-1.5 rounded-full bg-black/30 backdrop-blur-md border border-white/20 text-white text-xs font-medium flex items-center gap-1.5">
             <div
-              className={`w-2 h-2 rounded-full ${
-                status === "Alive"
-                  ? "bg-green-400"
-                  : status === "Dead"
-                  ? "bg-red-400"
-                  : "bg-gray-400"
-              } shadow-lg`}
+              className={cn(
+                "w-2 h-2 rounded-full shadow-lg",
+                statusColors[status as keyof typeof statusColors] ||
+                  statusColors.unknown
+              )}
             />
             {status}
           </div>
@@ -64,7 +69,7 @@ export const CharacterCardIV = ({ character }: CharacterCardProps) => {
 
         {/* Character Image */}
         <div
-          className="relative h-[320px] overflow-hidden"
+          className="relative h-80 overflow-hidden"
           style={{ background: gradient }}
         >
           <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-black/60" />

@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { Heart } from "lucide-react";
+import { useCardRotation } from "@hooks";
+import { cn } from "@util";
 
 interface Character {
   id: number;
@@ -21,7 +23,7 @@ interface CharacterCardProps {
 }
 
 export const CharacterCardIII = ({ character }: CharacterCardProps) => {
-  const [rotation, setRotation] = useState({ x: 0, y: 0 });
+  const { rotation, handleMouseMove, resetRotation } = useCardRotation();
   const [isHovered, setIsHovered] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
 
@@ -37,23 +39,8 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
     type,
   } = character;
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const card = e.currentTarget;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    const rotateX = (y - centerY) / 15;
-    const rotateY = (centerX - x) / 15;
-
-    setRotation({ x: rotateX, y: rotateY });
-  };
-
   const handleMouseLeave = () => {
-    setRotation({ x: 0, y: 0 });
+    resetRotation();
     setIsHovered(false);
   };
 
@@ -97,7 +84,7 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
             />
 
             {/* Gradient overlay at bottom */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
 
             {/* Favorite button */}
             <button
@@ -106,11 +93,12 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
               style={{ transform: "translateZ(40px)" }}
             >
               <Heart
-                className={`w-5 h-5 transition-all ${
+                className={cn(
+                  "w-5 h-5 transition-all",
                   isFavorited
                     ? "fill-rose-500 stroke-rose-500"
                     : "stroke-gray-700"
-                }`}
+                )}
               />
             </button>
 
@@ -135,7 +123,7 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
             {/* Status and info row */}
             <div className="flex items-center gap-4 text-gray-600">
               <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full ${statusColor}`} />
+                <div className={cn("w-2 h-2 rounded-full", statusColor)} />
                 <span className="text-sm font-medium">{status}</span>
               </div>
               <div className="flex items-center gap-2">

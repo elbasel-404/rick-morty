@@ -1,3 +1,4 @@
+import { cn } from "@util";
 import { CyberImage } from "./CyberImage";
 import { CyberStatusBadge } from "./CyberStatusBadge";
 import { CyberIDBadge } from "./CyberIDBadge";
@@ -58,10 +59,17 @@ export const CyberCardBack = ({
         {/* Status Badge - Right */}
         <div className="flex items-center gap-2 px-3 py-1.5">
           <div
-            className={`w-2 h-2 rounded-full ${statusConfig.bg} ${statusConfig.glow} animate-pulse`}
+            className={cn(
+              "w-2 h-2 rounded-full animate-pulse",
+              statusConfig.bg,
+              statusConfig.glow
+            )}
           />
           <span
-            className={`${statusConfig.text} font-black text-base uppercase tracking-wider drop-shadow-[0_2px_8px_rgba(0,0,0,1)]`}
+            className={cn(
+              "font-black text-base uppercase tracking-wider drop-shadow-[0_2px_8px_rgba(0,0,0,1)]",
+              statusConfig.text
+            )}
           >
             {character.status}
           </span>

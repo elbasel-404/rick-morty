@@ -4,6 +4,19 @@
 
 This is a Next.js application that displays character information from the Rick and Morty API using elegant, animated character cards with various visual styles.
 
+## Documentation
+
+**Important**: Always check the `/docs` folder for comprehensive information about the project, technologies, and patterns used:
+
+- `/docs/project/` - Project structure, refactoring guides, and utilities reference
+- `/docs/animation/` - Animation configuration, timing, and Tailwind Motion integration
+- **`/docs/next/README.md`** ⭐ - **Start here** for Next.js documentation (caching, data fetching, routing, etc.)
+  - `/docs/next/` - Next.js specific patterns organized by topic with cross-references
+- `/docs/react/` - React hooks and patterns (useActionState, useEffectEvent, etc.)
+- `/docs/patterns/` - Reusable patterns like CardContainer, skeleton loading, and infinite scrolling
+
+When working on features or debugging issues, consult the relevant documentation first to understand established patterns and best practices.
+
 ## Code Style & Architecture
 
 ### Component Structure
