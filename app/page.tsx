@@ -2,10 +2,10 @@ import Link from "next/link";
 import { getCharactersList } from "./server/getCharactersList";
 import {
   JsonViewer,
-  CharacterCard,
+  CharacterCardI,
   CharacterCardII,
   CharacterCardIII,
-  CharacterCardIIII,
+  CharacterCardIV,
   CharacterCardV,
 } from "@component";
 
@@ -30,17 +30,15 @@ const HomePage = async ({ searchParams }: HomePageProps) => {
       : cardNumber === "3"
       ? CharacterCardIII
       : cardNumber === "4"
-      ? CharacterCardIIII
+      ? CharacterCardIV
       : cardNumber === "5"
       ? CharacterCardV
-      : CharacterCard;
+      : CharacterCardI;
 
   return (
     <main className="min-h-screen px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <h1 className="text-3xl font-bold mb-8 parallax-header">
-          Rick and Morty Characters
-        </h1>
+        <h1 className="text-3xl font-bold mb-8">Rick and Morty Characters</h1>
 
         <div className="mb-8 flex flex-wrap items-center gap-3">
           <span className="font-semibold text-lg">Card Style:</span>
@@ -62,11 +60,7 @@ const HomePage = async ({ searchParams }: HomePageProps) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 auto-rows-fr">
           {charactersData.map((c, index) => {
             return (
-              <div
-                className="hoverable-card parallax-card"
-                key={c.id}
-                data-index={index}
-              >
+              <div className="hoverable-card" key={c.id} data-index={index}>
                 <CardComponent character={c} />
               </div>
             );

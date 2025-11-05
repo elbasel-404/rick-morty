@@ -1,6 +1,6 @@
-export { CharacterCard } from "./CharacterCard";
+export { CharacterCardI } from "./CharacterCardI";
 export { CharacterCardII } from "./CharacterCardII";
 export { CharacterCardIII } from "./CharacterCardIII";
-export { CharacterCardIIII } from "./CharacterCardIIII";
+export { CharacterCardIV } from "./CharacterCardIV";
 export { CharacterCardV } from "./CharacterCardV";
 export { JsonViewer } from "./JsonViewer";

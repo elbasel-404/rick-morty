@@ -5,7 +5,7 @@ interface CharacterCardProps {
   character: Character;
 }
 
-export const CharacterCardIIII = ({ character }: CharacterCardProps) => {
+export const CharacterCardIV = ({ character }: CharacterCardProps) => {
   const {
     name,
     image,

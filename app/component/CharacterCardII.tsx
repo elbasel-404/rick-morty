@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 interface Character {
   id: number;
@@ -22,6 +22,29 @@ interface CharacterCardProps {
 export const CharacterCardII = ({ character }: CharacterCardProps) => {
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Generate deterministic random values based on character ID
+  const particles = useMemo(() => {
+    const seed = character.id;
+    const seededRandom = (index: number) => {
+      const x = Math.sin(seed * index * 12.9898 + index * 78.233) * 43758.5453;
+      return x - Math.floor(x);
+    };
+
+    return Array.from({ length: 12 }, (_, i) => ({
+      left: seededRandom(i * 2) * 100,
+      top: seededRandom(i * 2 + 1) * 100,
+      duration: 2 + seededRandom(i * 3) * 3,
+      delay: seededRandom(i * 4) * 2,
+      depth: 50 + seededRandom(i * 5) * 50,
+      isCyan: i % 2 === 0,
+    }));
+  }, [character.id]);
 
   const {
     name,
@@ -273,28 +296,27 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
 
           {/* Digital particles */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            {[...Array(12)].map((_, i) => (
-              <div
-                key={i}
-                className={`absolute w-0.5 sm:w-1 h-0.5 sm:h-1 ${
-                  i % 2 === 0 ? "bg-cyan-400" : "bg-pink-400"
-                } rounded-full opacity-60`}
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animation: `cyber-float ${
-                    2 + Math.random() * 3
-                  }s ease-in-out infinite`,
-                  animationDelay: `${Math.random() * 2}s`,
-                  transform: `translateZ(${50 + Math.random() * 50}px)`,
-                  boxShadow: `0 0 10px ${
-                    i % 2 === 0
-                      ? "rgba(6, 182, 212, 0.8)"
-                      : "rgba(236, 72, 153, 0.8)"
-                  }`,
-                }}
-              />
-            ))}
+            {isMounted &&
+              particles.map((particle, i) => (
+                <div
+                  key={i}
+                  className={`absolute w-0.5 sm:w-1 h-0.5 sm:h-1 ${
+                    particle.isCyan ? "bg-cyan-400" : "bg-pink-400"
+                  } rounded-full opacity-60`}
+                  style={{
+                    left: `${particle.left}%`,
+                    top: `${particle.top}%`,
+                    animation: `cyber-float ${particle.duration}s ease-in-out infinite`,
+                    animationDelay: `${particle.delay}s`,
+                    transform: `translateZ(${particle.depth}px)`,
+                    boxShadow: `0 0 10px ${
+                      particle.isCyan
+                        ? "rgba(6, 182, 212, 0.8)"
+                        : "rgba(236, 72, 153, 0.8)"
+                    }`,
+                  }}
+                />
+              ))}
           </div>
         </div>
       </div>
