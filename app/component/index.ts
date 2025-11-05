@@ -1,8 +1,10 @@
-export { CharacterCardI } from "./CharacterCardI";
-export { CharacterCardII } from "./CharacterCardII";
-export { CharacterCardIII } from "./CharacterCardIII";
-export { CharacterCardIV } from "./CharacterCardIV";
-export { CharacterCardV } from "./CharacterCardV";
+export {
+  CharacterCardI,
+  CharacterCardII,
+  CharacterCardIII,
+  CharacterCardIV,
+  CharacterCardV,
+} from "./cards";
 export { JsonViewer } from "./JsonViewer";
 
 // Container
@@ -12,4 +14,4 @@ export { CardContainer } from "./CardContainer";
 export { FadeIn, FadeOut, LazyImage, ViewportDetector } from "./effects";
 
 // Shared Components
-export { SkeletonLoader } from "./card-parts/SkeletonLoader";
+export { SkeletonLoader } from "./SkeletonLoader";

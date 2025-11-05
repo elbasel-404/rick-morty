@@ -5,7 +5,7 @@ import { ViewportDetector } from "./effects/ViewportDetector";
 import { LazyImage } from "./effects/LazyImage";
 import { FadeIn } from "./effects/FadeIn";
 import { FadeOut } from "./effects/FadeOut";
-import { SkeletonLoader } from "./card-parts/SkeletonLoader";
+import { SkeletonLoader } from "./SkeletonLoader";
 
 interface CardContainerProps {
   /** Image URL to preload */
@@ -18,6 +18,8 @@ interface CardContainerProps {
   skeletonClassName?: string;
   /** Container className */
   className?: string;
+  /** Minimum time skeleton stays visible in ms (enforced even if image loads quickly) */
+  minSkeletonVisibility?: number;
   /** Skeleton fade out duration in ms */
   skeletonFadeOutDuration?: number;
   /** Card fade in duration in ms */
@@ -38,6 +40,7 @@ export const CardContainer = ({
   skeletonVariant = "default",
   skeletonClassName = "",
   className = "",
+  minSkeletonVisibility = 1000,
   skeletonFadeOutDuration = 800,
   cardFadeInDuration = 1800,
   cardFadeInDelay = 0,
@@ -51,6 +54,7 @@ export const CardContainer = ({
   const [hideSkeleton, setHideSkeleton] = useState(false);
   const initialLoadRef = useRef(true);
   const loadTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+  const skeletonStartTimeRef = useRef<number | null>(null);
 
   const handleImageLoad = (loaded: boolean, isCached: boolean) => {
     if (loaded && !hasLoadedOnce) {
@@ -65,13 +69,26 @@ export const CardContainer = ({
         return;
       }
 
-      // Start skeleton fade out
-      setHideSkeleton(true);
+      // Calculate how long skeleton has been visible
+      const skeletonVisibleTime = skeletonStartTimeRef.current
+        ? Date.now() - skeletonStartTimeRef.current
+        : 0;
 
-      // Show card after skeleton finishes fading
-      loadTimeoutRef.current = setTimeout(() => {
-        setShowCard(true);
-      }, skeletonFadeOutDuration);
+      // Calculate remaining time to reach minimum visibility
+      const remainingTime = Math.max(
+        0,
+        minSkeletonVisibility - skeletonVisibleTime
+      );
+
+      // Wait for minimum visibility time, then start skeleton fade out
+      setTimeout(() => {
+        setHideSkeleton(true);
+
+        // Show card after skeleton finishes fading
+        loadTimeoutRef.current = setTimeout(() => {
+          setShowCard(true);
+        }, skeletonFadeOutDuration);
+      }, remainingTime);
     }
   };
 
@@ -82,6 +99,14 @@ export const CardContainer = ({
     }, 100);
     return () => clearTimeout(timer);
   }, []);
+
+  // Track when skeleton becomes visible
+  useEffect(() => {
+    const shouldShowSkeleton = !hasLoadedOnce && !initialLoadRef.current;
+    if (shouldShowSkeleton && skeletonStartTimeRef.current === null) {
+      skeletonStartTimeRef.current = Date.now();
+    }
+  }, [hasLoadedOnce]);
 
   // Cleanup timeout
   useEffect(() => {

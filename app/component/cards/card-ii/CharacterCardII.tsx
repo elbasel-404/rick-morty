@@ -1,15 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { CardContainer } from "./CardContainer";
-import { useCardRotation } from "../hooks/useCardRotation";
-import { getCyberStatusConfig } from "./utils/cyberStyles";
-import { CyberGrid } from "./card-parts/CyberGrid";
-import { ScanLine } from "./card-parts/ScanLine";
-import { CornerAccents } from "./card-parts/CornerAccents";
-import { CyberStyles } from "./card-parts/CyberStyles";
-import { CyberCardFront } from "./card-parts/CyberCardFront";
-import { CyberCardBack } from "./card-parts/CyberCardBack";
+import { CardContainer } from "../../CardContainer";
+import { useCardRotation } from "@hooks";
+import { getCyberStatusConfig } from "@styles";
+import { CyberGrid } from "./CyberGrid";
+import { ScanLine } from "./ScanLine";
+import { CornerAccents } from "./CornerAccents";
+import { CyberStyles } from "./CyberStyles";
+import { CyberCardFront } from "./CyberCardFront";
+import { CyberCardBack } from "./CyberCardBack";
+import { DEFAULT_ANIMATION_TIMINGS } from "@util";
 
 interface Character {
   id: number;
@@ -55,9 +56,10 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
       skeletonVariant="card-ii"
       skeletonClassName="sm:rounded-2xl border-4 sm:border-6 border-cyan-500/30"
       className="w-full"
-      skeletonFadeOutDuration={800}
-      cardFadeInDuration={1800}
-      cardFadeInDelay={200}
+      minSkeletonVisibility={DEFAULT_ANIMATION_TIMINGS.minSkeletonVisibility}
+      skeletonFadeOutDuration={DEFAULT_ANIMATION_TIMINGS.skeletonFadeOut}
+      cardFadeInDuration={DEFAULT_ANIMATION_TIMINGS.cardFadeIn}
+      cardFadeInDelay={DEFAULT_ANIMATION_TIMINGS.cardFadeInDelay}
     >
       {({ isVisible, imageLoaded }) => (
         <>

@@ -1,4 +1,4 @@
-import { gradients } from "../utils/cardStyles";
+import { gradients } from "@styles";
 
 export const CardOverlays = () => {
   return (

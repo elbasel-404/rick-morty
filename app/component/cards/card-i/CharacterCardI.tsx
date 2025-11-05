@@ -1,18 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { CardContainer } from "./CardContainer";
+import { CardContainer } from "../../CardContainer";
 import { useCardRotation, useParticles } from "@hooks";
-import { getStatusColor } from "./utils/cardStyles";
-import { CardImage } from "./card-parts/CardImage";
-import { CardOverlays } from "./card-parts/CardOverlays";
-import { Card3DEffects } from "./card-parts/Card3DEffects";
-import { FloatingParticles } from "./card-parts/FloatingParticles";
-import { StatusBadge } from "./card-parts/StatusBadge";
-import { IDBadge } from "./card-parts/IDBadge";
-import { CharacterName } from "./card-parts/CharacterName";
-import { CharacterStats } from "./card-parts/CharacterStats";
-import { CharacterLocations } from "./card-parts/CharacterLocations";
+import { getStatusColor } from "@styles";
+import { CardImage } from "./CardImage";
+import { CardOverlays } from "./CardOverlays";
+import { Card3DEffects } from "./Card3DEffects";
+import { FloatingParticles } from "./FloatingParticles";
+import { StatusBadge } from "./StatusBadge";
+import { IDBadge } from "./IDBadge";
+import { CharacterName } from "./CharacterName";
+import { CharacterStats } from "./CharacterStats";
+import { CharacterLocations } from "./CharacterLocations";
+import { DEFAULT_ANIMATION_TIMINGS } from "@util";
 
 interface Character {
   id: number;
@@ -52,9 +53,10 @@ export const CharacterCardI = ({ character }: CharacterCardProps) => {
       skeletonVariant="card-i"
       skeletonClassName="border-4 border-purple-500/30"
       className="relative w-full h-full min-h-[400px]"
-      skeletonFadeOutDuration={800}
-      cardFadeInDuration={1800}
-      cardFadeInDelay={200}
+      minSkeletonVisibility={DEFAULT_ANIMATION_TIMINGS.minSkeletonVisibility}
+      skeletonFadeOutDuration={DEFAULT_ANIMATION_TIMINGS.skeletonFadeOut}
+      cardFadeInDuration={DEFAULT_ANIMATION_TIMINGS.cardFadeIn}
+      cardFadeInDelay={DEFAULT_ANIMATION_TIMINGS.cardFadeInDelay}
     >
       {({ isVisible, imageLoaded }) => (
         <div

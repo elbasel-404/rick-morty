@@ -27,7 +27,9 @@
       "@server": ["./app/server"],
       "@http": ["./app/http"],
       "@component": ["./app/component"],
-      "@hooks": ["./app/hooks"]
+      "@hooks": ["./app/hooks"],
+      "@styles": ["./app/styles"],
+      "@lib": ["./lib"]
     }
   },
   "include": [

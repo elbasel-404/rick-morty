@@ -1,4 +1,4 @@
-import { textShadow } from "../utils/cardStyles";
+import { textShadow } from "@styles";
 
 interface IDBadgeProps {
   id: number;
