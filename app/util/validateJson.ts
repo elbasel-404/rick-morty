@@ -1,6 +1,23 @@
 import { type ZodType, ZodError, flattenError } from "zod";
 import { logError } from "./logError";
 
+interface ValidationSuccess<T> {
+  valid: true;
+  data: T;
+  errors?: never;
+}
+
+interface ValidationFailure {
+  valid: false;
+  data?: never;
+  errors: {
+    formErrors: string[];
+    fieldErrors: Record<string, string[] | undefined>;
+  };
+}
+
+type ValidationResult<T> = ValidationSuccess<T> | ValidationFailure;
+
 /**
  * Validates data against a Zod schema and returns formatted errors.
  *
@@ -11,14 +28,7 @@ import { logError } from "./logError";
 export const validateJson = <T>(
   json: unknown,
   schema: ZodType<T>
-): {
-  valid: boolean;
-  data?: T;
-  errors?: {
-    formErrors: string[];
-    fieldErrors: Record<string, string[] | undefined>;
-  };
-} => {
+): ValidationResult<T> => {
   try {
     const data = schema.parse(json);
     return { valid: true, data };

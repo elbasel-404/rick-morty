@@ -2,7 +2,7 @@ import type { Endpoint } from "@type";
 import { logError, validateJson } from "@util";
 
 export interface GetDataReturn<T> {
-  error: string;
+  error: string | null;
   result: T | null;
 }
 
@@ -35,5 +35,9 @@ export const get = async <T>({
   const json = await response.json();
   const { valid, errors, data } = validateJson(json, schema);
 
-  // return result;
+  if (!valid) {
+    return { result: null, error: JSON.stringify(errors) };
+  }
+
+  return { result: data, error: null };
 };
