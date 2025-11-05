@@ -61,12 +61,9 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
   };
 
   return (
-    <div
-      ref={elementRef}
-      className="flex items-center justify-center min-h-screen p-4"
-    >
+    <div ref={elementRef} className="w-full">
       <div
-        className="relative w-full max-w-[98vw] sm:max-w-5xl md:max-w-7xl lg:max-w-[90vw] xl:max-w-[95vw] h-64 sm:h-80 md:h-96 lg:h-112"
+        className="relative w-full h-64 sm:h-80 md:h-96 lg:h-112"
         style={{
           perspective: "1000px",
           transformStyle: "preserve-3d",

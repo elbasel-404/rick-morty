@@ -39,104 +39,109 @@ export const CyberCardBack = ({
         alt={character.name}
         className="absolute inset-0 w-full h-full object-cover"
         style={{
-          filter: "contrast(1.1) saturate(1.2) brightness(0.85)",
+          filter: "contrast(1.15) saturate(1.3) brightness(0.75)",
         }}
       />
       
-      {/* Gradient Overlays for text readability */}
-      <div className="absolute inset-0 bg-linear-to-b from-black/70 via-black/50 to-black/80" />
-      <div className="absolute inset-0 bg-linear-to-r from-black/40 via-transparent to-black/40" />
+      {/* Dark overlay for better text visibility */}
+      <div className="absolute inset-0 bg-black/60" />
       
-      {/* Status Badge - Top Right */}
-      <div className="absolute top-4 right-4 flex items-center gap-2 px-4 py-2 rounded-lg border border-cyan-500/50 backdrop-blur-md bg-black/60">
-        <div
-          className={`w-2.5 h-2.5 rounded-full ${statusConfig.bg} ${statusConfig.glow} animate-pulse`}
-        />
-        <span className={`${statusConfig.text} font-bold text-sm uppercase tracking-wider`}>
-          {character.status}
-        </span>
-      </div>
-
-      {/* ID Badge - Top Left */}
-      <div className="absolute top-4 left-4 px-4 py-2 rounded-lg border border-pink-500/50 backdrop-blur-md bg-black/60">
-        <span className="text-pink-400 font-bold text-sm uppercase tracking-wider">
-          #{character.id.toString().padStart(3, "0")}
-        </span>
-      </div>
-
-      {/* Character Name - Top Center */}
-      <div className="absolute top-16 left-0 right-0 px-6 text-center">
-        <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-pink-400 to-cyan-400 uppercase tracking-tight leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
-          {character.name}
-        </h2>
-        <div className="flex items-center justify-center gap-2 mt-2 text-sm sm:text-base">
-          <span className="text-cyan-300 font-semibold uppercase tracking-wide drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
-            {character.species}
+      {/* Top Bar - Status & ID */}
+      <div className="absolute top-0 left-0 right-0 flex items-center justify-between p-4">
+        {/* ID Badge - Left */}
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-pink-500/60 backdrop-blur-md bg-black/40">
+          <span className="text-pink-400 font-black text-lg uppercase tracking-wider">
+            #{character.id.toString().padStart(3, "0")}
           </span>
-          {character.type && (
-            <>
-              <span className="text-pink-500">•</span>
-              <span className="text-pink-300 font-semibold uppercase tracking-wide drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
-                {character.type}
-              </span>
-            </>
-          )}
+        </div>
+
+        {/* Status Badge - Right */}
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-cyan-500/60 backdrop-blur-md bg-black/40">
+          <div className={`w-2 h-2 rounded-full ${statusConfig.bg} ${statusConfig.glow} animate-pulse`} />
+          <span className={`${statusConfig.text} font-black text-base uppercase tracking-wider`}>
+            {character.status}
+          </span>
         </div>
       </div>
 
-      {/* Stats Grid - Bottom Left */}
-      <div className="absolute bottom-20 left-6 grid grid-cols-2 gap-3 w-64">
-        <div className="border border-cyan-500/40 rounded-lg p-3 backdrop-blur-sm bg-black/50">
-          <p className="text-cyan-400 text-xs uppercase tracking-wider mb-1 font-semibold">
-            Gender
-          </p>
-          <p className="text-white font-bold text-base uppercase">
-            {character.gender}
-          </p>
+      {/* Main Content - Centered Layout */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center px-8 py-16">
+        
+        {/* Character Name - Center */}
+        <div className="text-center mb-8">
+          <h2 className="text-5xl sm:text-6xl md:text-7xl font-black text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-pink-400 to-cyan-400 uppercase tracking-tighter leading-none drop-shadow-[0_4px_12px_rgba(0,0,0,1)] mb-3">
+            {character.name}
+          </h2>
+          <div className="flex items-center justify-center gap-3 text-lg">
+            <span className="text-cyan-300 font-bold uppercase tracking-wide drop-shadow-[0_2px_6px_rgba(0,0,0,1)]">
+              {character.species}
+            </span>
+            {character.type && (
+              <>
+                <span className="text-pink-400 text-2xl">•</span>
+                <span className="text-pink-300 font-bold uppercase tracking-wide drop-shadow-[0_2px_6px_rgba(0,0,0,1)]">
+                  {character.type}
+                </span>
+              </>
+            )}
+          </div>
         </div>
 
-        <div className="border border-pink-500/40 rounded-lg p-3 backdrop-blur-sm bg-black/50">
-          <p className="text-pink-400 text-xs uppercase tracking-wider mb-1 font-semibold">
-            Episodes
-          </p>
-          <p className="text-white font-bold text-base uppercase">
-            {character.episode.length}
-          </p>
-        </div>
-      </div>
-
-      {/* Locations - Bottom Right */}
-      <div className="absolute bottom-6 right-6 space-y-2 w-80">
-        <div className="border-l-4 border-cyan-500 rounded-r-lg p-3 backdrop-blur-sm bg-black/50">
-          <div className="flex items-center gap-2 mb-1">
-            <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
-            <p className="text-cyan-400 text-xs uppercase tracking-wider font-semibold">
-              Origin
+        {/* Info Grid - 2x2 Layout */}
+        <div className="grid grid-cols-2 gap-4 w-full max-w-2xl">
+          {/* Gender */}
+          <div className="backdrop-blur-md bg-black/40 border border-cyan-500/50 rounded-lg p-4 text-center">
+            <p className="text-cyan-400 text-sm uppercase tracking-widest mb-2 font-bold">
+              Gender
+            </p>
+            <p className="text-white font-black text-2xl uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+              {character.gender}
             </p>
           </div>
-          <p className="text-white font-medium text-sm truncate">
-            {character.origin.name}
-          </p>
-        </div>
 
-        <div className="border-l-4 border-pink-500 rounded-r-lg p-3 backdrop-blur-sm bg-black/50">
-          <div className="flex items-center gap-2 mb-1">
-            <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse" />
-            <p className="text-pink-400 text-xs uppercase tracking-wider font-semibold">
-              Location
+          {/* Episodes */}
+          <div className="backdrop-blur-md bg-black/40 border border-pink-500/50 rounded-lg p-4 text-center">
+            <p className="text-pink-400 text-sm uppercase tracking-widest mb-2 font-bold">
+              Episodes
+            </p>
+            <p className="text-white font-black text-2xl uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+              {character.episode.length}
             </p>
           </div>
-          <p className="text-white font-medium text-sm truncate">
-            {character.location.name}
-          </p>
+
+          {/* Origin */}
+          <div className="backdrop-blur-md bg-black/40 border border-cyan-500/50 rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
+              <p className="text-cyan-400 text-xs uppercase tracking-widest font-bold">
+                Origin
+              </p>
+            </div>
+            <p className="text-white font-semibold text-sm truncate drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
+              {character.origin.name}
+            </p>
+          </div>
+
+          {/* Location */}
+          <div className="backdrop-blur-md bg-black/40 border border-pink-500/50 rounded-lg p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse" />
+              <p className="text-pink-400 text-xs uppercase tracking-widest font-bold">
+                Location
+              </p>
+            </div>
+            <p className="text-white font-semibold text-sm truncate drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
+              {character.location.name}
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Decorative corner accents */}
-      <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-cyan-500/40" />
-      <div className="absolute top-0 right-0 w-16 h-16 border-t-2 border-r-2 border-pink-500/40" />
-      <div className="absolute bottom-0 left-0 w-16 h-16 border-b-2 border-l-2 border-pink-500/40" />
-      <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-cyan-500/40" />
+      {/* Corner Accents */}
+      <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-cyan-400/60" />
+      <div className="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-pink-400/60" />
+      <div className="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-pink-400/60" />
+      <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-cyan-400/60" />
     </div>
   );
 };
