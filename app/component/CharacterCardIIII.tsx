@@ -64,7 +64,7 @@ export const CharacterCardIIII = ({ character }: CharacterCardProps) => {
 
         {/* Character Image */}
         <div
-          className="relative h-[400px] overflow-hidden"
+          className="relative h-[320px] overflow-hidden"
           style={{ background: gradient }}
         >
           <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-black/60" />
