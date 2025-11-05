@@ -27,7 +27,8 @@ body {
 
 /* Modern Glass Card Design */
 @keyframes ambient-glow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.4;
     transform: scale(1) rotate(0deg);
   }
@@ -47,7 +48,8 @@ body {
 }
 
 @keyframes float-gentle {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px) scale(1);
   }
   50% {
@@ -56,7 +58,8 @@ body {
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+  0%,
+  100% {
     filter: brightness(1) saturate(1);
   }
   50% {
@@ -81,7 +84,8 @@ body {
 .card-ambient-glow {
   position: absolute;
   inset: -40px;
-  background: radial-gradient(circle at 50% 50%, 
+  background: radial-gradient(
+    circle at 50% 50%,
     rgba(99, 102, 241, 0.4) 0%,
     rgba(168, 85, 247, 0.35) 20%,
     rgba(236, 72, 153, 0.25) 40%,
@@ -125,7 +129,8 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, 
+  background: linear-gradient(
+    135deg,
     rgba(30, 30, 46, 0.7) 0%,
     rgba(24, 24, 37, 0.8) 100%
   );
@@ -134,8 +139,7 @@ body {
   border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   overflow: hidden;
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.3),
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
     0 0 0 1px rgba(255, 255, 255, 0.05) inset,
     0 20px 60px rgba(99, 102, 241, 0.2);
   transition: all 0.4s ease;
@@ -143,11 +147,9 @@ body {
 
 .glass-card:hover .card-glass-container {
   border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 
-    0 16px 48px rgba(0, 0, 0, 0.4),
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4),
     0 0 0 1px rgba(255, 255, 255, 0.1) inset,
-    0 30px 80px rgba(99, 102, 241, 0.4),
-    0 0 60px rgba(168, 85, 247, 0.3);
+    0 30px 80px rgba(99, 102, 241, 0.4), 0 0 60px rgba(168, 85, 247, 0.3);
 }
 
 .card-image-section {
@@ -222,11 +224,7 @@ body {
 .character-name {
   font-size: 28px;
   font-weight: 900;
-  background: linear-gradient(135deg, 
-    #a78bfa 0%,
-    #ec4899 50%,
-    #8b5cf6 100%
-  );
+  background: linear-gradient(135deg, #a78bfa 0%, #ec4899 50%, #8b5cf6 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -284,7 +282,8 @@ body {
   align-items: center;
   gap: 12px;
   padding: 14px;
-  background: linear-gradient(135deg, 
+  background: linear-gradient(
+    135deg,
     rgba(99, 102, 241, 0.08) 0%,
     rgba(168, 85, 247, 0.08) 100%
   );
@@ -296,14 +295,14 @@ body {
 }
 
 .info-item:hover {
-  background: linear-gradient(135deg, 
+  background: linear-gradient(
+    135deg,
     rgba(99, 102, 241, 0.15) 0%,
     rgba(168, 85, 247, 0.15) 100%
   );
   border-color: rgba(168, 85, 247, 0.3);
   transform: translateY(-3px);
-  box-shadow: 
-    0 8px 16px rgba(99, 102, 241, 0.2),
+  box-shadow: 0 8px 16px rgba(99, 102, 241, 0.2),
     0 0 20px rgba(168, 85, 247, 0.15);
 }
 
@@ -314,7 +313,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, 
+  background: linear-gradient(
+    135deg,
     rgba(99, 102, 241, 0.2) 0%,
     rgba(168, 85, 247, 0.2) 100%
   );
@@ -349,7 +349,8 @@ body {
 .card-id-badge {
   text-align: center;
   padding: 10px;
-  background: linear-gradient(90deg, 
+  background: linear-gradient(
+    90deg,
     rgba(99, 102, 241, 0.1) 0%,
     rgba(168, 85, 247, 0.15) 50%,
     rgba(99, 102, 241, 0.1) 100%
@@ -367,7 +368,8 @@ body {
 .glass-card:hover .card-id-badge {
   border-color: rgba(168, 85, 247, 0.4);
   text-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
-  background: linear-gradient(90deg, 
+  background: linear-gradient(
+    90deg,
     rgba(99, 102, 241, 0.15) 0%,
     rgba(168, 85, 247, 0.2) 50%,
     rgba(99, 102, 241, 0.15) 100%
