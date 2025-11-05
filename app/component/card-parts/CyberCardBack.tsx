@@ -42,10 +42,10 @@ export const CyberCardBack = ({
           filter: "contrast(1.15) saturate(1.3) brightness(0.75)",
         }}
       />
-      
+
       {/* Dark overlay for better text visibility */}
       <div className="absolute inset-0 bg-black/60" />
-      
+
       {/* Top Bar - Status & ID */}
       <div className="absolute top-0 left-0 right-0 flex items-center justify-between p-4">
         {/* ID Badge - Left */}
@@ -57,8 +57,12 @@ export const CyberCardBack = ({
 
         {/* Status Badge - Right */}
         <div className="flex items-center gap-2 px-3 py-1.5">
-          <div className={`w-2 h-2 rounded-full ${statusConfig.bg} ${statusConfig.glow} animate-pulse`} />
-          <span className={`${statusConfig.text} font-black text-base uppercase tracking-wider drop-shadow-[0_2px_8px_rgba(0,0,0,1)]`}>
+          <div
+            className={`w-2 h-2 rounded-full ${statusConfig.bg} ${statusConfig.glow} animate-pulse`}
+          />
+          <span
+            className={`${statusConfig.text} font-black text-base uppercase tracking-wider drop-shadow-[0_2px_8px_rgba(0,0,0,1)]`}
+          >
             {character.status}
           </span>
         </div>
@@ -66,10 +70,9 @@ export const CyberCardBack = ({
 
       {/* Main Content - Centered Layout */}
       <div className="absolute inset-0 flex flex-col items-center justify-center px-8 py-16">
-        
         {/* Character Name - Center */}
         <div className="text-center mb-8">
-          <h2 className="text-5xl sm:text-6xl md:text-7xl font-black text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-pink-400 to-cyan-400 uppercase tracking-tighter leading-none drop-shadow-[0_4px_12px_rgba(0,0,0,1)] mb-3">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-pink-400 to-cyan-400 uppercase tracking-tighter leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)] mb-3 wrap-break-word hyphens-auto">
             {character.name}
           </h2>
           <div className="flex items-center justify-center gap-3 text-lg">
