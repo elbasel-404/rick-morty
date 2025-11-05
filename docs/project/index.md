@@ -6,6 +6,7 @@ Project structure, refactoring guides, and utilities reference.
 
 ## Available Documentation
 
+- **[CVA Variants Reference](./cva-variants-reference.md)** - ✨ **NEW** - Complete CVA variant system documentation
 - **[Library Integration & Refactoring](./library-integration-refactoring.md)** - Guide for integrating third-party libraries
 - **[Project Structure](./project-structure.md)** - Codebase organization and file structure
 - **[Refactoring Summary](./refactoring-summary.md)** - Summary of major refactoring changes

@@ -8,6 +8,7 @@ Practical how-to guides for common development tasks.
 
 - **[Adding Animations](./adding-animations.md)** - How to add animations to components
 - **[Creating Card Variants](./creating-card-variants.md)** - Step-by-step guide for creating new card designs
+- **[CVA Migration Guide](./cva-migration.md)** - ✨ **NEW** - How to use CVA variants instead of CSS classes
 - **[Performance Optimization](./performance-optimization.md)** - Tips for optimizing app performance
 - **[State Management](./state-management.md)** - State management patterns and best practices
 - **[TypeScript Patterns](./typescript-patterns.md)** - TypeScript usage patterns in this project

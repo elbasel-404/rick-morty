@@ -16,15 +16,19 @@ React patterns, hooks, and best practices for modern React development.
 ## Quick Links
 
 ### Hooks
+
 Learn about React's built-in hooks and how to create custom hooks.
 
 ### Concepts
+
 Understand the fundamental concepts that power React applications.
 
 ### Performance
+
 Optimize your React applications for speed and efficiency.
 
 ### Server Components
+
 Leverage React Server Components for better performance and user experience.
 
 ---

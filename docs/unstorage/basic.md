@@ -156,7 +156,7 @@ This data is fetched from two sources:
 2. Custom meta set by `storage.setMeta` (overrides driver native meta)
 
 ```javascript
-await storage.getMeta("foo:bar"); 
+await storage.getMeta("foo:bar");
 // For fs driver returns an object like { mtime, atime, size }
 ```
 

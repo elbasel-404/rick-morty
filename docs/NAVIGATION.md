@@ -99,16 +99,19 @@ docs/
 ## Entry Points
 
 ### 1. Main Index (`index.md`)
+
 The comprehensive index with links to every documentation file, organized by category.
 
 **Use this when**: You want to see all available documentation at a glance or quickly jump to a specific file.
 
 ### 2. Documentation Hub (`README.md`)
+
 The welcome page with overview, quick start guide, and highlights of key documentation sections.
 
 **Use this when**: You're new to the project or want an overview of what's available.
 
 ### 3. Documentation Tour (`tour.md`)
+
 A guided tour through the documentation with multiple learning paths based on your background.
 
 **Use this when**: You want a structured learning path through the documentation.
