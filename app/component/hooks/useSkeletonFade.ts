@@ -30,7 +30,7 @@ export const useSkeletonFade = ({
     if (imageLoaded && !hasLoadedOnce) {
       // Mark as loaded once
       setHasLoadedOnce(true);
-      
+
       // If this is the first render and image loaded instantly (cached),
       // skip the skeleton animation entirely
       if (initialLoadRef.current) {
@@ -39,13 +39,16 @@ export const useSkeletonFade = ({
         setHideSkeleton(true);
         return;
       }
-      
+
       // Otherwise do the normal fade animation
       // First fade out skeleton
       setHideSkeleton(true);
       // Then after skeleton fades, show card
-      loadTimeoutRef.current = setTimeout(() => setShowCard(true), fadeOutDuration);
-      
+      loadTimeoutRef.current = setTimeout(
+        () => setShowCard(true),
+        fadeOutDuration
+      );
+
       return () => {
         if (loadTimeoutRef.current) {
           clearTimeout(loadTimeoutRef.current);
@@ -65,7 +68,8 @@ export const useSkeletonFade = ({
   }, [isInViewport]);
 
   // Only show skeleton if we haven't loaded yet AND we're in viewport
-  const showSkeleton = !hasLoadedOnce && isInViewport && !initialLoadRef.current;
+  const showSkeleton =
+    !hasLoadedOnce && isInViewport && !initialLoadRef.current;
   const skeletonOpacity = showSkeleton && !hideSkeleton ? 1 : 0;
   const cardOpacity = hasLoadedOnce || showCard ? 1 : 0;
 

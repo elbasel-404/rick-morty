@@ -9,20 +9,24 @@ A reusable fade in/out skeleton loading pattern for smooth image loading transit
 A custom hook that manages the skeleton fade-out and card fade-in timing.
 
 **Usage:**
+
 ```tsx
-const { showSkeleton, skeletonOpacity, cardOpacity, showCard } = useSkeletonFade({
-  imageLoaded,
-  isInViewport,
-  fadeOutDuration: 800, // optional, defaults to 800ms
-});
+const { showSkeleton, skeletonOpacity, cardOpacity, showCard } =
+  useSkeletonFade({
+    imageLoaded,
+    isInViewport,
+    fadeOutDuration: 800, // optional, defaults to 800ms
+  });
 ```
 
 **Parameters:**
+
 - `imageLoaded` (boolean): Whether the image has finished loading
 - `isInViewport` (boolean): Whether the element is currently in viewport
 - `fadeOutDuration` (number, optional): Duration in ms for skeleton fade out (default: 800)
 
 **Returns:**
+
 - `showSkeleton` (boolean): Whether to render the skeleton
 - `skeletonOpacity` (number): Opacity value for skeleton (0-1)
 - `cardOpacity` (number): Opacity value for card content (0-1)
@@ -33,22 +37,27 @@ const { showSkeleton, skeletonOpacity, cardOpacity, showCard } = useSkeletonFade
 A reusable skeleton loading component with multiple variants.
 
 **Usage:**
+
 ```tsx
-{showSkeleton && (
-  <SkeletonLoader
-    opacity={skeletonOpacity}
-    variant="card-i"
-    className="border-4 border-purple-500/30"
-  />
-)}
+{
+  showSkeleton && (
+    <SkeletonLoader
+      opacity={skeletonOpacity}
+      variant="card-i"
+      className="border-4 border-purple-500/30"
+    />
+  );
+}
 ```
 
 **Props:**
+
 - `opacity` (number): Opacity value (0-1)
 - `variant` ("card-i" | "card-ii" | "default", optional): Skeleton content layout
 - `className` (string, optional): Additional CSS classes
 
 **Variants:**
+
 - `card-i`: Skeleton for CharacterCardI layout (badges, character info, stats)
 - `card-ii`: Skeleton for CharacterCardII layout (centered image, flip card)
 - `default`: Generic skeleton with centered content
@@ -86,16 +95,11 @@ export const MyCard = ({ data }) => {
 
       {/* Skeleton */}
       {showSkeleton && (
-        <SkeletonLoader
-          opacity={skeletonOpacity}
-          variant="default"
-        />
+        <SkeletonLoader opacity={skeletonOpacity} variant="default" />
       )}
 
       {/* Your card content */}
-      <div style={{ opacity: cardOpacity }}>
-        {/* ... */}
-      </div>
+      <div style={{ opacity: cardOpacity }}>{/* ... */}</div>
     </div>
   );
 };
@@ -105,7 +109,7 @@ export const MyCard = ({ data }) => {
 
 1. **Not in viewport**: Skeleton shown at full opacity (1)
 2. **Enter viewport**: Image starts loading, skeleton visible
-3. **Image loaded**: 
+3. **Image loaded**:
    - Skeleton fades out over 800ms (opacity: 1 → 0)
    - After 800ms, card fades in over 1200ms (opacity: 0 → 1)
 

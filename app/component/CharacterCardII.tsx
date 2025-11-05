@@ -69,18 +69,17 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            {/* Flip Card Container - only render when image is loaded */}
-            {imageLoaded && (
-              <div
-                className="relative w-full h-full"
-                style={{
-                  transformStyle: "preserve-3d",
-                  transition:
-                    "transform 0.6s cubic-bezier(.5,.3,.3,1), opacity 1200ms cubic-bezier(0.4, 0.0, 0.2, 1)",
-                  transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
-                  opacity: cardOpacity,
-                }}
-              >
+            {/* Flip Card Container */}
+            <div
+              className="relative w-full h-full"
+              style={{
+                transformStyle: "preserve-3d",
+                transition:
+                  "transform 0.6s cubic-bezier(.5,.3,.3,1), opacity 1200ms cubic-bezier(0.4, 0.0, 0.2, 1)",
+                transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
+                opacity: cardOpacity,
+              }}
+            >
                 {/* Card Front - Character Preview */}
                 <div
                   className="absolute inset-0 w-full h-full rounded-xl sm:rounded-2xl overflow-hidden border-4 sm:border-6 border-cyan-500/30"
@@ -126,7 +125,6 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
                   />
                 </div>
               </div>
-            )}
           </div>
 
           <CyberStyles />

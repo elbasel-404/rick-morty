@@ -55,19 +55,19 @@ export const SkeletonLoader = ({
 const CardISkeletonContent = () => (
   <div className="relative h-full p-6 flex flex-col bg-slate-950">
     {/* Blueprint grid background */}
-    <div 
+    <div
       className="absolute inset-0 opacity-20"
       style={{
         backgroundImage: `
           linear-gradient(rgba(139, 92, 246, 0.3) 1px, transparent 1px),
           linear-gradient(90deg, rgba(139, 92, 246, 0.3) 1px, transparent 1px)
         `,
-        backgroundSize: '20px 20px'
+        backgroundSize: "20px 20px",
       }}
     />
 
     {/* Diagonal lines overlay */}
-    <div 
+    <div
       className="absolute inset-0 opacity-10"
       style={{
         backgroundImage: `repeating-linear-gradient(
@@ -76,7 +76,7 @@ const CardISkeletonContent = () => (
           transparent 10px,
           rgba(168, 85, 247, 0.4) 10px,
           rgba(168, 85, 247, 0.4) 11px
-        )`
+        )`,
       }}
     />
 
@@ -102,14 +102,14 @@ const CardISkeletonContent = () => (
           {/* Crosshair in center */}
           <div className="absolute top-1/2 left-0 right-0 h-px bg-violet-400/30" />
           <div className="absolute left-1/2 top-0 bottom-0 w-px bg-violet-400/30" />
-          
+
           {/* Corner brackets */}
           <div className="absolute top-2 left-2 w-6 h-6 border-t-2 border-l-2 border-violet-400/50" />
           <div className="absolute top-2 right-2 w-6 h-6 border-t-2 border-r-2 border-violet-400/50" />
           <div className="absolute bottom-2 left-2 w-6 h-6 border-b-2 border-l-2 border-violet-400/50" />
           <div className="absolute bottom-2 right-2 w-6 h-6 border-b-2 border-r-2 border-violet-400/50" />
         </div>
-        
+
         {/* Inner scanning effect */}
         <div className="absolute inset-8 border border-violet-400/20 rounded">
           <div className="absolute inset-0 bg-linear-to-b from-transparent via-violet-500/10 to-transparent animate-[scan_2s_ease-in-out_infinite]" />
@@ -126,10 +126,10 @@ const CardISkeletonContent = () => (
         </div>
         <div className="w-12 h-8 border-2 border-fuchsia-500/40 rounded-full animate-pulse" />
       </div>
-      
+
       {/* Species */}
       <div className="h-5 w-2/3 border border-violet-400/30 rounded animate-pulse" />
-      
+
       {/* Stats wireframe */}
       <div className="pt-4 border-t border-violet-500/20">
         <div className="grid grid-cols-2 gap-4">
@@ -147,9 +147,18 @@ const CardISkeletonContent = () => (
 
     {/* Pulsing dots in corners */}
     <div className="absolute top-8 left-8 w-2 h-2 bg-violet-400/60 rounded-full animate-ping" />
-    <div className="absolute top-8 right-8 w-2 h-2 bg-fuchsia-400/60 rounded-full animate-ping" style={{ animationDelay: '0.3s' }} />
-    <div className="absolute bottom-8 left-8 w-2 h-2 bg-violet-400/60 rounded-full animate-ping" style={{ animationDelay: '0.6s' }} />
-    <div className="absolute bottom-8 right-8 w-2 h-2 bg-fuchsia-400/60 rounded-full animate-ping" style={{ animationDelay: '0.9s' }} />
+    <div
+      className="absolute top-8 right-8 w-2 h-2 bg-fuchsia-400/60 rounded-full animate-ping"
+      style={{ animationDelay: "0.3s" }}
+    />
+    <div
+      className="absolute bottom-8 left-8 w-2 h-2 bg-violet-400/60 rounded-full animate-ping"
+      style={{ animationDelay: "0.6s" }}
+    />
+    <div
+      className="absolute bottom-8 right-8 w-2 h-2 bg-fuchsia-400/60 rounded-full animate-ping"
+      style={{ animationDelay: "0.9s" }}
+    />
   </div>
 );
 

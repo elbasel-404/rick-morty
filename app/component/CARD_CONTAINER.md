@@ -18,7 +18,7 @@ CardContainer (handles logic)
 ✅ **Reusability**: Same container for all card types  
 ✅ **Consistency**: Unified loading behavior  
 ✅ **Simplicity**: Cards only handle UI rendering  
-✅ **Flexibility**: Customizable skeleton variants  
+✅ **Flexibility**: Customizable skeleton variants
 
 ## Usage
 
@@ -83,17 +83,17 @@ export const CharacterCardI = ({ character }: CharacterCardProps) => {
 
 ### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `imageUrl` | `string` | **required** | URL of the image to preload |
-| `imageAlt` | `string` | **required** | Alt text for accessibility |
-| `skeletonVariant` | `"card-i" \| "card-ii" \| "default"` | `"default"` | Skeleton layout variant |
-| `skeletonClassName` | `string` | `""` | Additional classes for skeleton |
-| `className` | `string` | `""` | Container wrapper classes |
-| `fadeOutDuration` | `number` | `800` | Skeleton fade duration (ms) |
-| `viewportThreshold` | `number` | `0.1` | Intersection observer threshold |
-| `viewportRootMargin` | `string` | `"400px"` | Intersection observer margin |
-| `children` | `function` | **required** | Render prop function |
+| Prop                 | Type                                 | Default      | Description                     |
+| -------------------- | ------------------------------------ | ------------ | ------------------------------- |
+| `imageUrl`           | `string`                             | **required** | URL of the image to preload     |
+| `imageAlt`           | `string`                             | **required** | Alt text for accessibility      |
+| `skeletonVariant`    | `"card-i" \| "card-ii" \| "default"` | `"default"`  | Skeleton layout variant         |
+| `skeletonClassName`  | `string`                             | `""`         | Additional classes for skeleton |
+| `className`          | `string`                             | `""`         | Container wrapper classes       |
+| `fadeOutDuration`    | `number`                             | `800`        | Skeleton fade duration (ms)     |
+| `viewportThreshold`  | `number`                             | `0.1`        | Intersection observer threshold |
+| `viewportRootMargin` | `string`                             | `"400px"`    | Intersection observer margin    |
+| `children`           | `function`                           | **required** | Render prop function            |
 
 ### Render Prop Arguments
 
@@ -101,14 +101,15 @@ The `children` function receives an object with:
 
 ```typescript
 {
-  cardOpacity: number;    // 0-1, for fade-in effect
-  imageLoaded: boolean;   // true when image loaded
+  cardOpacity: number; // 0-1, for fade-in effect
+  imageLoaded: boolean; // true when image loaded
 }
 ```
 
 ## Skeleton Variants
 
 ### `card-i` - Holographic Style
+
 - Purple/violet gradient theme
 - Animated scan lines
 - Floating particles
@@ -118,6 +119,7 @@ The `children` function receives an object with:
 **Best for**: Futuristic, holographic card designs
 
 ### `card-ii` - Cyber Style
+
 - Cyan/pink gradient theme
 - Centered circular image
 - Minimal badges layout
@@ -126,6 +128,7 @@ The `children` function receives an object with:
 **Best for**: Cyberpunk, flip cards
 
 ### `default` - Generic
+
 - Simple centered layout
 - Circular avatar placeholder
 - Text bars
@@ -188,6 +191,7 @@ const MyVariantSkeletonContent = () => (
 ### State Management
 
 Internally uses three hooks:
+
 - `useInViewport`: Detects when card enters viewport
 - `useImageLoad`: Tracks image load state
 - `useSkeletonFade`: Manages fade timing and opacity
@@ -217,9 +221,7 @@ export const MyCard = ({ data }) => {
       {showSkeleton && (
         <SkeletonLoader opacity={skeletonOpacity} variant="default" />
       )}
-      <div style={{ opacity: cardOpacity }}>
-        {/* UI */}
-      </div>
+      <div style={{ opacity: cardOpacity }}>{/* UI */}</div>
     </div>
   );
 };
@@ -238,9 +240,7 @@ export const MyCard = ({ data }) => {
       skeletonVariant="default"
     >
       {({ cardOpacity }) => (
-        <div style={{ opacity: cardOpacity }}>
-          {/* UI */}
-        </div>
+        <div style={{ opacity: cardOpacity }}>{/* UI */}</div>
       )}
     </CardContainer>
   );
@@ -252,16 +252,19 @@ export const MyCard = ({ data }) => {
 ## Performance Considerations
 
 ### Viewport Detection
+
 - Only loads images when card is near viewport
 - Configurable `rootMargin` for preloading distance
 - Reduces initial bundle impact
 
 ### Fade Timing
+
 - Skeleton fade: 800ms (configurable)
 - Card fade: 1200ms (smooth entrance)
 - Non-blocking, uses CSS transitions
 
 ### Image Preloading
+
 - Hidden `<img>` element triggers browser cache
 - Actual image render uses cached version
 - Zero flicker on reveal
@@ -276,19 +279,23 @@ Both now use `CardContainer` with custom skeleton variants.
 ## Troubleshooting
 
 ### Card not fading in
+
 - Ensure `opacity: cardOpacity` is set in child
 - Check `fadeOutDuration` isn't too short
 
 ### Skeleton showing indefinitely
+
 - Verify `imageUrl` is valid
 - Check network tab for image load errors
 - Ensure `imageLoaded` is being used
 
 ### Wrong skeleton variant showing
+
 - Check `skeletonVariant` prop spelling
 - Verify variant exists in `SkeletonLoader.tsx`
 
 ### Performance issues
+
 - Reduce `rootMargin` if loading too many
 - Increase `threshold` for later loading
 - Check for too many simultaneous cards

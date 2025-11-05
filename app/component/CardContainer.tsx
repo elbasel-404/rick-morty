@@ -39,7 +39,7 @@ export const CardContainer = ({
   children,
 }: CardContainerProps) => {
   const imgRef = useRef<HTMLImageElement>(null);
-  
+
   // Custom hooks
   const { imageLoaded, handleImageLoad, checkIfImageCached } = useImageLoad();
   const { elementRef, isInViewport } = useInViewport({
