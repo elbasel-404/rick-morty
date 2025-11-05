@@ -85,16 +85,16 @@ export const CharacterCardI = ({ character }: CharacterCardProps) => {
     }[status] || "bg-gray-500";
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-linear-to-br from-purple-900 via-blue-900 to-indigo-900 p-4">
+    <div className="relative w-full h-full min-h-[400px]">
       <div
-        className="relative"
+        className="relative w-full h-full min-h-[400px]"
         style={{ perspective: "1000px" }}
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={handleMouseLeave}
       >
         <div
-          className="relative w-72 bg-linear-to-br from-slate-800 to-slate-900 rounded-xl overflow-hidden transition-all duration-300 ease-out"
+          className="relative w-full h-full bg-linear-to-br from-slate-800 to-slate-900 rounded-xl overflow-hidden transition-all duration-300 ease-out"
           style={{
             transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) ${
               isHovered ? "scale(1.05)" : "scale(1)"
@@ -105,6 +105,38 @@ export const CharacterCardI = ({ character }: CharacterCardProps) => {
               : "0 15px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05)",
           }}
         >
+          {/* Full-height background image with crossfade */}
+          <div className="absolute inset-0">
+            <img
+              src={image}
+              alt={name}
+              className="w-full h-full object-cover"
+            />
+
+            {/* Smooth crossfade gradient overlay */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: `linear-gradient(to bottom, 
+                  transparent 0%, 
+                  transparent 30%, 
+                  rgba(15, 23, 42, 0.4) 50%,
+                  rgba(15, 23, 42, 0.75) 65%,
+                  rgba(15, 23, 42, 0.9) 80%,
+                  rgb(15, 23, 42) 95%)`,
+              }}
+            />
+
+            {/* Holographic scan line effect */}
+            <div
+              className="absolute inset-0 pointer-events-none opacity-30"
+              style={{
+                background:
+                  "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139, 92, 246, 0.1) 2px, rgba(139, 92, 246, 0.1) 4px)",
+              }}
+            />
+          </div>
+
           {/* Top edge highlight for 3D effect */}
           <div
             className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-white/20 to-transparent pointer-events-none z-30"
@@ -137,62 +169,39 @@ export const CharacterCardI = ({ character }: CharacterCardProps) => {
             style={{ transform: "translateZ(35px)" }}
           />
 
-          {/* Image section with 3D depth */}
+          {/* Status badge floating with depth */}
           <div
-            className="relative h-56 overflow-hidden"
-            style={{ transform: "translateZ(30px)" }}
+            className="absolute top-3 right-3 flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 z-40"
+            style={{
+              transform: "translateZ(55px)",
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.4)",
+            }}
           >
-            <img
-              src={image}
-              alt={name}
-              className="w-full h-full object-cover"
+            <div
+              className={`w-2 h-2 rounded-full ${statusColor} animate-pulse shadow-lg`}
+              style={{ boxShadow: `0 0 8px currentColor` }}
             />
-            <div className="absolute inset-0 bg-linear-to-t from-slate-900 via-slate-900/50 to-transparent" />
-
-            {/* Holographic scan line effect */}
-            <div
-              className="absolute inset-0 pointer-events-none opacity-30"
-              style={{
-                background:
-                  "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139, 92, 246, 0.1) 2px, rgba(139, 92, 246, 0.1) 4px)",
-                transform: "translateZ(45px)",
-              }}
-            />
-
-            {/* Status badge floating with depth */}
-            <div
-              className="absolute top-3 right-3 flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10"
-              style={{
-                transform: "translateZ(55px)",
-                boxShadow: "0 4px 12px rgba(0, 0, 0, 0.4)",
-              }}
-            >
-              <div
-                className={`w-2 h-2 rounded-full ${statusColor} animate-pulse shadow-lg`}
-                style={{ boxShadow: `0 0 8px currentColor` }}
-              />
-              <span className="text-white font-semibold text-xs">{status}</span>
-            </div>
-
-            {/* ID badge in top left */}
-            <div
-              className="absolute top-3 left-3 bg-linear-to-r from-purple-600/80 to-blue-600/80 backdrop-blur-sm px-2.5 py-1 rounded-md text-white text-xs font-mono font-bold border border-white/20"
-              style={{
-                transform: "translateZ(55px)",
-                boxShadow: "0 4px 12px rgba(139, 92, 246, 0.4)",
-              }}
-            >
-              #{character.id}
-            </div>
+            <span className="text-white font-semibold text-xs">{status}</span>
           </div>
 
-          {/* Content section with layered depth */}
+          {/* ID badge in top left */}
           <div
-            className="p-4 space-y-3"
+            className="absolute top-3 left-3 bg-linear-to-r from-purple-600/80 to-blue-600/80 backdrop-blur-sm px-2.5 py-1 rounded-md text-white text-xs font-mono font-bold border border-white/20 z-40"
+            style={{
+              transform: "translateZ(55px)",
+              boxShadow: "0 4px 12px rgba(139, 92, 246, 0.4)",
+            }}
+          >
+            #{character.id}
+          </div>
+
+          {/* Content section with layered depth - overlaid on image */}
+          <div
+            className="absolute bottom-0 left-0 right-0 p-3 space-y-2.5 z-30"
             style={{ transform: "translateZ(20px)" }}
           >
             <div style={{ transform: "translateZ(30px)" }}>
-              <h2 className="text-2xl font-bold text-white mb-0.5 tracking-tight">
+              <h2 className="text-xl font-bold text-white mb-0.5 tracking-tight">
                 {name}
               </h2>
               <p className="text-purple-300 text-xs font-medium">
@@ -204,28 +213,28 @@ export const CharacterCardI = ({ character }: CharacterCardProps) => {
               className="grid grid-cols-2 gap-2"
               style={{ transform: "translateZ(25px)" }}
             >
-              <div className="bg-slate-800/50 backdrop-blur-sm rounded-lg p-2.5 border border-purple-500/20 shadow-inner">
+              <div className="bg-slate-800/50 backdrop-blur-sm rounded-lg p-2 border border-purple-500/20 shadow-inner">
                 <p className="text-purple-400 text-[10px] uppercase tracking-wide mb-0.5">
                   Gender
                 </p>
-                <p className="text-white font-semibold text-sm">{gender}</p>
+                <p className="text-white font-semibold text-xs">{gender}</p>
               </div>
 
-              <div className="bg-slate-800/50 backdrop-blur-sm rounded-lg p-2.5 border border-purple-500/20 shadow-inner">
+              <div className="bg-slate-800/50 backdrop-blur-sm rounded-lg p-2 border border-purple-500/20 shadow-inner">
                 <p className="text-purple-400 text-[10px] uppercase tracking-wide mb-0.5">
                   Episodes
                 </p>
-                <p className="text-white font-semibold text-sm">
+                <p className="text-white font-semibold text-xs">
                   {episode.length}
                 </p>
               </div>
             </div>
 
             <div
-              className="space-y-2"
+              className="space-y-1.5"
               style={{ transform: "translateZ(15px)" }}
             >
-              <div className="bg-linear-to-r from-blue-900/40 to-transparent rounded-lg p-2.5 border-l-2 border-blue-500 shadow-lg">
+              <div className="bg-linear-to-r from-blue-900/40 to-transparent rounded-lg p-2 border-l-2 border-blue-500 shadow-lg">
                 <p className="text-blue-300 text-[10px] uppercase tracking-wide mb-0.5">
                   Origin
                 </p>
@@ -234,7 +243,7 @@ export const CharacterCardI = ({ character }: CharacterCardProps) => {
                 </p>
               </div>
 
-              <div className="bg-linear-to-r from-emerald-900/40 to-transparent rounded-lg p-2.5 border-l-2 border-emerald-500 shadow-lg">
+              <div className="bg-linear-to-r from-emerald-900/40 to-transparent rounded-lg p-2 border-l-2 border-emerald-500 shadow-lg">
                 <p className="text-emerald-300 text-[10px] uppercase tracking-wide mb-0.5">
                   Location
                 </p>
