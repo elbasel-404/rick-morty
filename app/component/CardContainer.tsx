@@ -1,9 +1,10 @@
 "use client";
 
-import { ReactNode, useRef, useEffect } from "react";
-import { useInViewport } from "./useInViewport";
-import { useImageLoad } from "./hooks/useImageLoad";
-import { useSkeletonFade } from "./hooks/useSkeletonFade";
+import { ReactNode, useState, useEffect, useRef } from "react";
+import { ViewportDetector } from "./effects/ViewportDetector";
+import { LazyImage } from "./effects/LazyImage";
+import { FadeIn } from "./effects/FadeIn";
+import { FadeOut } from "./effects/FadeOut";
 import { SkeletonLoader } from "./card-parts/SkeletonLoader";
 
 interface CardContainerProps {
@@ -17,14 +18,18 @@ interface CardContainerProps {
   skeletonClassName?: string;
   /** Container className */
   className?: string;
-  /** Fade out duration in ms */
-  fadeOutDuration?: number;
+  /** Skeleton fade out duration in ms */
+  skeletonFadeOutDuration?: number;
+  /** Card fade in duration in ms */
+  cardFadeInDuration?: number;
+  /** Delay before card fade in starts (after skeleton fade) in ms */
+  cardFadeInDelay?: number;
   /** Viewport threshold (0-1) */
   viewportThreshold?: number;
   /** Viewport root margin */
   viewportRootMargin?: string;
-  /** Card content - receives cardOpacity for fade in */
-  children: (props: { cardOpacity: number; imageLoaded: boolean }) => ReactNode;
+  /** Card content - receives visibility state */
+  children: (props: { isVisible: boolean; imageLoaded: boolean }) => ReactNode;
 }
 
 export const CardContainer = ({
@@ -33,57 +38,103 @@ export const CardContainer = ({
   skeletonVariant = "default",
   skeletonClassName = "",
   className = "",
-  fadeOutDuration = 800,
+  skeletonFadeOutDuration = 800,
+  cardFadeInDuration = 1800,
+  cardFadeInDelay = 0,
   viewportThreshold = 0.1,
   viewportRootMargin = "400px",
   children,
 }: CardContainerProps) => {
-  const imgRef = useRef<HTMLImageElement>(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
+  const [showCard, setShowCard] = useState(false);
+  const [hideSkeleton, setHideSkeleton] = useState(false);
+  const initialLoadRef = useRef(true);
+  const loadTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
-  // Custom hooks
-  const { imageLoaded, handleImageLoad, checkIfImageCached } = useImageLoad();
-  const { elementRef, isInViewport } = useInViewport({
-    threshold: viewportThreshold,
-    rootMargin: viewportRootMargin,
-  });
-  const { showSkeleton, skeletonOpacity, cardOpacity } = useSkeletonFade({
-    imageLoaded,
-    isInViewport,
-    fadeOutDuration,
-  });
+  const handleImageLoad = (loaded: boolean, isCached: boolean) => {
+    if (loaded && !hasLoadedOnce) {
+      setImageLoaded(true);
+      setHasLoadedOnce(true);
 
-  // Check if image is already cached when entering viewport
-  useEffect(() => {
-    if (isInViewport && imgRef.current && !imageLoaded) {
-      checkIfImageCached(imgRef.current);
+      // If image is cached and this is initial load, skip skeleton
+      if (isCached && initialLoadRef.current) {
+        initialLoadRef.current = false;
+        setShowCard(true);
+        setHideSkeleton(true);
+        return;
+      }
+
+      // Start skeleton fade out
+      setHideSkeleton(true);
+
+      // Show card after skeleton finishes fading
+      loadTimeoutRef.current = setTimeout(() => {
+        setShowCard(true);
+      }, skeletonFadeOutDuration);
     }
-  }, [isInViewport, imageLoaded, checkIfImageCached]);
+  };
+
+  // Mark that we're past initial load after entering viewport
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      initialLoadRef.current = false;
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Cleanup timeout
+  useEffect(() => {
+    return () => {
+      if (loadTimeoutRef.current) {
+        clearTimeout(loadTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
-    <div ref={elementRef} className={className}>
-      {/* Preload image - only when in viewport */}
-      {isInViewport && (
-        <img
-          ref={imgRef}
-          src={imageUrl}
-          alt={imageAlt}
-          onLoad={handleImageLoad}
-          className="hidden"
-          aria-hidden="true"
-        />
-      )}
+    <ViewportDetector
+      threshold={viewportThreshold}
+      rootMargin={viewportRootMargin}
+      className={className}
+    >
+      {(isInViewport) => (
+        <>
+          {/* Lazy load image */}
+          <LazyImage
+            src={imageUrl}
+            alt={imageAlt}
+            isInViewport={isInViewport}
+            onLoad={handleImageLoad}
+            mode="preload"
+          />
 
-      {/* Skeleton Loading State */}
-      {showSkeleton && (
-        <SkeletonLoader
-          opacity={skeletonOpacity}
-          variant={skeletonVariant}
-          className={skeletonClassName}
-        />
-      )}
+          {/* Skeleton with fade out */}
+          {!hasLoadedOnce && isInViewport && !initialLoadRef.current && (
+            <FadeOut
+              isHidden={hideSkeleton}
+              duration={skeletonFadeOutDuration}
+              unmountOnHide={true}
+              style={{ position: "absolute", inset: 0, zIndex: 10 }}
+            >
+              <SkeletonLoader
+                opacity={1}
+                variant={skeletonVariant}
+                className={skeletonClassName}
+              />
+            </FadeOut>
+          )}
 
-      {/* Card Content */}
-      {children({ cardOpacity, imageLoaded })}
-    </div>
+          {/* Card content with fade in */}
+          <FadeIn
+            isVisible={showCard || hasLoadedOnce}
+            duration={cardFadeInDuration}
+            delay={cardFadeInDelay}
+          >
+            {children({ isVisible: showCard || hasLoadedOnce, imageLoaded })}
+          </FadeIn>
+        </>
+      )}
+    </ViewportDetector>
   );
 };

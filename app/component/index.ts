@@ -8,8 +8,8 @@ export { JsonViewer } from "./JsonViewer";
 // Container
 export { CardContainer } from "./CardContainer";
 
-// Hooks
-export { useSkeletonFade } from "./hooks/useSkeletonFade";
+// Effects
+export { FadeIn, FadeOut, LazyImage, ViewportDetector } from "./effects";
 
 // Shared Components
 export { SkeletonLoader } from "./card-parts/SkeletonLoader";

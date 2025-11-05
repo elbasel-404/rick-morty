@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { CardContainer } from "./CardContainer";
-import { useCardRotation } from "./hooks/useCardRotation";
-import { useParticles } from "./hooks/useParticles";
+import { useCardRotation, useParticles } from "@hooks";
 import { getStatusColor } from "./utils/cardStyles";
 import { CardImage } from "./card-parts/CardImage";
 import { CardOverlays } from "./card-parts/CardOverlays";
@@ -53,9 +52,11 @@ export const CharacterCardI = ({ character }: CharacterCardProps) => {
       skeletonVariant="card-i"
       skeletonClassName="border-4 border-purple-500/30"
       className="relative w-full h-full min-h-[400px]"
-      fadeOutDuration={800}
+      skeletonFadeOutDuration={800}
+      cardFadeInDuration={1800}
+      cardFadeInDelay={200}
     >
-      {({ cardOpacity, imageLoaded }) => (
+      {({ isVisible, imageLoaded }) => (
         <div
           className="relative w-full h-full min-h-[400px]"
           style={{ perspective: "1000px" }}
@@ -73,9 +74,6 @@ export const CharacterCardI = ({ character }: CharacterCardProps) => {
               boxShadow: isHovered
                 ? "0 30px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(139, 92, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1)"
                 : "0 15px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05)",
-              opacity: cardOpacity,
-              transition:
-                "opacity 1200ms cubic-bezier(0.4, 0.0, 0.2, 1), transform 300ms ease-out, box-shadow 300ms ease-out",
             }}
           >
             {/* Image and Overlays */}

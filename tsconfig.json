@@ -26,7 +26,8 @@
       "@endpoint": ["./app/endpoint"],
       "@server": ["./app/server"],
       "@http": ["./app/http"],
-      "@component": ["./app/component"]
+      "@component": ["./app/component"],
+      "@hooks": ["./app/hooks"]
     }
   },
   "include": [
