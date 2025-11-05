@@ -9,7 +9,7 @@ import { flattenError, type ZodError, type ZodType } from "zod";
  */
 type GetDataResult<T> =
   | { success: true; data: T; error: null }
-  | { success: false; data: unknown | null; error: string };
+  | { success: false; data: T; error: string };
 
 /**
  * Parameters for performing a typed HTTP GET request.
@@ -63,7 +63,7 @@ export const get = async <T>({
   // Fetch data from the API
   const fetchResult = await fetchData(queryUrl, url);
   if (!fetchResult.success) {
-    return { ...fetchResult, data: fetchResult.data };
+    return { ...fetchResult, data: fetchResult.data as T };
   }
 
   // Validate the general API response structure
@@ -240,5 +240,5 @@ const handleValidationError = <T>({
   console.log(`${url} fetched and validated`);
   console.log(`Found ${invalidData.length} invalid items:`);
 
-  return { success: false, error: errorMessage, data: receivedData };
+  return { success: false, error: errorMessage, data: receivedData as T };
 };
