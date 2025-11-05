@@ -35,7 +35,7 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
   const [isMounted, setIsMounted] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
   const [showCard, setShowCard] = useState(false);
-  const [showSpinner, setShowSpinner] = useState(false);
+  const [hideSkeleton, setHideSkeleton] = useState(false);
 
   // Custom hooks
   const { rotation, handleMouseMove, resetRotation } = useCardRotation();
@@ -50,22 +50,15 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
   }, []);
 
   useEffect(() => {
-    if (isInViewport && !imageLoaded) {
-      // Delay spinner appearance slightly for smoother transition
-      const timer = setTimeout(() => setShowSpinner(true), 100);
-      return () => clearTimeout(timer);
-    } else {
-      setShowSpinner(false);
-    }
-  }, [isInViewport, imageLoaded]);
-
-  useEffect(() => {
     if (imageLoaded) {
-      // Small delay before starting fade-in
-      const timer = setTimeout(() => setShowCard(true), 50);
+      // First fade out skeleton
+      setHideSkeleton(true);
+      // Then after skeleton fades, show card
+      const timer = setTimeout(() => setShowCard(true), 800);
       return () => clearTimeout(timer);
     } else {
       setShowCard(false);
+      setHideSkeleton(false);
     }
   }, [imageLoaded]);
 
@@ -94,16 +87,54 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {/* Loading State - only show when in viewport */}
+        {/* Skeleton Loading State - only show when in viewport and not loaded */}
         {!isInViewport && (
           <div className="absolute inset-0 bg-black rounded-xl sm:rounded-2xl border-4 sm:border-6 border-cyan-500/30">
             <div className="w-full h-full bg-slate-800" />
           </div>
         )}
 
-        {isInViewport && !imageLoaded && showSpinner && (
-          <div className="absolute inset-0 bg-black rounded-xl sm:rounded-2xl border-4 sm:border-6 border-cyan-500/30 z-10 animate-in fade-in duration-300">
-            <CyberLoadingSpinner />
+        {isInViewport && (!imageLoaded || !showCard) && (
+          <div 
+            className="absolute inset-0 bg-black rounded-xl sm:rounded-2xl border-4 sm:border-6 border-cyan-500/30 overflow-hidden z-10"
+            style={{ 
+              opacity: hideSkeleton ? 0 : 1,
+              transition: 'opacity 800ms cubic-bezier(0.4, 0.0, 0.2, 1)'
+            }}
+          >
+            {/* Animated gradient background */}
+            <div className="absolute inset-0 bg-linear-to-br from-slate-800 via-slate-700 to-slate-900 animate-pulse" />
+            
+            {/* Shimmer effect */}
+            <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite]">
+              <div className="h-full w-full bg-linear-to-r from-transparent via-cyan-500/10 to-transparent" />
+            </div>
+
+            {/* Skeleton content structure */}
+            <div className="relative h-full p-6 flex flex-col">
+              {/* Top badges skeleton */}
+              <div className="flex justify-between items-center mb-4">
+                <div className="h-6 w-16 bg-slate-600/50 rounded-full animate-pulse" />
+                <div className="h-6 w-20 bg-slate-600/50 rounded-full animate-pulse" />
+              </div>
+
+              {/* Center image placeholder */}
+              <div className="flex-1 flex items-center justify-center">
+                <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-slate-600/50 animate-pulse" />
+              </div>
+
+              {/* Bottom text skeleton */}
+              <div className="space-y-3">
+                <div className="h-8 w-3/4 bg-slate-600/50 rounded mx-auto animate-pulse" />
+                <div className="h-4 w-1/2 bg-slate-600/50 rounded mx-auto animate-pulse" />
+              </div>
+            </div>
+
+            {/* Corner accents */}
+            <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-cyan-400/30" />
+            <div className="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-pink-400/30" />
+            <div className="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-pink-400/30" />
+            <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-cyan-400/30" />
           </div>
         )}
 
@@ -120,10 +151,10 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
         {/* Flip Card Container - only render when image is loaded */}
         {isInViewport && imageLoaded && (
           <div
-            className="relative w-full h-full transition-opacity duration-1000"
+            className="relative w-full h-full"
             style={{
               transformStyle: "preserve-3d",
-              transition: "transform 0.6s cubic-bezier(.5,.3,.3,1), opacity 1s ease-in-out",
+              transition: "transform 0.6s cubic-bezier(.5,.3,.3,1), opacity 1200ms cubic-bezier(0.4, 0.0, 0.2, 1)",
               transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
               opacity: showCard ? 1 : 0,
             }}

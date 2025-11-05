@@ -22,6 +22,11 @@ export const CyberStyles = () => {
         100% { top: 110%; }
       }
 
+      @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+      }
+
       .clip-corner {
         clip-path: polygon(
           0 0,
