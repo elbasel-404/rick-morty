@@ -1,5 +1,6 @@
 import type { Endpoint } from "@type";
-import { logError, validateJson } from "@util";
+import { buildFetchUrl, filterObject, logError, validateJson } from "@util";
+import { apiResponseSchema } from "../schema/apiResponseSchema";
 
 export interface GetDataReturn<T> {
   error: string | null;
@@ -8,19 +9,21 @@ export interface GetDataReturn<T> {
 
 export interface GetDataParams<T> {
   endpoint: Endpoint<T>;
+  queryParams?: Record<string, string | undefined>;
 }
 
 export const get = async <T>({
   endpoint,
+  queryParams,
 }: GetDataParams<T>): Promise<GetDataReturn<T>> => {
   const { url, schema } = endpoint;
+  const filteredQueryParams = filterObject(queryParams);
+  const queryUrl = buildFetchUrl({
+    endpointUrl: url,
+    queryParams: filteredQueryParams,
+  });
 
-  // let result: GetDataReturn<T> = {
-  //   result: null,
-  //   error: "",
-  // };
-
-  const response = await fetch(url, {
+  const response = await fetch(queryUrl, {
     method: "GET",
   });
 
@@ -33,11 +36,35 @@ export const get = async <T>({
   }
 
   const json = await response.json();
-  const { valid, errors, data } = validateJson(json, schema);
+  const {
+    valid: responseValid,
+    error: responseError,
+    data: responseData,
+  } = validateJson(json, apiResponseSchema);
 
-  if (!valid) {
-    return { result: null, error: JSON.stringify(errors) };
+  const {
+    valid: resultValid,
+    error: resultError,
+    data: resultData,
+  } = validateJson(responseData, schema);
+
+  if (!responseValid) {
+    logError({
+      errorTitle: `Data validation failed for endpoint: ${url}`,
+      errorContent: JSON.stringify(responseError, null, 2),
+    });
+    console.debug(`Received data: ${JSON.stringify(json, null, 2)}`);
+    return { result: null, error: JSON.stringify(responseError) };
   }
 
-  return { result: data, error: null };
+  if (!resultValid) {
+    logError({
+      errorTitle: `Result validation failed for endpoint: ${url}`,
+      errorContent: JSON.stringify(resultError, null, 2),
+    });
+    console.debug(`Received data: ${JSON.stringify(json, null, 2)}`);
+    return { result: null, error: JSON.stringify(resultError) };
+  }
+
+  return { result: resultData, error: null };
 };

@@ -1,10 +1,14 @@
+import { filterObject } from "./filterObject";
 import { getApiRootUrl } from "./getApiRootUrl";
 
 interface BuildFetchUrlParams {
   endpointUrl: string;
-  params: Record<string, string | number | undefined>;
+  queryParams?: Record<string, string | undefined>;
 }
-export const buildFetchUrl = ({ endpointUrl, params }: BuildFetchUrlParams) => {
+export const buildFetchUrl = ({
+  endpointUrl,
+  queryParams,
+}: BuildFetchUrlParams) => {
   const baseUrl = getApiRootUrl();
 
   //* Clean leading slash to prevent double slashes in the final URL
@@ -13,11 +17,11 @@ export const buildFetchUrl = ({ endpointUrl, params }: BuildFetchUrlParams) => {
     ? endpointUrl.replace("/", "")
     : endpointUrl;
 
-  const stringParams = Object.fromEntries(
-    Object.entries(params)
-      .map(([key, value]) => [key, String(value)])
-      .filter(([_, value]) => value !== "undefined")
-  );
-  const queryString = new URLSearchParams(stringParams).toString();
-  return `${baseUrl}/${cleanEndpointUrl}?${queryString}`;
+  if (!queryParams) return `${baseUrl}/${cleanEndpointUrl}`;
+
+  const filteredParams = filterObject(queryParams);
+  const queryString = new URLSearchParams(filteredParams);
+
+  const fullUrl = `${baseUrl}/${cleanEndpointUrl}?${queryString}`;
+  return fullUrl;
 };

@@ -1,62 +1,51 @@
-import { type ZodType, ZodError, flattenError } from "zod";
-import { logError } from "./logError";
+import { type ZodType, type ZodError, flattenError } from "zod";
 
+// * separate types for success and failure to create a discriminated union
 interface ValidationSuccess<T> {
   valid: true;
   data: T;
-  errors?: never;
+  error?: never;
 }
 
 interface ValidationFailure {
   valid: false;
   data?: never;
-  errors: {
-    formErrors: string[];
-    fieldErrors: Record<string, string[] | undefined>;
-  };
+  error: Record<string, string[] | undefined>;
 }
 
 type ValidationResult<T> = ValidationSuccess<T> | ValidationFailure;
 
 /**
- * Validates data against a Zod schema and returns formatted errors.
+ * Validates JSON data against a Zod schema and returns a type-safe result.
  *
- * @param data - The data to validate
+ * This function attempts to parse and validate the provided JSON data using the given
+ * Zod schema. It returns a discriminated union that either contains the validated data
+ * or detailed error information.
+ *
+ * @template T - The expected type of the validated data
+ * @param json - The unknown data to validate (typically parsed JSON)
  * @param schema - The Zod schema to validate against
- * @returns Object containing validation result with parsedData or formatted errors
+ * @returns A validation result object with either `valid: true` and parsed data,
+ *          or `valid: false` with form and field-level errors
  */
 export const validateJson = <T>(
   json: unknown,
   schema: ZodType<T>
 ): ValidationResult<T> => {
-  try {
-    const data = schema.parse(json);
-    return { valid: true, data };
-  } catch (error) {
-    if (error instanceof ZodError) {
-      const flattened = flattenError(error);
-      logError({
-        errorTitle: `Data validation failed while validating ${schema.constructor.name}`,
-        errorContent: JSON.stringify(flattened, null, 2),
-      });
-      return {
-        valid: false,
-        errors: {
-          formErrors: flattened.formErrors,
-          fieldErrors: flattened.fieldErrors,
-        },
-      };
-    }
-    logError({
-      errorTitle: `Data validation failed while validating ${schema.constructor.name}`,
-      errorContent: "N/A",
-    });
-    return {
-      valid: false,
-      errors: {
-        formErrors: ["Unknown validation error"],
-        fieldErrors: {},
-      },
-    };
-  }
+  const { data, error } = schema.safeParse(json);
+
+  if (error) return handleValidationError<T>(error);
+  return {
+    valid: true,
+    data,
+  };
+};
+
+const handleValidationError = <T>(error: ZodError): ValidationFailure => {
+  const flattened = flattenError(error);
+
+  return {
+    valid: false,
+    error: flattened.fieldErrors,
+  };
 };
