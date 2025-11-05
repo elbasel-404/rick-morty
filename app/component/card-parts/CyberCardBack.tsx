@@ -49,16 +49,16 @@ export const CyberCardBack = ({
       {/* Top Bar - Status & ID */}
       <div className="absolute top-0 left-0 right-0 flex items-center justify-between p-4">
         {/* ID Badge - Left */}
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-pink-500/60 backdrop-blur-md bg-black/40">
-          <span className="text-pink-400 font-black text-lg uppercase tracking-wider">
+        <div className="flex items-center gap-2 px-3 py-1.5">
+          <span className="text-pink-400 font-black text-lg uppercase tracking-wider drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
             #{character.id.toString().padStart(3, "0")}
           </span>
         </div>
 
         {/* Status Badge - Right */}
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-cyan-500/60 backdrop-blur-md bg-black/40">
+        <div className="flex items-center gap-2 px-3 py-1.5">
           <div className={`w-2 h-2 rounded-full ${statusConfig.bg} ${statusConfig.glow} animate-pulse`} />
-          <span className={`${statusConfig.text} font-black text-base uppercase tracking-wider`}>
+          <span className={`${statusConfig.text} font-black text-base uppercase tracking-wider drop-shadow-[0_2px_8px_rgba(0,0,0,1)]`}>
             {character.status}
           </span>
         </div>
@@ -90,47 +90,47 @@ export const CyberCardBack = ({
         {/* Info Grid - 2x2 Layout */}
         <div className="grid grid-cols-2 gap-4 w-full max-w-2xl">
           {/* Gender */}
-          <div className="backdrop-blur-md bg-black/40 border border-cyan-500/50 rounded-lg p-4 text-center">
-            <p className="text-cyan-400 text-sm uppercase tracking-widest mb-2 font-bold">
+          <div className="p-4 text-center">
+            <p className="text-cyan-400 text-sm uppercase tracking-widest mb-2 font-bold drop-shadow-[0_2px_6px_rgba(0,0,0,1)]">
               Gender
             </p>
-            <p className="text-white font-black text-2xl uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+            <p className="text-white font-black text-2xl uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
               {character.gender}
             </p>
           </div>
 
           {/* Episodes */}
-          <div className="backdrop-blur-md bg-black/40 border border-pink-500/50 rounded-lg p-4 text-center">
-            <p className="text-pink-400 text-sm uppercase tracking-widest mb-2 font-bold">
+          <div className="p-4 text-center">
+            <p className="text-pink-400 text-sm uppercase tracking-widest mb-2 font-bold drop-shadow-[0_2px_6px_rgba(0,0,0,1)]">
               Episodes
             </p>
-            <p className="text-white font-black text-2xl uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+            <p className="text-white font-black text-2xl uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
               {character.episode.length}
             </p>
           </div>
 
           {/* Origin */}
-          <div className="backdrop-blur-md bg-black/40 border border-cyan-500/50 rounded-lg p-4">
+          <div className="p-4">
             <div className="flex items-center gap-2 mb-2">
-              <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
-              <p className="text-cyan-400 text-xs uppercase tracking-widest font-bold">
+              <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse drop-shadow-[0_0_4px_rgba(6,182,212,0.8)]" />
+              <p className="text-cyan-400 text-xs uppercase tracking-widest font-bold drop-shadow-[0_2px_6px_rgba(0,0,0,1)]">
                 Origin
               </p>
             </div>
-            <p className="text-white font-semibold text-sm truncate drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
+            <p className="text-white font-semibold text-sm truncate drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
               {character.origin.name}
             </p>
           </div>
 
           {/* Location */}
-          <div className="backdrop-blur-md bg-black/40 border border-pink-500/50 rounded-lg p-4">
+          <div className="p-4">
             <div className="flex items-center gap-2 mb-2">
-              <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse" />
-              <p className="text-pink-400 text-xs uppercase tracking-widest font-bold">
+              <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse drop-shadow-[0_0_4px_rgba(236,72,153,0.8)]" />
+              <p className="text-pink-400 text-xs uppercase tracking-widest font-bold drop-shadow-[0_2px_6px_rgba(0,0,0,1)]">
                 Location
               </p>
             </div>
-            <p className="text-white font-semibold text-sm truncate drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
+            <p className="text-white font-semibold text-sm truncate drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
               {character.location.name}
             </p>
           </div>
