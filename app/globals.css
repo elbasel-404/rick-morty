@@ -375,3 +375,24 @@ body {
     rgba(99, 102, 241, 0.15) 100%
   );
 }
+
+/* Hoverable Grid Card Effects */
+.hoverable-card {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+.hoverable-card:hover {
+  transform: scale(1.08) translateY(-8px);
+  z-index: 50;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.1), 0 0 60px rgba(99, 102, 241, 0.3);
+}
+
+@media (prefers-color-scheme: dark) {
+  .hoverable-card:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.2), 0 0 80px rgba(99, 102, 241, 0.4);
+  }
+}

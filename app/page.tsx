@@ -33,30 +33,36 @@ const HomePage = async ({ searchParams }: HomePageProps) => {
       : CharacterCard;
 
   return (
-    <main>
-      <h1>Homepage</h1>
+    <main className="min-h-screen px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        <h1 className="text-3xl font-bold mb-8">Rick and Morty Characters</h1>
 
-      <div className="mb-4 flex gap-2">
-        <span className="font-semibold">Card Number:</span>
-        {[1, 2, 3, 4, 5].map((num) => (
-          <Link
-            href={`/?cardNumber=${num}`}
-            key={num}
-            className={`px-3 py-1 rounded ${
-              cardNumber === String(num)
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 hover:bg-gray-300"
-            }`}
-          >
-            {num}
-          </Link>
-        ))}
-      </div>
+        <div className="mb-8 flex flex-wrap items-center gap-3">
+          <span className="font-semibold text-lg">Card Style:</span>
+          {[1, 2, 3, 4, 5].map((num) => (
+            <Link
+              href={`/?cardNumber=${num}`}
+              key={num}
+              className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                cardNumber === String(num)
+                  ? "bg-blue-500 text-white shadow-lg scale-105"
+                  : "bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 hover:scale-105"
+              }`}
+            >
+              {num}
+            </Link>
+          ))}
+        </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {charactersData.map((c) => {
-          return <CardComponent character={c} key={c.id} />;
-        })}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6 auto-rows-fr">
+          {charactersData.map((c) => {
+            return (
+              <div className="hoverable-card" key={c.id}>
+                <CardComponent character={c} />
+              </div>
+            );
+          })}
+        </div>
       </div>
     </main>
   );
