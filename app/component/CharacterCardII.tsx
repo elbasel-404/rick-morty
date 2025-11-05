@@ -34,6 +34,8 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [showCard, setShowCard] = useState(false);
+  const [showSpinner, setShowSpinner] = useState(false);
 
   // Custom hooks
   const { rotation, handleMouseMove, resetRotation } = useCardRotation();
@@ -46,6 +48,26 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (isInViewport && !imageLoaded) {
+      // Delay spinner appearance slightly for smoother transition
+      const timer = setTimeout(() => setShowSpinner(true), 100);
+      return () => clearTimeout(timer);
+    } else {
+      setShowSpinner(false);
+    }
+  }, [isInViewport, imageLoaded]);
+
+  useEffect(() => {
+    if (imageLoaded) {
+      // Small delay before starting fade-in
+      const timer = setTimeout(() => setShowCard(true), 50);
+      return () => clearTimeout(timer);
+    } else {
+      setShowCard(false);
+    }
+  }, [imageLoaded]);
 
   const statusConfig = getCyberStatusConfig(character.status);
 
@@ -72,14 +94,20 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {/* Loading State */}
-        {isInViewport && !imageLoaded && (
+        {/* Loading State - only show when in viewport */}
+        {!isInViewport && (
           <div className="absolute inset-0 bg-black rounded-xl sm:rounded-2xl border-4 sm:border-6 border-cyan-500/30">
+            <div className="w-full h-full bg-slate-800" />
+          </div>
+        )}
+
+        {isInViewport && !imageLoaded && showSpinner && (
+          <div className="absolute inset-0 bg-black rounded-xl sm:rounded-2xl border-4 sm:border-6 border-cyan-500/30 z-10 animate-in fade-in duration-300">
             <CyberLoadingSpinner />
           </div>
         )}
 
-        {/* Preload image */}
+        {/* Preload image - only when in viewport */}
         {isInViewport && (
           <img
             src={character.image}
@@ -89,14 +117,15 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
           />
         )}
 
-        {/* Flip Card Container */}
-        {imageLoaded && (
+        {/* Flip Card Container - only render when image is loaded */}
+        {isInViewport && imageLoaded && (
           <div
-            className="relative w-full h-full"
+            className="relative w-full h-full transition-opacity duration-1000"
             style={{
               transformStyle: "preserve-3d",
-              transition: "transform 0.6s cubic-bezier(.5,.3,.3,1)",
+              transition: "transform 0.6s cubic-bezier(.5,.3,.3,1), opacity 1s ease-in-out",
               transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
+              opacity: showCard ? 1 : 0,
             }}
           >
             {/* Card Front - Character Preview */}
