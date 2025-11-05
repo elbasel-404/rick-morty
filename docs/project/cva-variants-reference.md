@@ -47,43 +47,48 @@ app/styles/
 Handles the main glass card container and visual effects.
 
 #### `glassCardVariants`
+
 The main card wrapper with size and animation options.
 
 ```tsx
-glassCardVariants({ 
+glassCardVariants({
   size: "default" | "sm" | "lg",
-  animated: true | false 
-})
+  animated: true | false,
+});
 ```
 
 **Default:** `{ size: "default", animated: true }`
 
 #### `glassContainerVariants`
+
 The inner glass container with backdrop effects.
 
 ```tsx
-glassContainerVariants({ hover: true | false })
+glassContainerVariants({ hover: true | false });
 ```
 
 #### `ambientGlowVariants`
+
 Animated glow effect around the card.
 
 ```tsx
-ambientGlowVariants({ hover: true | false })
+ambientGlowVariants({ hover: true | false });
 ```
 
 #### `cardShineVariants`
+
 Shimmer shine effect on hover.
 
 ```tsx
-cardShineVariants({ hover: true | false })
+cardShineVariants({ hover: true | false });
 ```
 
 #### `holographicShimmerVariants`
+
 Holographic overlay effect.
 
 ```tsx
-holographicShimmerVariants({ hover: true | false })
+holographicShimmerVariants({ hover: true | false });
 ```
 
 ---
@@ -95,61 +100,68 @@ holographicShimmerVariants({ hover: true | false })
 Variants for card content, text, badges, and info sections.
 
 #### `characterNameVariants`
+
 Character name title styling with gradient.
 
 ```tsx
-characterNameVariants({ 
+characterNameVariants({
   size: "sm" | "default" | "lg",
-  hover: true | false 
-})
+  hover: true | false,
+});
 ```
 
 #### `statusBadgeVariants`
+
 Status badge container.
 
 ```tsx
-statusBadgeVariants({ 
+statusBadgeVariants({
   status: "alive" | "dead" | "unknown",
-  hover: true | false 
-})
+  hover: true | false,
+});
 ```
 
 #### `statusDotVariants`
+
 Animated status indicator dot.
 
 ```tsx
-statusDotVariants({ status: "alive" | "dead" | "unknown" })
+statusDotVariants({ status: "alive" | "dead" | "unknown" });
 ```
 
 #### `statusTextVariants`
+
 Status text label.
 
 ```tsx
-statusTextVariants({ status: "alive" | "dead" | "unknown" })
+statusTextVariants({ status: "alive" | "dead" | "unknown" });
 ```
 
 #### `infoGridVariants`
+
 Grid layout for info items.
 
 ```tsx
-infoGridVariants({ 
+infoGridVariants({
   columns: 1 | 2 | 3,
-  spacing: "default" | "compact" | "spacious" 
-})
+  spacing: "default" | "compact" | "spacious",
+});
 ```
 
 #### `infoItemVariants`
+
 Individual info item container.
 
 ```tsx
-infoItemVariants({ hover: true | false })
+infoItemVariants({ hover: true | false });
 ```
 
 #### `cardIdBadgeVariants`
+
 Card ID badge at bottom.
 
 ```tsx
-cardIdBadgeVariants({ hover: true | false })
+cardIdBadgeVariants({ hover: true | false });
 ```
 
 ---
@@ -159,21 +171,21 @@ cardIdBadgeVariants({ hover: true | false })
 #### Status Colors
 
 ```tsx
-statusColorVariants({ status: "alive" | "dead" | "unknown" })
+statusColorVariants({ status: "alive" | "dead" | "unknown" });
 ```
 
 #### Text Shadows
 
 ```tsx
-textShadowVariants({ 
-  intensity: "strong" | "medium" | "light" | "subtle" | "base" 
-})
+textShadowVariants({
+  intensity: "strong" | "medium" | "light" | "subtle" | "base",
+});
 ```
 
 #### Gradients
 
 ```tsx
-gradientVariants({ type: "bottomDark" | "scanLine" })
+gradientVariants({ type: "bottomDark" | "scanLine" });
 ```
 
 ---
@@ -185,9 +197,9 @@ gradientVariants({ type: "bottomDark" | "scanLine" })
 Cyber-themed styling for futuristic card designs.
 
 ```tsx
-cyberStatusBgVariants({ status: "alive" | "dead" | "unknown" })
-cyberStatusGlowVariants({ status: "alive" | "dead" | "unknown" })
-cyberStatusTextVariants({ status: "alive" | "dead" | "unknown" })
+cyberStatusBgVariants({ status: "alive" | "dead" | "unknown" });
+cyberStatusGlowVariants({ status: "alive" | "dead" | "unknown" });
+cyberStatusTextVariants({ status: "alive" | "dead" | "unknown" });
 ```
 
 ---
@@ -199,7 +211,7 @@ cyberStatusTextVariants({ status: "alive" | "dead" | "unknown" })
 Grid card hover effects.
 
 ```tsx
-hoverableCardVariants({ hover: true | false })
+hoverableCardVariants({ hover: true | false });
 ```
 
 ---
@@ -239,30 +251,35 @@ interface GlassCardProps {
 export const GlassCard = ({ character }: GlassCardProps) => {
   const [isHovering, setIsHovering] = useState(false);
   const [hoveredInfo, setHoveredInfo] = useState<number | null>(null);
-  
+
   const status = character.status.toLowerCase() as "alive" | "dead" | "unknown";
 
   return (
-    <div 
+    <div
       className={glassCardVariants({ size: "default", animated: true })}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
       {/* Ambient glow */}
       <div className={ambientGlowVariants({ hover: isHovering })} />
-      
+
       {/* Main container */}
       <div className={glassContainerVariants({ hover: isHovering })}>
         {/* Shine effect */}
         <div className={cardShineVariants({ hover: isHovering })} />
-        
+
         {/* Content */}
         <div className="p-6">
           {/* Character name */}
-          <h2 className={characterNameVariants({ size: "default", hover: isHovering })}>
+          <h2
+            className={characterNameVariants({
+              size: "default",
+              hover: isHovering,
+            })}
+          >
             {character.name}
           </h2>
-          
+
           {/* Status badge */}
           <div className={statusBadgeVariants({ status, hover: isHovering })}>
             <div className={statusDotVariants({ status })} />
@@ -270,7 +287,7 @@ export const GlassCard = ({ character }: GlassCardProps) => {
               {character.status}
             </span>
           </div>
-          
+
           {/* Info grid */}
           <div className={infoGridVariants({ columns: 2, spacing: "default" })}>
             {[
@@ -291,7 +308,7 @@ export const GlassCard = ({ character }: GlassCardProps) => {
               </div>
             ))}
           </div>
-          
+
           {/* ID badge */}
           <div className={cardIdBadgeVariants({ hover: isHovering })}>
             ID: {character.id}
@@ -308,10 +325,10 @@ export const GlassCard = ({ character }: GlassCardProps) => {
 ### Using Exported Types
 
 ```tsx
-import type { 
-  GlassCardVariants, 
+import type {
+  GlassCardVariants,
   StatusBadgeVariants,
-  CharacterNameVariants 
+  CharacterNameVariants,
 } from "@/app/styles";
 
 interface MyComponentProps {
@@ -338,10 +355,10 @@ Some variants use compound variants for complex combinations:
 
 ```tsx
 // Example from cyberStatusVariants
-cyberStatusVariants({ 
-  status: "alive", 
-  element: "glow" 
-})
+cyberStatusVariants({
+  status: "alive",
+  element: "glow",
+});
 // Returns specific glow for alive status
 ```
 
@@ -389,10 +406,10 @@ className={statusBadgeVariants({ status: character.status })}
 
 ```tsx
 // ✅ Good - Explicit when needed
-glassCardVariants({ size: "lg" }) // Override default
+glassCardVariants({ size: "lg" }); // Override default
 
 // ✅ Also good - Use defaults
-glassCardVariants() // Uses size: "default", animated: true
+glassCardVariants(); // Uses size: "default", animated: true
 ```
 
 ## Animations

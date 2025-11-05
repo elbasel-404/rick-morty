@@ -7,6 +7,7 @@ The project has been refactored to use **Class Variance Authority (CVA)** for ma
 ## What Changed
 
 ### Before (globals.css)
+
 ```css
 .glass-card {
   position: relative;
@@ -23,6 +24,7 @@ The project has been refactored to use **Class Variance Authority (CVA)** for ma
 ```
 
 ### After (CVA Variants)
+
 ```tsx
 import { glassCardVariants } from "@/app/styles";
 
@@ -44,49 +46,52 @@ All CVA variants are located in `app/styles/`:
 ### Example 1: Glass Card Component
 
 **Before:**
+
 ```tsx
 <div className="glass-card">
-  <div className="card-glass-container">
-    {/* content */}
-  </div>
+  <div className="card-glass-container">{/* content */}</div>
 </div>
 ```
 
 **After:**
+
 ```tsx
 import { glassCardVariants, glassContainerVariants } from "@/app/styles";
 
 <div className={glassCardVariants({ size: "default" })}>
-  <div className={glassContainerVariants()}>
-    {/* content */}
-  </div>
-</div>
+  <div className={glassContainerVariants()}>{/* content */}</div>
+</div>;
 ```
 
 ### Example 2: Status Badge with Hover
 
 **Before:**
+
 ```tsx
 <div className="status-badge">
-  <div className="status-dot" style={{ backgroundColor: getStatusColor(status) }} />
+  <div
+    className="status-dot"
+    style={{ backgroundColor: getStatusColor(status) }}
+  />
   <span className="status-text">{status}</span>
 </div>
 ```
 
 **After:**
+
 ```tsx
-import { 
-  statusBadgeVariants, 
-  statusDotVariants, 
-  statusTextVariants 
+import {
+  statusBadgeVariants,
+  statusDotVariants,
+  statusTextVariants,
 } from "@/app/styles";
 
 const [isHovering, setIsHovering] = useState(false);
 
-<div 
-  className={statusBadgeVariants({ 
-    status: status.toLowerCase(), 
-    hover: isHovering 
+<div
+  className={statusBadgeVariants({
+    status: status.toLowerCase(),
+    hover: isHovering,
   })}
   onMouseEnter={() => setIsHovering(true)}
   onMouseLeave={() => setIsHovering(false)}
@@ -95,34 +100,37 @@ const [isHovering, setIsHovering] = useState(false);
   <span className={statusTextVariants({ status: status.toLowerCase() })}>
     {status}
   </span>
-</div>
+</div>;
 ```
 
 ### Example 3: Character Name with Dynamic Hover
 
 **Before:**
+
 ```tsx
 <h2 className="character-name">{name}</h2>
 ```
 
 **After:**
+
 ```tsx
 import { characterNameVariants } from "@/app/styles";
 
 const [isHovering, setIsHovering] = useState(false);
 
-<h2 
+<h2
   className={characterNameVariants({ size: "default", hover: isHovering })}
   onMouseEnter={() => setIsHovering(true)}
   onMouseLeave={() => setIsHovering(false)}
 >
   {name}
-</h2>
+</h2>;
 ```
 
 ### Example 4: Info Grid Items
 
 **Before:**
+
 ```tsx
 <div className="info-grid">
   <div className="info-item">
@@ -136,20 +144,21 @@ const [isHovering, setIsHovering] = useState(false);
 ```
 
 **After:**
+
 ```tsx
-import { 
-  infoGridVariants, 
+import {
+  infoGridVariants,
   infoItemVariants,
   infoIconVariants,
   infoContentVariants,
   infoLabelVariants,
-  infoTextVariants
+  infoTextVariants,
 } from "@/app/styles";
 
 const [hoveredItem, setHoveredItem] = useState<number | null>(null);
 
 <div className={infoGridVariants({ columns: 2 })}>
-  <div 
+  <div
     className={infoItemVariants({ hover: hoveredItem === 0 })}
     onMouseEnter={() => setHoveredItem(0)}
     onMouseLeave={() => setHoveredItem(null)}
@@ -160,7 +169,7 @@ const [hoveredItem, setHoveredItem] = useState<number | null>(null);
       <span className={infoTextVariants()}>{origin}</span>
     </div>
   </div>
-</div>
+</div>;
 ```
 
 ## Available Variants
@@ -207,8 +216,14 @@ import {
 // Usage
 cardContentVariants({ padding: "default" | "compact" | "spacious" });
 characterNameVariants({ size: "sm" | "default" | "lg", hover: true | false });
-statusBadgeVariants({ status: "alive" | "dead" | "unknown", hover: true | false });
-infoGridVariants({ columns: 1 | 2 | 3, spacing: "default" | "compact" | "spacious" });
+statusBadgeVariants({
+  status: "alive" | "dead" | "unknown",
+  hover: true | false,
+});
+infoGridVariants({
+  columns: 1 | 2 | 3,
+  spacing: "default" | "compact" | "spacious",
+});
 infoItemVariants({ hover: true | false });
 cardIdBadgeVariants({ hover: true | false });
 ```
@@ -240,7 +255,9 @@ import {
 } from "@/app/styles";
 
 // Usage
-textShadowVariants({ intensity: "strong" | "medium" | "light" | "subtle" | "base" });
+textShadowVariants({
+  intensity: "strong" | "medium" | "light" | "subtle" | "base",
+});
 gradientVariants({ type: "bottomDark" | "scanLine" });
 hoverableCardVariants({ hover: true | false });
 ```
@@ -253,13 +270,15 @@ The `cn()` utility from `@/app/util` combines CVA variants with additional class
 import { cn } from "@/app/util";
 import { glassCardVariants } from "@/app/styles";
 
-<div className={cn(
-  glassCardVariants({ size: "lg" }),
-  "custom-class",
-  condition && "conditional-class"
-)}>
+<div
+  className={cn(
+    glassCardVariants({ size: "lg" }),
+    "custom-class",
+    condition && "conditional-class"
+  )}
+>
   {/* content */}
-</div>
+</div>;
 ```
 
 ## TypeScript Support
