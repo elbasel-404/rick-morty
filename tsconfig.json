@@ -25,7 +25,8 @@
       "@schema": ["./app/schema"],
       "@endpoint": ["./app/endpoint"],
       "@server": ["./app/server"],
-      "@http": ["./app/http"]
+      "@http": ["./app/http"],
+      "@component": ["./app/component"]
     }
   },
   "include": [

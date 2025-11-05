@@ -8,8 +8,8 @@ import { flattenError, type ZodError, type ZodType } from "zod";
  * Ensures type-safe handling of success and error cases.
  */
 type GetDataResult<T> =
-  | { success: true; data: T; error: null }
-  | { success: false; data: T; error: string };
+  | { success: true; data: T[]; error: null }
+  | { success: false; data: T[] | null; error: string };
 
 /**
  * Parameters for performing a typed HTTP GET request.
@@ -63,7 +63,7 @@ export const get = async <T>({
   // Fetch data from the API
   const fetchResult = await fetchData(queryUrl, url);
   if (!fetchResult.success) {
-    return { ...fetchResult, data: fetchResult.data as T };
+    return { ...fetchResult, data: fetchResult.data as T[] };
   }
 
   // Validate the general API response structure
@@ -91,7 +91,7 @@ export const get = async <T>({
     });
   }
 
-  return { success: true, data: resultValidation.data, error: null };
+  return { success: true, data: resultValidation.data as T[], error: null };
 };
 
 /**
@@ -144,7 +144,7 @@ const fetchData = async (
       return {
         success: false,
         error: errorMessage,
-        data: await response.text(), // Include response body for debugging
+        data: null, // Include response body for debugging
       };
     }
 
@@ -240,5 +240,5 @@ const handleValidationError = <T>({
   console.log(`${url} fetched and validated`);
   console.log(`Found ${invalidData.length} invalid items:`);
 
-  return { success: false, error: errorMessage, data: receivedData as T };
+  return { success: false, error: errorMessage, data: receivedData as T[] };
 };
