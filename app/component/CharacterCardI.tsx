@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useEffect, useMemo } from "react";
 
 interface Character {
@@ -107,7 +108,8 @@ export const CharacterCardI = ({ character }: CharacterCardProps) => {
         >
           {/* Full-height background image with minimal overlay */}
           <div className="absolute inset-0">
-            <img
+            <Image
+              fill
               src={image}
               alt={name}
               className="w-full h-full object-cover"
@@ -173,23 +175,36 @@ export const CharacterCardI = ({ character }: CharacterCardProps) => {
             className="absolute top-3 right-3 flex items-center gap-2 px-2 py-1 z-40 transition-all duration-500 ease-out"
             style={{
               opacity: isHovered ? 1 : 0,
-              transform: isHovered ? "translateZ(55px) translateY(0)" : "translateZ(55px) translateY(-10px)",
+              transform: isHovered
+                ? "translateZ(55px) translateY(0)"
+                : "translateZ(55px) translateY(-10px)",
             }}
           >
             <div
               className={`w-2.5 h-2.5 rounded-full ${statusColor} animate-pulse shadow-lg`}
               style={{ boxShadow: `0 0 10px currentColor` }}
             />
-            <span className="text-white font-bold text-base tracking-wide" style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.9), 0 0 4px rgba(0, 0, 0, 0.8)' }}>{status}</span>
+            <span
+              className="text-white font-bold text-base tracking-wide"
+              style={{
+                textShadow:
+                  "0 2px 8px rgba(0, 0, 0, 0.9), 0 0 4px rgba(0, 0, 0, 0.8)",
+              }}
+            >
+              {status}
+            </span>
           </div>
 
           {/* ID badge in top left */}
           <div
             className="absolute top-3 left-3 px-2 py-1 text-white text-base font-bold z-40 transition-all duration-500 ease-out"
             style={{
-              textShadow: '0 2px 8px rgba(0, 0, 0, 0.9), 0 0 4px rgba(0, 0, 0, 0.8)',
+              textShadow:
+                "0 2px 8px rgba(0, 0, 0, 0.9), 0 0 4px rgba(0, 0, 0, 0.8)",
               opacity: isHovered ? 1 : 0,
-              transform: isHovered ? "translateZ(55px) translateY(0)" : "translateZ(55px) translateY(-10px)",
+              transform: isHovered
+                ? "translateZ(55px) translateY(0)"
+                : "translateZ(55px) translateY(-10px)",
             }}
           >
             #{character.id}
@@ -200,10 +215,22 @@ export const CharacterCardI = ({ character }: CharacterCardProps) => {
             className="absolute bottom-3 left-3 right-3 z-30 text-center px-5 py-4"
             style={{ transform: "translateZ(30px)" }}
           >
-            <h2 className="text-2xl font-black text-white tracking-tight leading-tight mb-1" style={{ textShadow: '0 4px 12px rgba(0, 0, 0, 0.95), 0 2px 6px rgba(0, 0, 0, 0.9), 0 0 8px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.6)' }}>
+            <h2
+              className="text-2xl font-black text-white tracking-tight leading-tight mb-1"
+              style={{
+                textShadow:
+                  "0 4px 12px rgba(0, 0, 0, 0.95), 0 2px 6px rgba(0, 0, 0, 0.9), 0 0 8px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.6)",
+              }}
+            >
               {name}
             </h2>
-            <p className="text-white text-sm font-medium" style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.9), 0 0 4px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 0, 0, 0.5)' }}>
+            <p
+              className="text-white text-sm font-medium"
+              style={{
+                textShadow:
+                  "0 2px 8px rgba(0, 0, 0, 0.9), 0 0 4px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 0, 0, 0.5)",
+              }}
+            >
               {species} {type && `• ${type}`}
             </p>
           </div>
@@ -211,23 +238,51 @@ export const CharacterCardI = ({ character }: CharacterCardProps) => {
           {/* Gender and Episodes - top right below status */}
           <div
             className="absolute top-16 right-3 flex flex-col gap-2.5 z-40 transition-all duration-500 ease-out"
-            style={{ 
+            style={{
               opacity: isHovered ? 1 : 0,
-              transform: isHovered ? "translateZ(45px) translateX(0)" : "translateZ(45px) translateX(20px)",
+              transform: isHovered
+                ? "translateZ(45px) translateX(0)"
+                : "translateZ(45px) translateX(20px)",
             }}
           >
             <div className="text-center px-3 py-2">
-              <p className="text-white/80 text-[10px] uppercase tracking-wider font-medium mb-1" style={{ textShadow: '0 2px 6px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.4)' }}>
+              <p
+                className="text-white/80 text-[10px] uppercase tracking-wider font-medium mb-1"
+                style={{
+                  textShadow:
+                    "0 2px 6px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.4)",
+                }}
+              >
                 Gender
               </p>
-              <p className="text-white font-bold text-base" style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 4px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 0, 0, 0.5)' }}>{gender}</p>
+              <p
+                className="text-white font-bold text-base"
+                style={{
+                  textShadow:
+                    "0 2px 8px rgba(0, 0, 0, 0.95), 0 0 4px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 0, 0, 0.5)",
+                }}
+              >
+                {gender}
+              </p>
             </div>
 
             <div className="text-center px-3 py-2">
-              <p className="text-white/80 text-[10px] uppercase tracking-wider font-medium mb-1" style={{ textShadow: '0 2px 6px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.4)' }}>
+              <p
+                className="text-white/80 text-[10px] uppercase tracking-wider font-medium mb-1"
+                style={{
+                  textShadow:
+                    "0 2px 6px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.4)",
+                }}
+              >
                 Episodes
               </p>
-              <p className="text-white font-bold text-base" style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 4px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 0, 0, 0.5)' }}>
+              <p
+                className="text-white font-bold text-base"
+                style={{
+                  textShadow:
+                    "0 2px 8px rgba(0, 0, 0, 0.95), 0 0 4px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 0, 0, 0.5)",
+                }}
+              >
                 {episode.length}
               </p>
             </div>
@@ -236,25 +291,51 @@ export const CharacterCardI = ({ character }: CharacterCardProps) => {
           {/* Origin and Location - bottom */}
           <div
             className="absolute bottom-24 left-3 right-3 flex gap-2.5 z-40 transition-all duration-500 ease-out delay-100"
-            style={{ 
+            style={{
               opacity: isHovered ? 1 : 0,
-              transform: isHovered ? "translateZ(35px) translateY(0)" : "translateZ(35px) translateY(20px)",
+              transform: isHovered
+                ? "translateZ(35px) translateY(0)"
+                : "translateZ(35px) translateY(20px)",
             }}
           >
             <div className="flex-1 text-center px-3 py-2">
-              <p className="text-white/80 text-[10px] uppercase tracking-wider font-medium mb-1" style={{ textShadow: '0 2px 6px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.4)' }}>
+              <p
+                className="text-white/80 text-[10px] uppercase tracking-wider font-medium mb-1"
+                style={{
+                  textShadow:
+                    "0 2px 6px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.4)",
+                }}
+              >
                 Origin
               </p>
-              <p className="text-white font-bold text-sm line-clamp-1" style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 4px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 0, 0, 0.5)' }}>
+              <p
+                className="text-white font-bold text-sm line-clamp-1"
+                style={{
+                  textShadow:
+                    "0 2px 8px rgba(0, 0, 0, 0.95), 0 0 4px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 0, 0, 0.5)",
+                }}
+              >
                 {origin.name}
               </p>
             </div>
 
             <div className="flex-1 text-center px-3 py-2">
-              <p className="text-white/80 text-[10px] uppercase tracking-wider font-medium mb-1" style={{ textShadow: '0 2px 6px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.4)' }}>
+              <p
+                className="text-white/80 text-[10px] uppercase tracking-wider font-medium mb-1"
+                style={{
+                  textShadow:
+                    "0 2px 6px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.4)",
+                }}
+              >
                 Location
               </p>
-              <p className="text-white font-bold text-sm line-clamp-1" style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 4px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 0, 0, 0.5)' }}>
+              <p
+                className="text-white font-bold text-sm line-clamp-1"
+                style={{
+                  textShadow:
+                    "0 2px 8px rgba(0, 0, 0, 0.95), 0 0 4px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 0, 0, 0.5)",
+                }}
+              >
                 {location.name}
               </p>
             </div>
