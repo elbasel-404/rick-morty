@@ -105,7 +105,7 @@ export const CharacterCardI = ({ character }: CharacterCardProps) => {
               : "0 15px 30px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05)",
           }}
         >
-          {/* Full-height background image with crossfade */}
+          {/* Full-height background image with minimal overlay */}
           <div className="absolute inset-0">
             <img
               src={image}
@@ -113,17 +113,16 @@ export const CharacterCardI = ({ character }: CharacterCardProps) => {
               className="w-full h-full object-cover"
             />
 
-            {/* Smooth crossfade gradient overlay */}
+            {/* Gradient overlay - dark at bottom for readability */}
             <div
               className="absolute inset-0 pointer-events-none"
               style={{
                 background: `linear-gradient(to bottom, 
-                  transparent 0%, 
+                  rgba(15, 23, 42, 0.2) 0%, 
                   transparent 30%, 
-                  rgba(15, 23, 42, 0.4) 50%,
-                  rgba(15, 23, 42, 0.75) 65%,
-                  rgba(15, 23, 42, 0.9) 80%,
-                  rgb(15, 23, 42) 95%)`,
+                  transparent 60%,
+                  rgba(15, 23, 42, 0.6) 85%,
+                  rgba(15, 23, 42, 0.9) 100%)`,
               }}
             />
 
@@ -171,86 +170,93 @@ export const CharacterCardI = ({ character }: CharacterCardProps) => {
 
           {/* Status badge floating with depth */}
           <div
-            className="absolute top-3 right-3 flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/10 z-40"
+            className="absolute top-3 right-3 flex items-center gap-2 px-2 py-1 z-40 transition-all duration-500 ease-out"
             style={{
-              transform: "translateZ(55px)",
-              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.4)",
+              opacity: isHovered ? 1 : 0,
+              transform: isHovered ? "translateZ(55px) translateY(0)" : "translateZ(55px) translateY(-10px)",
             }}
           >
             <div
-              className={`w-2 h-2 rounded-full ${statusColor} animate-pulse shadow-lg`}
-              style={{ boxShadow: `0 0 8px currentColor` }}
+              className={`w-2.5 h-2.5 rounded-full ${statusColor} animate-pulse shadow-lg`}
+              style={{ boxShadow: `0 0 10px currentColor` }}
             />
-            <span className="text-white font-semibold text-xs">{status}</span>
+            <span className="text-white font-bold text-base tracking-wide" style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.9), 0 0 4px rgba(0, 0, 0, 0.8)' }}>{status}</span>
           </div>
 
           {/* ID badge in top left */}
           <div
-            className="absolute top-3 left-3 bg-linear-to-r from-purple-600/80 to-blue-600/80 backdrop-blur-sm px-2.5 py-1 rounded-md text-white text-xs font-mono font-bold border border-white/20 z-40"
+            className="absolute top-3 left-3 px-2 py-1 text-white text-base font-bold z-40 transition-all duration-500 ease-out"
             style={{
-              transform: "translateZ(55px)",
-              boxShadow: "0 4px 12px rgba(139, 92, 246, 0.4)",
+              textShadow: '0 2px 8px rgba(0, 0, 0, 0.9), 0 0 4px rgba(0, 0, 0, 0.8)',
+              opacity: isHovered ? 1 : 0,
+              transform: isHovered ? "translateZ(55px) translateY(0)" : "translateZ(55px) translateY(-10px)",
             }}
           >
             #{character.id}
           </div>
 
-          {/* Content section with layered depth - overlaid on image */}
+          {/* Name at bottom - full width */}
           <div
-            className="absolute bottom-0 left-0 right-0 p-3 space-y-2.5 z-30"
-            style={{ transform: "translateZ(20px)" }}
+            className="absolute bottom-3 left-3 right-3 z-30 text-center px-5 py-4"
+            style={{ transform: "translateZ(30px)" }}
           >
-            <div style={{ transform: "translateZ(30px)" }}>
-              <h2 className="text-xl font-bold text-white mb-0.5 tracking-tight">
-                {name}
-              </h2>
-              <p className="text-purple-300 text-xs font-medium">
-                {species} {type && `• ${type}`}
+            <h2 className="text-2xl font-black text-white tracking-tight leading-tight mb-1" style={{ textShadow: '0 4px 12px rgba(0, 0, 0, 0.95), 0 2px 6px rgba(0, 0, 0, 0.9), 0 0 8px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.6)' }}>
+              {name}
+            </h2>
+            <p className="text-white text-sm font-medium" style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.9), 0 0 4px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 0, 0, 0.5)' }}>
+              {species} {type && `• ${type}`}
+            </p>
+          </div>
+
+          {/* Gender and Episodes - top right below status */}
+          <div
+            className="absolute top-16 right-3 flex flex-col gap-2.5 z-40 transition-all duration-500 ease-out"
+            style={{ 
+              opacity: isHovered ? 1 : 0,
+              transform: isHovered ? "translateZ(45px) translateX(0)" : "translateZ(45px) translateX(20px)",
+            }}
+          >
+            <div className="text-center px-3 py-2">
+              <p className="text-white/80 text-[10px] uppercase tracking-wider font-medium mb-1" style={{ textShadow: '0 2px 6px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.4)' }}>
+                Gender
+              </p>
+              <p className="text-white font-bold text-base" style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 4px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 0, 0, 0.5)' }}>{gender}</p>
+            </div>
+
+            <div className="text-center px-3 py-2">
+              <p className="text-white/80 text-[10px] uppercase tracking-wider font-medium mb-1" style={{ textShadow: '0 2px 6px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.4)' }}>
+                Episodes
+              </p>
+              <p className="text-white font-bold text-base" style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 4px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 0, 0, 0.5)' }}>
+                {episode.length}
+              </p>
+            </div>
+          </div>
+
+          {/* Origin and Location - bottom */}
+          <div
+            className="absolute bottom-24 left-3 right-3 flex gap-2.5 z-40 transition-all duration-500 ease-out delay-100"
+            style={{ 
+              opacity: isHovered ? 1 : 0,
+              transform: isHovered ? "translateZ(35px) translateY(0)" : "translateZ(35px) translateY(20px)",
+            }}
+          >
+            <div className="flex-1 text-center px-3 py-2">
+              <p className="text-white/80 text-[10px] uppercase tracking-wider font-medium mb-1" style={{ textShadow: '0 2px 6px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.4)' }}>
+                Origin
+              </p>
+              <p className="text-white font-bold text-sm line-clamp-1" style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 4px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 0, 0, 0.5)' }}>
+                {origin.name}
               </p>
             </div>
 
-            <div
-              className="grid grid-cols-2 gap-2"
-              style={{ transform: "translateZ(25px)" }}
-            >
-              <div className="bg-slate-800/50 backdrop-blur-sm rounded-lg p-2 border border-purple-500/20 shadow-inner">
-                <p className="text-purple-400 text-[10px] uppercase tracking-wide mb-0.5">
-                  Gender
-                </p>
-                <p className="text-white font-semibold text-xs">{gender}</p>
-              </div>
-
-              <div className="bg-slate-800/50 backdrop-blur-sm rounded-lg p-2 border border-purple-500/20 shadow-inner">
-                <p className="text-purple-400 text-[10px] uppercase tracking-wide mb-0.5">
-                  Episodes
-                </p>
-                <p className="text-white font-semibold text-xs">
-                  {episode.length}
-                </p>
-              </div>
-            </div>
-
-            <div
-              className="space-y-1.5"
-              style={{ transform: "translateZ(15px)" }}
-            >
-              <div className="bg-linear-to-r from-blue-900/40 to-transparent rounded-lg p-2 border-l-2 border-blue-500 shadow-lg">
-                <p className="text-blue-300 text-[10px] uppercase tracking-wide mb-0.5">
-                  Origin
-                </p>
-                <p className="text-white font-medium text-xs line-clamp-1">
-                  {origin.name}
-                </p>
-              </div>
-
-              <div className="bg-linear-to-r from-emerald-900/40 to-transparent rounded-lg p-2 border-l-2 border-emerald-500 shadow-lg">
-                <p className="text-emerald-300 text-[10px] uppercase tracking-wide mb-0.5">
-                  Location
-                </p>
-                <p className="text-white font-medium text-xs line-clamp-1">
-                  {location.name}
-                </p>
-              </div>
+            <div className="flex-1 text-center px-3 py-2">
+              <p className="text-white/80 text-[10px] uppercase tracking-wider font-medium mb-1" style={{ textShadow: '0 2px 6px rgba(0, 0, 0, 0.9), 0 0 12px rgba(0, 0, 0, 0.4)' }}>
+                Location
+              </p>
+              <p className="text-white font-bold text-sm line-clamp-1" style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.95), 0 0 4px rgba(0, 0, 0, 0.8), 0 0 16px rgba(0, 0, 0, 0.5)' }}>
+                {location.name}
+              </p>
             </div>
           </div>
 
