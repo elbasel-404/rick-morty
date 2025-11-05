@@ -1,25 +1,55 @@
 import type { Endpoint } from "@type";
 import { buildFetchUrl, filterObject, logError, validateJson } from "@util";
 import { apiResponseSchema } from "@schema";
-import { flattenError, formatError, ZodError, ZodType } from "zod";
+import { flattenError, type ZodError, type ZodType } from "zod";
 
-// * Discriminated union for better type safety
+/**
+ * Discriminated union type for HTTP GET request results.
+ * Ensures type-safe handling of success and error cases.
+ */
 type GetDataResult<T> =
   | { success: true; data: T; error: null }
   | { success: false; data: unknown | null; error: string };
 
+/**
+ * Parameters for performing a typed HTTP GET request.
+ */
 interface GetDataParams<T> {
-  endpoint: Endpoint<T>;
-  queryParams?: Record<string, string | undefined>;
+  endpoint: Endpoint<T>; // Endpoint configuration with URL and schema
+  queryParams?: Record<string, string | undefined>; // Optional query parameters
 }
 
 /**
- * Performs an HTTP GET request with validation.
+ * Performs an HTTP GET request with automatic validation and type safety.
+ *
+ * This function handles the complete request lifecycle:
+ * 1. Builds the URL with query parameters
+ * 2. Fetches data from the API
+ * 3. Validates the API response structure
+ * 4. Validates the result data against the endpoint schema
+ * 5. Returns type-safe validated data or detailed error information
+ *
+ * All validation errors are logged with detailed debugging information.
  *
  * @template T - The expected type of the result data
- * @param params - The request parameters including endpoint and optional query params
- * @returns A promise resolving to either success with data or failure with error message
+ * @param params - The request parameters
+ * @param params.endpoint - Endpoint configuration with URL and validation schema
+ * @param params.queryParams - Optional query parameters (undefined values filtered out)
+ * @returns A promise resolving to either success with validated data or failure with error message
  *
+ * @example
+ * ```ts
+ * const result = await get({
+ *   endpoint: CHARACTER_ENDPOINT,
+ *   queryParams: { page: "1", status: "alive" }
+ * });
+ *
+ * if (result.success) {
+ *   console.log(result.data); // Type-safe character data
+ * } else {
+ *   console.error(result.error);
+ * }
+ * ```
  */
 export const get = async <T>({
   endpoint,
@@ -36,11 +66,10 @@ export const get = async <T>({
     return { ...fetchResult, data: fetchResult.data };
   }
 
-  // Validate the API response structure
+  // Validate the general API response structure
   const responseValidation = validateJson(fetchResult.data, apiResponseSchema);
   if (!responseValidation.valid) {
     return handleValidationError({
-      errorTitle: "Data validation failed",
       url,
       itemSchema: null,
       receivedData: null,
@@ -48,7 +77,7 @@ export const get = async <T>({
     });
   }
 
-  // Validate the result data against the endpoint schema
+  // Validate the result data against the endpoint-specific schema
   const resultValidation = validateJson(
     responseValidation.data.results,
     schema
@@ -56,7 +85,6 @@ export const get = async <T>({
   if (!resultValidation.valid) {
     return handleValidationError({
       url,
-      errorTitle: "Result validation failed",
       itemSchema: schema,
       receivedData: responseValidation.data.results as T[],
       validationError: resultValidation.error,
@@ -68,6 +96,11 @@ export const get = async <T>({
 
 /**
  * Builds the complete query URL with filtered query parameters.
+ * Removes undefined values before constructing the URL.
+ *
+ * @param url - The base endpoint URL
+ * @param queryParams - Optional query parameters (undefined values will be filtered out)
+ * @returns The complete URL with query string
  */
 const buildQueryUrl = (
   url: string,
@@ -81,7 +114,16 @@ const buildQueryUrl = (
 };
 
 /**
- * Fetches data from the specified URL.
+ * Fetches data from the specified URL and handles network/HTTP errors.
+ *
+ * Performs error handling for:
+ * - Network failures (connection issues, timeouts, etc.)
+ * - HTTP errors (4xx, 5xx status codes)
+ * - JSON parsing errors
+ *
+ * @param queryUrl - The complete URL to fetch from
+ * @param endpointUrl - The base endpoint URL (for error logging)
+ * @returns A result object containing either the parsed JSON or error details
  */
 const fetchData = async (
   queryUrl: string,
@@ -92,6 +134,7 @@ const fetchData = async (
       method: "GET",
     });
 
+    // Handle HTTP errors (4xx, 5xx status codes)
     if (!response.ok) {
       const errorMessage = `HTTP error! status: ${response.status}`;
       logError({
@@ -101,13 +144,15 @@ const fetchData = async (
       return {
         success: false,
         error: errorMessage,
-        data: await response.text(),
+        data: await response.text(), // Include response body for debugging
       };
     }
 
+    // Parse JSON response
     const json = await response.json();
     return { success: true, data: json, error: null };
   } catch (error) {
+    // Handle network errors, timeouts, or JSON parsing errors
     const errorMessage =
       error instanceof Error ? error.message : "Unknown error";
     logError({
@@ -123,25 +168,40 @@ const fetchData = async (
 };
 
 /**
- * Handles validation errors with consistent logging and formatting.
+ * Parameters for handling validation errors with detailed debugging.
  */
 interface HandleValidationErrorParams<T> {
-  url: string;
-  errorTitle: string;
-  validationError: Record<string, string[]>;
-  receivedData: T[] | null;
-  itemSchema: ZodType<T> | null;
+  url: string; // The endpoint URL that failed
+  validationError: Record<string, string[]>; // Field-level validation errors
+  receivedData: T[] | null; // The data that failed validation
+  itemSchema: ZodType<T> | null; // Schema for individual item validation
 }
 
+/**
+ * Handles validation errors with comprehensive logging and debugging information.
+ *
+ * This function:
+ * 1. Logs the validation error with field-level details
+ * 2. Identifies specific items that failed validation (if schema provided)
+ * 3. Prints each invalid item with its specific error and data
+ * 4. Returns a structured error result
+ *
+ * The detailed logging helps developers quickly identify and fix schema mismatches.
+ *
+ * @template T - The expected data type
+ * @param params - Error handling parameters
+ * @returns A failed result object with error details and received data
+ */
 const handleValidationError = <T>({
   url,
-  errorTitle,
   validationError,
   receivedData,
   itemSchema,
 }: HandleValidationErrorParams<T>): GetDataResult<T> => {
   const errorMessage = JSON.stringify(validationError, null, 2);
   console.log(typeof receivedData);
+
+  // Find specific items that failed validation (if schema and data provided)
   const invalidData =
     itemSchema && receivedData
       ? receivedData
@@ -155,20 +215,28 @@ const handleValidationError = <T>({
           }))
       : [];
 
+  // Log the main validation error
   logError({
-    errorTitle: `${errorTitle} for endpoint: ${url}`,
+    errorTitle: `Data validation failed for endpoint: ${url}`,
     errorContent: errorMessage,
   });
+
+  // Log each invalid item with detailed information
   invalidData.forEach((d) => {
     const { error, ...rest } = d;
+    // Print error in red
     console.log("\x1b[31m%s\x1b[0m", "error:", error + "\n");
+    // Extract the field name from error message
     const key =
       typeof error === "string" ? error.split(":")[0].trim() : String(error);
+    // Show the specific field value that caused the error
     console.log(`\`${key}\`: `, rest[key as keyof typeof rest]);
+    // Print full item data
     console.log(JSON.stringify(rest, null, 2));
     console.log("\n--------\n");
   });
 
+  // Summary information
   console.log(`${url} fetched and validated`);
   console.log(`Found ${invalidData.length} invalid items:`);
 
