@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getCharactersList } from "./server/getCharactersList";
-import { JSON } from "./components/Json";
+import { JsonViewer } from "./components/JsonViewer";
 
 const HomePage = async () => {
   const charactersData = await getCharactersList({ page: "1" });
@@ -8,8 +8,7 @@ const HomePage = async () => {
   return (
     <main>
       <h1>Homepage</h1>
-      {/* <pre>{JSON.stringify(charactersData, null, 2)}</pre> */}
-      <JSON data={charactersData} defaultExpanded={false} />
+      <JsonViewer data={charactersData} defaultExpanded={false} />
       <div>
         {[1, 2, 3, 4, 5].map((num) => (
           <Link href={`/characters/${num}`} key={num}>
