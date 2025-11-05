@@ -1,5 +1,8 @@
 # Tailwind Documentation Navigation Guide
 
+[🏠 Home](../index.md) | [Tailwind CSS](./index.md)
+
+
 **[← Back to Main README](./README.md)**
 
 This document provides a visual guide to navigate through the Tailwind documentation based on your current needs.

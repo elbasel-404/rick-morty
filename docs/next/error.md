@@ -1,5 +1,8 @@
 # error.js
 
+[🏠 Home](../index.md) | [Next.js](./index.md)
+
+
 @doc-version: 16.0.1
 
 An **error** file allows you to handle unexpected runtime errors and display fallback UI.

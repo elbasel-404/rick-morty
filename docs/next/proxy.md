@@ -1,5 +1,8 @@
 # Proxy
 
+[🏠 Home](../index.md) | [Next.js](./index.md)
+
+
 @doc-version: 16.0.1
 
 ## Proxy

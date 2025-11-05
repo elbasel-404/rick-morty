@@ -1,5 +1,8 @@
 # Tailwind CSS Documentation
 
+[🏠 Home](../index.md) | [Tailwind CSS](./index.md)
+
+
 This directory contains comprehensive documentation for Tailwind CSS features, configuration, and best practices used in this project.
 
 📖 **[Interactive Navigation Guide](./NAVIGATION.md)** - Visual maps and learning paths  

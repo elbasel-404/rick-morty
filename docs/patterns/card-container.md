@@ -1,5 +1,7 @@
 # CardContainer Component
 
+[🏠 Home](../index.md) | [Patterns](./index.md)
+
 A high-level container component that handles all lazy loading, skeleton states, fade transitions, and viewport detection. Card components can now focus purely on presentation.
 
 ## Architecture

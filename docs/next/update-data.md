@@ -1,5 +1,8 @@
 # Updating Data
 
+[🏠 Home](../index.md) | [Next.js](./index.md)
+
+
 @doc-version: 16.0.1
 
 You can update data in Next.js using React's [Server Functions](https://react.dev/reference/rsc/server-functions). This page will go through how you can [create](#creating-server-functions) and [invoke](#invoking-server-functions) Server Functions.

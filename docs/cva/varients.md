@@ -1,5 +1,8 @@
 # Variants
 
+[🏠 Home](../index.md) | [CVA](./index.md)
+
+
 Class Variance Authority (CVA) provides a powerful way to manage component variants with type safety.
 
 > **Note**: Although CVA is a tiny library, it's best to use in a SSR/SSG environment – your user probably doesn't need this JavaScript, especially for static components.

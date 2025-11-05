@@ -1,5 +1,8 @@
 # Next.js Documentation
 
+[🏠 Home](../index.md) | [Next.js](./index.md)
+
+
 > **Quick Navigation**: [Getting Started](#getting-started) | [Caching](#caching--performance) | [Routing](#routing-patterns) | [By Topic](#-quick-links-by-topic) | [Reading Order](#-reading-order)
 
 Comprehensive guides for Next.js patterns, features, and best practices used in this project.

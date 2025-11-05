@@ -1,5 +1,8 @@
 # How to use markdown and MDX in Next.js
 
+[🏠 Home](../index.md) | [Next.js](./index.md)
+
+
 @doc-version: 16.0.1
 
 [Markdown](https://daringfireball.net/projects/markdown/syntax) is a lightweight markup language used to format text. It allows you to write using plain text syntax and convert it to structurally valid HTML. It's commonly used for writing content on websites and blogs.

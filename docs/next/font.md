@@ -1,5 +1,8 @@
 # Font Optimization
 
+[🏠 Home](../index.md) | [Next.js](./index.md)
+
+
 @doc-version: 16.0.1
 
 The [`next/font`](/docs/app/api-reference/components/font.md) module automatically optimizes your fonts and removes external network requests for improved privacy and performance.

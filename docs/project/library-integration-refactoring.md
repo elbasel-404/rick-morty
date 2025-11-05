@@ -1,5 +1,8 @@
 # Library Integration & Hook Optimization Refactoring
 
+[🏠 Home](../index.md) | [Project](./index.md)
+
+
 ## Overview
 
 This refactoring removes all `useCallback` and `useMemo` usage from the project and integrates four new libraries to improve code quality, maintainability, and performance:

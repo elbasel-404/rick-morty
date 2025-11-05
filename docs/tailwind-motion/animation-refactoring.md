@@ -1,5 +1,8 @@
 # Animation System Refactoring Summary
 
+[🏠 Home](../index.md) | [Tailwind Motion](./index.md)
+
+
 ## What Changed
 
 This refactoring consolidates all animation timing variables into a centralized configuration system with algorithmic calculation based on a single speed modifier.

@@ -1,5 +1,8 @@
 # Adding Animations
 
+[🏠 Home](../index.md) | [Guides](./index.md)
+
+
 Learn how to add smooth, performant animations to components using Tailwind Motion and custom CSS.
 
 ---
@@ -7,6 +10,7 @@ Learn how to add smooth, performant animations to components using Tailwind Moti
 ## Overview
 
 This guide covers:
+
 - Using Tailwind Motion utilities
 - Creating custom animations
 - Animation timing and easing
@@ -23,6 +27,7 @@ This guide covers:
 - Basic CSS animation knowledge (helpful but not required)
 
 **Recommended Reading**:
+
 - [Tailwind Motion Guide](../tailwind-motion/tailwind-motion.md)
 - [Animation Quick Reference](../tailwind-motion/animation-quick-reference.md)
 - [Animation Configuration](../lib/animationConfig.ts)
@@ -37,17 +42,17 @@ Follow these timing guidelines for consistency:
 // Standard timing values (from app/lib/animationConfig.ts)
 export const ANIMATION_CONFIG = {
   // Skeleton animations
-  skeletonFadeOut: 800,        // Quick exit for loading state
-  
+  skeletonFadeOut: 800, // Quick exit for loading state
+
   // Card animations
-  cardFadeIn: 1800,            // Elegant entrance
-  cardFadeInDelay: 200,        // Sequential timing
-  
+  cardFadeIn: 1800, // Elegant entrance
+  cardFadeInDelay: 200, // Sequential timing
+
   // Hover effects
-  hoverTransition: 300,        // Snappy feedback
-  
+  hoverTransition: 300, // Snappy feedback
+
   // Easing
-  easing: "cubic-bezier(0.4, 0.0, 0.2, 1)",  // Smooth transitions
+  easing: "cubic-bezier(0.4, 0.0, 0.2, 1)", // Smooth transitions
 };
 ```
 
@@ -69,19 +74,21 @@ Fade and slide elements in when they mount:
 
 ```tsx
 // Fade in only
-className="motion-opacity-in-0 motion-duration-1800"
+className = "motion-opacity-in-0 motion-duration-1800";
 
 // Slide up + fade
-className="motion-opacity-in-0 motion-translate-y-in-100 motion-duration-1800"
+className =
+  "motion-opacity-in-0 motion-translate-y-in-100 motion-duration-1800";
 
 // Scale + fade
-className="motion-opacity-in-0 motion-scale-in-75 motion-duration-1800"
+className = "motion-opacity-in-0 motion-scale-in-75 motion-duration-1800";
 
 // Blur + fade
-className="motion-opacity-in-0 motion-blur-in-md motion-duration-1800"
+className = "motion-opacity-in-0 motion-blur-in-md motion-duration-1800";
 
 // Complex entrance
-className="motion-opacity-in-0 motion-translate-y-in-100 motion-blur-in-md motion-duration-1800 motion-delay-200"
+className =
+  "motion-opacity-in-0 motion-translate-y-in-100 motion-blur-in-md motion-duration-1800 motion-delay-200";
 ```
 
 ### Exit Animations
@@ -105,6 +112,7 @@ Create continuous animations:
 ```
 
 **Loop Animation Types**:
+
 - `motion-pulse` - Opacity pulse
 - `motion-ping` - Scale ping
 - `motion-spin` - Rotation
@@ -127,13 +135,20 @@ Add hover effects:
 Use inline styles when you need computed or dynamic values:
 
 ```tsx
-function FadeIn({ isVisible, children }: { isVisible: boolean; children: React.ReactNode }) {
+function FadeIn({
+  isVisible,
+  children,
+}: {
+  isVisible: boolean;
+  children: React.ReactNode;
+}) {
   return (
     <div
       style={{
         opacity: isVisible ? 1 : 0,
         transform: `translateY(${isVisible ? 0 : 100}px)`,
-        transition: "opacity 1800ms cubic-bezier(0.4, 0.0, 0.2, 1) 200ms, transform 1800ms cubic-bezier(0.4, 0.0, 0.2, 1) 200ms",
+        transition:
+          "opacity 1800ms cubic-bezier(0.4, 0.0, 0.2, 1) 200ms, transform 1800ms cubic-bezier(0.4, 0.0, 0.2, 1) 200ms",
       }}
     >
       {children}
@@ -143,6 +158,7 @@ function FadeIn({ isVisible, children }: { isVisible: boolean; children: React.R
 ```
 
 **When to use inline styles**:
+
 - Dynamic values (calculated rotation, position, etc.)
 - State-driven animations
 - Complex transitions with multiple properties
@@ -155,7 +171,8 @@ For complex or reusable animations, use custom CSS in `app/globals.css`:
 
 ```css
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px);
   }
   50% {
@@ -171,20 +188,29 @@ For complex or reusable animations, use custom CSS in `app/globals.css`:
 Then use in components:
 
 ```tsx
-<div className="floating-element">
-  I float up and down
-</div>
+<div className="floating-element">I float up and down</div>
 ```
 
 **Example: Glitch Effect**
 
 ```css
 @keyframes glitch {
-  0%, 100% { transform: translate(0); }
-  20% { transform: translate(-2px, 2px); }
-  40% { transform: translate(-2px, -2px); }
-  60% { transform: translate(2px, 2px); }
-  80% { transform: translate(2px, -2px); }
+  0%,
+  100% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
 }
 
 .holographic-glitch {
@@ -208,13 +234,9 @@ Use the modular effect components from `app/component/effects/`:
 ```tsx
 import { FadeIn } from "@/app/component/effects";
 
-<FadeIn
-  isVisible={isVisible}
-  duration={1800}
-  delay={200}
->
+<FadeIn isVisible={isVisible} duration={1800} delay={200}>
   <div>Content fades in</div>
-</FadeIn>
+</FadeIn>;
 ```
 
 ### LazyImage Component
@@ -227,10 +249,8 @@ import { LazyImage } from "@/app/component/effects";
   alt="Character"
   onLoad={() => console.log("Image loaded!")}
 >
-  {(loaded) => (
-    <div>Image is {loaded ? "loaded" : "loading"}</div>
-  )}
-</LazyImage>
+  {(loaded) => <div>Image is {loaded ? "loaded" : "loading"}</div>}
+</LazyImage>;
 ```
 
 ---
@@ -246,32 +266,32 @@ import { CardContainer } from "@/app/component";
   imageUrl={character.image}
   imageAlt={character.name}
   skeletonVariant="card-i"
-  skeletonFadeOutDuration={800}   // Skeleton exits quickly
-  cardFadeInDuration={1800}       // Card enters elegantly
-  cardFadeInDelay={200}           // Slight delay
+  skeletonFadeOutDuration={800} // Skeleton exits quickly
+  cardFadeInDuration={1800} // Card enters elegantly
+  cardFadeInDelay={200} // Slight delay
 >
   {({ isVisible, imageLoaded }) => (
-    <div style={{ opacity: isVisible ? 1 : 0 }}>
-      {/* Card content */}
-    </div>
+    <div style={{ opacity: isVisible ? 1 : 0 }}>{/* Card content */}</div>
   )}
-</CardContainer>
+</CardContainer>;
 ```
 
 ### Staggered List Animation
 
 ```tsx
-{items.map((item, index) => (
-  <div
-    key={item.id}
-    className="motion-opacity-in-0 motion-translate-y-in-50"
-    style={{
-      animationDelay: `${index * 100}ms`
-    }}
-  >
-    {item.content}
-  </div>
-))}
+{
+  items.map((item, index) => (
+    <div
+      key={item.id}
+      className="motion-opacity-in-0 motion-translate-y-in-50"
+      style={{
+        animationDelay: `${index * 100}ms`,
+      }}
+    >
+      {item.content}
+    </div>
+  ));
+}
 ```
 
 ### Hover Lift Effect
@@ -289,7 +309,7 @@ import { useCardRotation } from "@/app/hooks";
 
 function Card3D() {
   const { rotation, handleMouseMove, handleMouseLeave } = useCardRotation();
-  
+
   return (
     <div
       onMouseMove={handleMouseMove}
@@ -330,27 +350,25 @@ function Card3D() {
 
 ```tsx
 // ✅ Good - GPU accelerated
-transform: "translateY(20px) scale(1.05)"
-opacity: 0.5
+transform: "translateY(20px) scale(1.05)";
+opacity: 0.5;
 
 // ❌ Bad - causes reflows
-top: "20px"
-width: "105%"
+top: "20px";
+width: "105%";
 ```
 
 ### 3. Use CSS Instead of JS When Possible
 
 ```tsx
 // ✅ Good - CSS handles it
-<div className="motion-opacity-in-0 motion-duration-1800">
-  CSS animation
-</div>
+<div className="motion-opacity-in-0 motion-duration-1800">CSS animation</div>;
 
 // ❌ Overkill - JS for simple fade
 const [opacity, setOpacity] = useState(0);
 useEffect(() => {
   const interval = setInterval(() => {
-    setOpacity(o => Math.min(o + 0.01, 1));
+    setOpacity((o) => Math.min(o + 0.01, 1));
   }, 10);
 }, []);
 ```
@@ -362,7 +380,7 @@ import { useDeferredValue } from "react";
 
 function ExpensiveAnimation({ value }) {
   const deferredValue = useDeferredValue(value);
-  
+
   return <div>{deferredValue}</div>;
 }
 ```
@@ -398,18 +416,22 @@ ease-bounce: "cubic-bezier(0.68, -0.55, 0.265, 1.55)"
 ## Common Pitfalls
 
 ### 1. Animation Doesn't Play
+
 **Problem**: Animation class added but nothing happens  
 **Solution**: Ensure the element starts in a different state than the animation end state
 
 ### 2. Janky Performance
+
 **Problem**: Animation stutters or drops frames  
 **Solution**: Use `transform` and `opacity` only, check for other expensive operations
 
 ### 3. Animation Plays on Every Render
+
 **Problem**: Animation restarts unexpectedly  
 **Solution**: Use stable keys and proper state management
 
 ### 4. Exit Animation Not Showing
+
 **Problem**: Element disappears immediately  
 **Solution**: Use exit animation utilities or unmount after animation completes
 

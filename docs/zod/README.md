@@ -1,5 +1,8 @@
 # Zod Documentation
 
+[🏠 Home](../index.md) | [Zod](./index.md)
+
+
 TypeScript-first schema validation library for runtime type checking and data validation.
 
 ---
@@ -7,6 +10,7 @@ TypeScript-first schema validation library for runtime type checking and data va
 ## Overview
 
 Zod provides:
+
 - Runtime type validation
 - Static type inference
 - Composable schemas
@@ -17,10 +21,12 @@ Zod provides:
 ## Quick Links
 
 ### Getting Started
+
 - **[Basic Usage](./basic.md)** - Schemas, parsing, and type inference
 - **[Defining Schemas](./define-schemas.md)** - Complete schema API reference
 
 ### Advanced Topics
+
 - **[Error Handling](./errors.md)** - Working with validation errors
 - **[JSON Validation](./json.md)** - Validating JSON data
 - **[Meta Information](./meta.md)** - Schema metadata and descriptions
@@ -64,6 +70,7 @@ type FormData = z.infer<typeof formSchema>;
 ## Integration with This Project
 
 Zod is used throughout the project for:
+
 - **API validation** - Validating Rick and Morty API responses
 - **Type safety** - Inferring TypeScript types from schemas
 - **Error handling** - Catching malformed data early
@@ -75,10 +82,12 @@ Zod is used throughout the project for:
 ## Related Documentation
 
 ### Project Guides
+
 - [Working with API Guide](../guides/working-with-api.md) - Using Zod with API calls
 - [TypeScript Patterns Guide](../guides/typescript-patterns.md) - Type inference patterns
 
 ### Technical Docs
+
 - [Project Utilities](../project/utilities-quick-reference.md) - `validateJson` utility
 - [Next.js Fetching Data](../next/fetching-data.md) - Data validation in Server Components
 

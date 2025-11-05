@@ -1,5 +1,8 @@
 # Animation Configuration System
 
+[🏠 Home](../index.md) | [Tailwind Motion](./index.md)
+
+
 ## Overview
 
 This document describes the centralized animation timing system for Rick and Morty character cards. All animation durations are calculated from a single speed modifier to ensure consistent, proportional timing relationships across all cards.

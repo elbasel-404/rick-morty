@@ -1,5 +1,8 @@
 # Metadata and registries
 
+[🏠 Home](../index.md) | [Zod](./index.md)
+
+
 import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
 import { Callout } from "fumadocs-ui/components/callout"
 

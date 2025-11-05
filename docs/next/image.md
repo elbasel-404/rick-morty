@@ -1,5 +1,8 @@
 # Image Optimization
 
+[🏠 Home](../index.md) | [Next.js](./index.md)
+
+
 @doc-version: 16.0.1
 
 The Next.js [`<Image>`](/docs/app/api-reference/components/image.md) component extends the HTML `<img>` element to provide:

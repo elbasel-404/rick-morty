@@ -1,5 +1,8 @@
 # Refactoring Summary: CardContainer Pattern
 
+[🏠 Home](../index.md) | [Project](./index.md)
+
+
 ## What Changed
 
 Successfully refactored the character cards to use a **separation of concerns** architecture where:

@@ -1,5 +1,8 @@
 # Component Folder Reorganization Summary
 
+[🏠 Home](../index.md) | [Project](./index.md)
+
+
 ## Overview
 
 This document describes the reorganization of the component folder structure to improve maintainability and clarity.

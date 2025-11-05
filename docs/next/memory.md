@@ -1,5 +1,8 @@
 # How to optimize memory usage
 
+[🏠 Home](../index.md) | [Next.js](./index.md)
+
+
 @doc-version: 16.0.1
 
 As applications grow and become more feature rich, they can demand more resources when developing locally or creating production builds.

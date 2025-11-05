@@ -1,5 +1,8 @@
 # Basic Usage
 
+[🏠 Home](../index.md) | [Zod](./index.md)
+
+
 This page will walk you through the basics of creating schemas, parsing data, and using inferred types.
 
 ## Defining a Schema

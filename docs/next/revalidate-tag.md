@@ -1,5 +1,8 @@
 # revalidateTag
 
+[🏠 Home](../index.md) | [Next.js](./index.md)
+
+
 @doc-version: 16.0.1
 
 `revalidateTag` allows you to invalidate [cached data](/docs/app/guides/caching.md) on-demand for a specific cache tag.

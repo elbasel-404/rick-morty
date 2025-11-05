@@ -1,5 +1,8 @@
 # Tailwind CSS Quick Reference
 
+[🏠 Home](../index.md) | [Tailwind CSS](./index.md)
+
+
 **[← Back to Tailwind Docs](./README.md)** | **[Navigation Guide](./NAVIGATION.md)**
 
 A condensed reference for common Tailwind CSS tasks and patterns.

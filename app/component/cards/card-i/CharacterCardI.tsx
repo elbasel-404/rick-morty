@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { CardContainer } from "../../CardContainer";
 import { useCardRotation, useParticles } from "@hooks";
 import { getStatusColor } from "@styles";
 import { CardImage } from "./CardImage";
@@ -14,6 +13,7 @@ import { CharacterName } from "./CharacterName";
 import { CharacterStats } from "./CharacterStats";
 import { CharacterLocations } from "./CharacterLocations";
 import { DEFAULT_ANIMATION_TIMINGS } from "@util";
+import { CardContainer } from "../CardContainer";
 
 interface Character {
   id: number;

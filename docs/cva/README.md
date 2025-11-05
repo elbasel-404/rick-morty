@@ -1,5 +1,8 @@
 # CVA (Class Variance Authority) Documentation
 
+[🏠 Home](../index.md) | [CVA](./index.md)
+
+
 Type-safe variant API for creating component variants with TypeScript.
 
 ---
@@ -7,6 +10,7 @@ Type-safe variant API for creating component variants with TypeScript.
 ## Overview
 
 CVA provides:
+
 - Type-safe component variants
 - Compound variants for complex conditions
 - Default variants
@@ -17,11 +21,13 @@ CVA provides:
 ## Quick Links
 
 ### Core Concepts
+
 - **[Variants](./varients.md)** - Creating and using variants
 - **[Compound Variants](./varients.md#compound-variants)** - Multi-condition variants
 - **[TypeScript](./typescript.md)** - Type safety and `VariantProps`
 
 ### Advanced
+
 - **[Compose](./compose.md)** - Composing multiple CVA instances
 - **[Extend](./extend.md)** - Extending existing variants
 - **[Examples](./example.md)** - Real-world usage examples
@@ -52,7 +58,11 @@ const button = cva("button", {
 
 type ButtonProps = VariantProps<typeof button>;
 
-export function Button({ intent, size, className }: ButtonProps & { className?: string }) {
+export function Button({
+  intent,
+  size,
+  className,
+}: ButtonProps & { className?: string }) {
   return <button className={button({ intent, size, className })} />;
 }
 ```
@@ -62,6 +72,7 @@ export function Button({ intent, size, className }: ButtonProps & { className?: 
 ## Integration with This Project
 
 CVA can be used for:
+
 - **Component variants** - Different card styles
 - **Theme switching** - Light/dark modes
 - **Responsive variants** - Mobile/desktop layouts
@@ -72,10 +83,12 @@ CVA can be used for:
 ## Related Documentation
 
 ### Project Patterns
+
 - [Creating Card Variants Guide](../guides/creating-card-variants.md) - Building new card designs
 - [Tailwind Quick Reference](../tailwind/QUICK-REFERENCE.md) - Tailwind utilities
 
 ### Similar Tools
+
 - [Tailwind CSS](../tailwind/README.md) - Utility-first CSS
 - [Tailwind Motion](../tailwind-motion/tailwind-motion.md) - Animation utilities
 

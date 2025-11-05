@@ -1,5 +1,8 @@
 # Fetching Data
 
+[🏠 Home](../index.md) | [Next.js](./index.md)
+
+
 @doc-version: 16.0.1
 
 This page will walk you through how you can fetch data in [Server and Client Components](/docs/app/getting-started/server-and-client-components.md), and how to [stream](#streaming) components that depend on data.

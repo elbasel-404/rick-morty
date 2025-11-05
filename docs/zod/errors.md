@@ -1,5 +1,8 @@
 # Customizing errors
 
+[🏠 Home](../index.md) | [Zod](./index.md)
+
+
 import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
 
 {/_ ## `$ZodError` _/}

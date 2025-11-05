@@ -1,5 +1,8 @@
 # default.js
 
+[🏠 Home](../index.md) | [Next.js](./index.md)
+
+
 @doc-version: 16.0.1
 
 The `default.js` file is used to render a fallback within [Parallel Routes](/docs/app/api-reference/file-conventions/parallel-routes.md) when Next.js cannot recover a [slot's](/docs/app/api-reference/file-conventions/parallel-routes.md#slots) active state after a full-page load.

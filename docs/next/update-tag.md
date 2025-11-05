@@ -1,5 +1,8 @@
 # updateTag
 
+[🏠 Home](../index.md) | [Next.js](./index.md)
+
+
 @doc-version: 16.0.1
 
 `updateTag` allows you to update [cached data](/docs/app/guides/caching.md) on-demand for a specific cache tag from within [Server Actions](/docs/app/getting-started/updating-data.md).

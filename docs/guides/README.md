@@ -1,5 +1,8 @@
 # Guides
 
+[🏠 Home](../index.md) | [Guides](./index.md)
+
+
 Practical, step-by-step guides for common tasks in the Rick and Morty Character Cards project.
 
 ---
@@ -7,15 +10,18 @@ Practical, step-by-step guides for common tasks in the Rick and Morty Character 
 ## 📚 Available Guides
 
 ### Component Development
+
 - **[Creating New Card Variants](./creating-card-variants.md)** - Build new character card designs
 - **[Adding Animations](./adding-animations.md)** - Implement smooth animations
 - **[State Management](./state-management.md)** - Managing component state effectively
 
 ### Data & API
+
 - **[Working with the API](./working-with-api.md)** - Fetching and validating data from the Rick and Morty API
 - **[TypeScript Patterns](./typescript-patterns.md)** - Writing type-safe code
 
 ### Performance & Optimization
+
 - **[Performance Optimization](./performance-optimization.md)** - Making components faster and more efficient
 
 ---

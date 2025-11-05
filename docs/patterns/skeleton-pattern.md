@@ -1,5 +1,8 @@
 # Skeleton Fade Pattern
 
+[🏠 Home](../index.md) | [Patterns](./index.md)
+
+
 A reusable fade in/out skeleton loading pattern for smooth image loading transitions.
 
 ## Components

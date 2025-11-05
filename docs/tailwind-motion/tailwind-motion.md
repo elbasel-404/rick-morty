@@ -1,5 +1,8 @@
 # Tailwind Motion Documentation
 
+[🏠 Home](../index.md) | [Tailwind Motion](./index.md)
+
+
 ## Overview
 
 Tailwind Motion provides powerful animation utilities for Tailwind CSS. This guide covers enter animations, exit animations, loop animations, scroll-triggered animations, and animation modifiers.

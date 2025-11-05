@@ -1,6 +1,10 @@
 # Documentation Tour
 
+[🏠 Home](./index.md) | [📚 Docs Hub](./README.md)
+
 Welcome to the Rick and Morty Character Cards documentation tour! This guide will take you through all the documentation in a logical order, helping you understand the project from the ground up.
+
+> 💡 **Tip**: Use the breadcrumb navigation at the top of each page to easily move between sections. Click [🏠 Home](./index.md) to see all available documentation.
 
 ---
 
@@ -22,9 +26,11 @@ Select the learning path that best matches your background and goals:
 **Goal**: Understand the fundamental concepts and technologies used in this project
 
 ### Step 1: Project Overview (15 minutes)
+
 Start by understanding what this project is about and how it's organized.
 
 1. **[Project Structure](./project/project-structure.md)** (10 min)
+
    - Learn the directory organization
    - Understand where different types of files live
    - See the modular architecture
@@ -34,17 +40,21 @@ Start by understanding what this project is about and how it's organized.
    - Understand common helpers
 
 ### Step 2: React Fundamentals (45 minutes)
+
 Learn the basics of React, the UI library powering this project.
 
 1. **[React README](./react/README.md)** (15 min)
+
    - Overview of React concepts
    - Hook categories and purposes
 
 2. **[Rules of Hooks](./react/concepts/rules.md)** (10 min)
+
    - Essential rules for using React Hooks
    - Common pitfalls to avoid
 
 3. **[useRef Hook](./react/hooks/useRef.md)** (10 min)
+
    - Understanding references in React
    - When to use refs vs state
 
@@ -53,19 +63,23 @@ Learn the basics of React, the UI library powering this project.
    - Dynamic imports
 
 ### Step 3: Next.js Basics (1 hour)
+
 Understand the framework that ties everything together.
 
 1. **[Next.js README](./next/README.md)** (20 min)
+
    - Overview of Next.js features
    - App Router architecture
    - Quick links by topic
 
 2. **[Server and Client Components](./next/server-client.md)** (20 min)
+
    - The fundamental concept of Next.js App Router
    - When to use each type
    - Common patterns
 
 3. **[Loading States](./next/loading.md)** (10 min)
+
    - Creating loading UI
    - Using Suspense
 
@@ -74,13 +88,16 @@ Understand the framework that ties everything together.
    - Graceful degradation
 
 ### Step 4: Styling Basics (45 minutes)
+
 Learn how we style components in this project.
 
 1. **[Tailwind README](./tailwind/README.md)** (15 min)
+
    - Utility-first CSS approach
    - Core concepts
 
 2. **[Tailwind Quick Reference](./tailwind/QUICK-REFERENCE.md)** (20 min)
+
    - Common patterns
    - Useful snippets
    - Quick lookup
@@ -90,13 +107,16 @@ Learn how we style components in this project.
    - Breakpoints and utilities
 
 ### Step 5: Component Patterns (30 minutes)
+
 See how we structure reusable components.
 
 1. **[Skeleton Pattern](./patterns/skeleton-pattern.md)** (10 min)
+
    - Loading state management
    - Skeleton screens
 
 2. **[Card Container](./patterns/card-container.md)** (15 min)
+
    - Lazy loading orchestration
    - Fade sequences
 
@@ -106,6 +126,7 @@ See how we structure reusable components.
 ### Step 6: Data Management (30 minutes)
 
 1. **[Fetching Data](./next/fetching-data.md)** (15 min)
+
    - How to fetch data in Next.js
    - Server vs client data fetching
 
@@ -114,6 +135,7 @@ See how we structure reusable components.
    - Type safety
 
 ### Next Steps
+
 - Browse [Guides](./guides/) for specific tasks
 - Experiment with the codebase
 - Refer back to docs as needed
@@ -128,9 +150,11 @@ See how we structure reusable components.
 ### Step 1: Next.js Deep Dive (1 hour)
 
 1. **[Next.js README](./next/README.md)** (10 min)
+
    - Quick overview and structure
 
 2. **[Server and Client Components](./next/server-client.md)** (20 min)
+
    - Key mental model shift
    - RSC architecture
 
@@ -143,10 +167,12 @@ See how we structure reusable components.
 ### Step 2: Advanced Next.js (45 minutes)
 
 1. **[Cache Components](./next/cache-components.md)** (15 min)
+
    - Using `"use cache"` directive
    - Caching strategies
 
 2. **[Parallel Routes](./next/parallel-routes.md)** (15 min)
+
    - Rendering multiple pages simultaneously
    - Slots and layouts
 
@@ -157,10 +183,12 @@ See how we structure reusable components.
 ### Step 3: React 19 Features (30 minutes)
 
 1. **[Server Components](./react/server/server-components.md)** (15 min)
+
    - RSC in depth
    - Composition patterns
 
 2. **[useActionState](./react/hooks/useActionState.md)** (10 min)
+
    - Form action patterns
    - Progressive enhancement
 
@@ -170,10 +198,12 @@ See how we structure reusable components.
 ### Step 4: Performance & Optimization (30 minutes)
 
 1. **[Parallel Data Fetching](./next/parallel-data-fetching.md)** (10 min)
+
    - Fetching in parallel
    - Waterfall prevention
 
 2. **[React Profiling](./react/performance/profiling.md)** (10 min)
+
    - Performance analysis
    - Optimization techniques
 
@@ -183,6 +213,7 @@ See how we structure reusable components.
 ### Step 5: Project Patterns (15 minutes)
 
 1. **[Project Structure](./project/project-structure.md)** (5 min)
+
    - Quick orientation
 
 2. **[Component Patterns](./patterns/)** (10 min)
@@ -190,6 +221,7 @@ See how we structure reusable components.
    - See implementations
 
 ### Next Steps
+
 - Dive into specific features you'll be working on
 - Check out [Advanced Guides](./guides/)
 - Explore the codebase with context
@@ -204,6 +236,7 @@ See how we structure reusable components.
 ### Step 1: Frontend Fundamentals (30 minutes)
 
 1. **[React README](./react/README.md)** (15 min)
+
    - Component-based architecture
    - Declarative UI
 
@@ -214,6 +247,7 @@ See how we structure reusable components.
 ### Step 2: Data Fetching (45 minutes)
 
 1. **[Fetching Data](./next/fetching-data.md)** (20 min)
+
    - Server-side data fetching
    - Streaming and Suspense
 
@@ -224,10 +258,12 @@ See how we structure reusable components.
 ### Step 3: Validation & Types (30 minutes)
 
 1. **[Zod Basic Usage](./zod/basic.md)** (15 min)
+
    - Schema validation (like JSON Schema)
    - Runtime type checking
 
 2. **[Defining Schemas](./zod/define-schemas.md)** (10 min)
+
    - Complex validation rules
    - Custom validators
 
@@ -237,6 +273,7 @@ See how we structure reusable components.
 ### Step 4: API Integration (30 minutes)
 
 1. **[Working with API Guide](./guides/working-with-api.md)** (15 min)
+
    - API endpoints
    - Error handling
 
@@ -247,6 +284,7 @@ See how we structure reusable components.
 ### Step 5: Routing & Architecture (15 minutes)
 
 1. **[Next.js README](./next/README.md)** (10 min)
+
    - File-system routing
    - App structure
 
@@ -254,6 +292,7 @@ See how we structure reusable components.
    - Code organization
 
 ### Next Steps
+
 - Focus on server-side patterns
 - Explore data mutation patterns
 - Build API integrations
@@ -268,14 +307,17 @@ See how we structure reusable components.
 ### Step 1: Tailwind Mastery (45 minutes)
 
 1. **[Tailwind Quick Reference](./tailwind/QUICK-REFERENCE.md)** (15 min)
+
    - Common patterns
    - Quick lookup
 
 2. **[Theme Variables](./tailwind/theme-varibles.md)** (10 min)
+
    - Design tokens
    - Customization
 
 3. **[Custom Styles](./tailwind/custom-styles.md)** (10 min)
+
    - Extending Tailwind
    - Custom utilities
 
@@ -286,10 +328,12 @@ See how we structure reusable components.
 ### Step 2: Animations (30 minutes)
 
 1. **[Tailwind Motion Quick Reference](./tailwind-motion/animation-quick-reference.md)** (10 min)
+
    - Animation utilities
    - Quick patterns
 
 2. **[Tailwind Motion Guide](./tailwind-motion/tailwind-motion.md)** (15 min)
+
    - Enter, exit, loop animations
    - Scroll triggers
 
@@ -300,6 +344,7 @@ See how we structure reusable components.
 ### Step 3: Component Variants (20 minutes)
 
 1. **[CVA Variants](./cva/varients.md)** (10 min)
+
    - Creating variants
    - Compound variants
 
@@ -309,6 +354,7 @@ See how we structure reusable components.
 ### Step 4: Project Patterns (20 minutes)
 
 1. **[Skeleton Pattern](./patterns/skeleton-pattern.md)** (10 min)
+
    - Loading states
    - Visual feedback
 
@@ -322,6 +368,7 @@ See how we structure reusable components.
    - Practical animation patterns
 
 ### Next Steps
+
 - Create new card designs
 - Experiment with animations
 - Build custom components
@@ -336,6 +383,7 @@ See how we structure reusable components.
 ### Step 1: Project Context (20 minutes)
 
 1. **[Repository Instructions](../.github/copilot-instructions.md)** (10 min)
+
    - Code style and architecture
    - Conventions and patterns
 
@@ -346,12 +394,15 @@ See how we structure reusable components.
 ### Step 2: Core Concepts (30 minutes)
 
 1. **[Next.js README](./next/README.md)** (10 min)
+
    - Quick overview
 
 2. **[React README](./react/README.md)** (5 min)
+
    - Hook reference
 
 3. **[Tailwind Quick Reference](./tailwind/QUICK-REFERENCE.md)** (10 min)
+
    - Styling patterns
 
 4. **[Component Patterns](./patterns/)** (5 min)
@@ -379,6 +430,7 @@ Based on your task, read the relevant detailed documentation:
 - **Animations**: [Tailwind Motion](./tailwind-motion/tailwind-motion.md)
 
 ### Next Steps
+
 - Set up your development environment
 - Pick a task from [../task.md](../task.md)
 - Start coding with docs as reference
@@ -390,17 +442,20 @@ Based on your task, read the relevant detailed documentation:
 No matter which path you followed, these sections are valuable references:
 
 ### Quick Lookups
+
 - [Tailwind Quick Reference](./tailwind/QUICK-REFERENCE.md)
 - [Animation Quick Reference](./tailwind-motion/animation-quick-reference.md)
 - [Utilities Reference](./project/utilities-quick-reference.md)
 - [React Hooks Table](./react/README.md#hooks)
 
 ### Deep Dives
+
 - [Caching Overview](./next/cache.md) - Understanding all caching layers
 - [Effect Events](./react/concepts/effect-events.md) - Advanced React patterns
 - [Tailwind Navigation](./tailwind/NAVIGATION.md) - Visual learning paths
 
 ### Guides
+
 - [All Guides](./guides/) - Step-by-step instructions for common tasks
 
 ---
@@ -420,14 +475,17 @@ No matter which path you followed, these sections are valuable references:
 After completing your path, periodically review:
 
 **Weekly**:
+
 - Patterns you're actively using
 - Guides for current tasks
 
 **Monthly**:
+
 - New features in [Next.js](./next/new.md)
 - Project changes in [Refactoring Summary](./project/refactoring-summary.md)
 
 **Quarterly**:
+
 - Full refresh of core concepts
 - Explore areas you haven't used yet
 
@@ -442,11 +500,13 @@ After completing the tour:
 3. ✅ You're familiar with key patterns and technologies
 
 **Now**:
+
 - Start working on tasks
 - Reference docs as needed
 - Contribute to improving docs
 
 **Remember**: This documentation is a living resource. As you learn, consider:
+
 - Adding examples you found helpful
 - Clarifying confusing sections
 - Creating new guides for common tasks

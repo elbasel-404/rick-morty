@@ -1,5 +1,8 @@
 # TypeScript Patterns
 
+[🏠 Home](../index.md) | [Guides](./index.md)
+
+
 Learn TypeScript patterns used in this project for type-safe development.
 
 ---
@@ -7,6 +10,7 @@ Learn TypeScript patterns used in this project for type-safe development.
 ## Overview
 
 Common TypeScript patterns:
+
 - Component props typing
 - Zod schema inference
 - Generic utilities
@@ -81,7 +85,7 @@ export function List<T>({ items, renderItem }: ListProps<T>) {
 }
 
 // Usage
-<List items={characters} renderItem={(char) => <div>{char.name}</div>} />
+<List items={characters} renderItem={(char) => <div>{char.name}</div>} />;
 ```
 
 ---
@@ -128,4 +132,3 @@ type Status = Character["status"]; // "Alive" | "Dead" | "unknown"
 - [CVA TypeScript](../cva/typescript.md)
 - [Zod Define Schemas](../zod/define-schemas.md)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
-

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { CardContainer } from "../../CardContainer";
 import { useCardRotation } from "@hooks";
 import { getCyberStatusConfig } from "@styles";
 import { CyberGrid } from "./CyberGrid";
@@ -11,6 +10,7 @@ import { CyberStyles } from "./CyberStyles";
 import { CyberCardFront } from "./CyberCardFront";
 import { CyberCardBack } from "./CyberCardBack";
 import { DEFAULT_ANIMATION_TIMINGS } from "@util";
+import { CardContainer } from "../CardContainer";
 
 interface Character {
   id: number;

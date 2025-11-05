@@ -1,5 +1,8 @@
 # Animation System Quick Reference
 
+[🏠 Home](../index.md) | [Tailwind Motion](./index.md)
+
+
 ## Visual Timeline (Default Speed - Modifier 1.0)
 
 ```

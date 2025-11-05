@@ -7,9 +7,6 @@ export {
 } from "./cards";
 export { JsonViewer } from "./JsonViewer";
 
-// Container
-export { CardContainer } from "./CardContainer";
-
 // Effects
 export { FadeIn, FadeOut, LazyImage, ViewportDetector } from "./effects";
 

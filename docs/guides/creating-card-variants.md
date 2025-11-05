@@ -1,5 +1,8 @@
 # Creating New Card Variants
 
+[🏠 Home](../index.md) | [Guides](./index.md)
+
+
 Learn how to create new character card designs with unique styles and animations.
 
 ---
@@ -7,6 +10,7 @@ Learn how to create new character card designs with unique styles and animations
 ## Overview
 
 This guide walks you through creating a new card variant from scratch, including:
+
 - Setting up the card component structure
 - Creating a skeleton variant
 - Implementing animations
@@ -23,6 +27,7 @@ This guide walks you through creating a new card variant from scratch, including
 - Basic knowledge of the CardContainer pattern
 
 **Recommended Reading**:
+
 - [Card Container Pattern](../patterns/card-container.md)
 - [Skeleton Pattern](../patterns/skeleton-pattern.md)
 - [Tailwind Quick Reference](../tailwind/QUICK-REFERENCE.md)
@@ -34,11 +39,13 @@ This guide walks you through creating a new card variant from scratch, including
 Before coding, decide on:
 
 1. **Visual Style** - What makes this card unique?
+
    - Color scheme (e.g., purple/violet for Card I, cyan/pink for Card II)
    - Layout approach (centered, grid, asymmetric)
    - Special effects (glow, particles, 3D rotation)
 
 2. **Animation Strategy** - How should it animate?
+
    - Entrance animation (fade, slide, scale)
    - Hover effects (rotation, lift, glow)
    - Loading skeleton style
@@ -49,6 +56,7 @@ Before coding, decide on:
    - Visual indicators (status dots, badges)
 
 **Example**: Card III - Holographic Design
+
 - **Style**: Blue/cyan hologram effect with scan lines
 - **Animation**: Matrix-style fade-in with glitch effect
 - **Layout**: Asymmetric with floating elements
@@ -92,7 +100,7 @@ export function CharacterCardIII({ character }: CharacterCardIIIProps) {
           <div className="relative w-full h-full bg-linear-to-br from-cyan-500/10 to-blue-600/10 rounded-xl border border-cyan-400/20 overflow-hidden">
             {/* Background effects */}
             <div className="absolute inset-0 bg-[linear-gradient(transparent_1px,rgba(6,182,212,0.05)_1px)] bg-size-[100%_4px]" />
-            
+
             {/* Content */}
             <div className="relative z-10 p-6 h-full flex flex-col">
               {/* Character image */}
@@ -147,9 +155,7 @@ if (variant === "card-iii") {
     <div className="relative w-full h-full bg-linear-to-br from-cyan-500/5 to-blue-600/5 rounded-xl border border-cyan-400/10 overflow-hidden">
       {/* Animated scan line */}
       <div className="absolute inset-0 overflow-hidden">
-        <div
-          className="absolute w-full h-1 bg-linear-to-r from-transparent via-cyan-400/50 to-transparent -motion-translate-y-in-100 motion-duration-2000 motion-loop-infinite"
-        />
+        <div className="absolute w-full h-1 bg-linear-to-r from-transparent via-cyan-400/50 to-transparent -motion-translate-y-in-100 motion-duration-2000 motion-loop-infinite" />
       </div>
 
       {/* Skeleton content */}
@@ -159,7 +165,7 @@ if (variant === "card-iii") {
 
         {/* Text skeletons */}
         <div className="h-8 w-3/4 mx-auto bg-cyan-400/10 rounded mb-4 motion-pulse" />
-        
+
         <div className="space-y-2">
           <div className="h-4 w-full bg-cyan-400/10 rounded motion-pulse motion-delay-100" />
           <div className="h-4 w-full bg-cyan-400/10 rounded motion-pulse motion-delay-200" />
@@ -180,11 +186,22 @@ If you need custom animations or effects, add them to `app/globals.css`:
 ```css
 /* Holographic glitch effect */
 @keyframes glitch {
-  0%, 100% { transform: translate(0); }
-  20% { transform: translate(-2px, 2px); }
-  40% { transform: translate(-2px, -2px); }
-  60% { transform: translate(2px, 2px); }
-  80% { transform: translate(2px, -2px); }
+  0%,
+  100% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
 }
 
 .holographic-glitch {
@@ -231,18 +248,22 @@ export default async function TestPage() {
 ## Common Pitfalls
 
 ### 1. Skeleton Not Appearing
+
 **Problem**: Skeleton variant not showing  
 **Solution**: Ensure the variant name matches exactly in both `CardContainer` and `SkeletonLoader`
 
 ### 2. Animation Timing Issues
+
 **Problem**: Card appears before image loads  
 **Solution**: Check that `imageLoaded` is being used correctly and timing values are appropriate
 
 ### 3. Styles Not Applying
+
 **Problem**: Tailwind classes not working  
 **Solution**: Verify classes are valid and not purged. Custom classes need to be in `globals.css`
 
 ### 4. Type Errors
+
 **Problem**: TypeScript complaining about Character type  
 **Solution**: Import the type from `@/app/schema` and ensure all required fields are accessed correctly
 
@@ -251,18 +272,21 @@ export default async function TestPage() {
 ## Customization Ideas
 
 ### Color Schemes
+
 - **Warm**: Orange/red for fire theme
 - **Cool**: Blue/purple for ice theme
 - **Nature**: Green/brown for earth theme
 - **Cosmic**: Purple/pink for space theme
 
 ### Layout Variations
+
 - **Split**: Image on one side, info on the other
 - **Overlay**: Info overlaid on image
 - **Grid**: Multiple sections in a grid
 - **Minimalist**: Centered, clean design
 
 ### Animation Effects
+
 - **3D Rotation**: On hover (using `useCardRotation` hook)
 - **Particle Effects**: Using `useParticles` hook
 - **Morphing Borders**: Animated border gradients
@@ -274,11 +298,12 @@ export default async function TestPage() {
 
 1. **Add Interactivity** - Implement hover effects
    - See: [Adding Animations Guide](./adding-animations.md)
-   
 2. **Optimize Performance** - Lazy load and memoize
+
    - See: [Performance Optimization Guide](./performance-optimization.md)
 
 3. **Add More Variants** - Create a family of related designs
+
    - Follow this guide for each variant
 
 4. **Enhance with State** - Add interactive elements
@@ -298,6 +323,7 @@ export default async function TestPage() {
 ## Examples in the Project
 
 Study these existing cards for inspiration:
+
 - `CharacterCardI.tsx` - Purple blueprint theme with rotation
 - `CharacterCardII.tsx` - Cyber theme with particles
 - `SimpleCard.tsx` - Minimal design for reference

@@ -1,5 +1,8 @@
 # How to implement authentication in Next.js
 
+[🏠 Home](../index.md) | [Next.js](./index.md)
+
+
 @doc-version: 16.0.1
 
 Understanding authentication is crucial for protecting your application's data. This page will guide you through what React and Next.js features to use to implement auth.

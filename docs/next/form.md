@@ -1,5 +1,8 @@
 # Form Component
 
+[🏠 Home](../index.md) | [Next.js](./index.md)
+
+
 @doc-version: 16.0.1
 
 The `<Form>` component extends the HTML `<form>` element to provide [**prefetching**](/docs/app/getting-started/linking-and-navigating.md#prefetching) of [loading UI](/docs/app/api-reference/file-conventions/loading.md), **client-side navigation** on submission, and **progressive enhancement**.

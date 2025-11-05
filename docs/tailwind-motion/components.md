@@ -1,5 +1,8 @@
 # Modular Effect Components
 
+[🏠 Home](../index.md) | [Tailwind Motion](./index.md)
+
+
 A collection of composable, reusable effect components for animations and lazy loading.
 
 ## Philosophy

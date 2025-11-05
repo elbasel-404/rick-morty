@@ -1,11 +1,11 @@
 "use client";
 
 import { ReactNode, useState, useEffect, useRef } from "react";
-import { ViewportDetector } from "./effects/ViewportDetector";
-import { LazyImage } from "./effects/LazyImage";
-import { FadeIn } from "./effects/FadeIn";
-import { FadeOut } from "./effects/FadeOut";
-import { SkeletonLoader } from "./SkeletonLoader";
+import { ViewportDetector } from "../effects/ViewportDetector";
+import { LazyImage } from "../effects/LazyImage";
+import { FadeIn } from "../effects/FadeIn";
+import { FadeOut } from "../effects/FadeOut";
+import { SkeletonLoader } from "../SkeletonLoader";
 
 interface CardContainerProps {
   /** Image URL to preload */

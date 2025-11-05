@@ -1,5 +1,8 @@
 # refresh
 
+[🏠 Home](../index.md) | [Next.js](./index.md)
+
+
 @doc-version: 16.0.1
 
 `refresh` allows you to refresh the client router from within a [Server Action](/docs/app/getting-started/updating-data.md).

@@ -1,5 +1,8 @@
 # Working with the API
 
+[🏠 Home](../index.md) | [Guides](./index.md)
+
+
 Learn how to fetch and validate data from the Rick and Morty API.
 
 ---
@@ -7,6 +10,7 @@ Learn how to fetch and validate data from the Rick and Morty API.
 ## Overview
 
 This guide covers:
+
 - Fetching data with the `get` utility
 - Validating responses with Zod schemas
 - Error handling patterns
@@ -21,6 +25,7 @@ This guide covers:
 - Familiarity with REST APIs
 
 **Recommended Reading**:
+
 - [Fetching Data (Next.js)](../next/fetching-data.md)
 - [Zod Basic Usage](../zod/basic.md)
 
@@ -36,10 +41,10 @@ import { getCharactersList } from "@/app/server/getCharactersList";
 // In a Server Component
 export default async function Page() {
   const data = await getCharactersList({ page: 1 });
-  
+
   return (
     <div>
-      {data.results.map(character => (
+      {data.results.map((character) => (
         <div key={character.id}>{character.name}</div>
       ))}
     </div>
@@ -242,7 +247,7 @@ export function CharacterList() {
 
   useEffect(() => {
     fetch("/api/characters")
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(setData)
       .finally(() => setLoading(false));
   }, []);
@@ -272,6 +277,7 @@ const character = id ? await getCharacter(id) : null;
 ## Rick and Morty API Reference
 
 ### Base URL
+
 ```
 https://rickandmortyapi.com/api
 ```
@@ -286,6 +292,7 @@ https://rickandmortyapi.com/api
 ### Query Parameters
 
 **Characters**:
+
 - `page` - Page number
 - `name` - Filter by name
 - `status` - `alive`, `dead`, or `unknown`
@@ -294,6 +301,7 @@ https://rickandmortyapi.com/api
 - `gender` - `female`, `male`, `genderless`, or `unknown`
 
 **Locations**:
+
 - `page` - Page number
 - `name` - Filter by name
 - `type` - Filter by type

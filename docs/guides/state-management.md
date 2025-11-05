@@ -1,5 +1,8 @@
 # State Management
 
+[🏠 Home](../index.md) | [Guides](./index.md)
+
+
 Learn how to manage component state effectively using React hooks and patterns.
 
 ---
@@ -7,6 +10,7 @@ Learn how to manage component state effectively using React hooks and patterns.
 ## Overview
 
 This guide covers:
+
 - When to use local vs global state
 - React hooks for state management
 - Jotai atoms for global state
@@ -25,12 +29,8 @@ import { useState } from "react";
 
 export function Counter() {
   const [count, setCount] = useState(0);
-  
-  return (
-    <button onClick={() => setCount(count + 1)}>
-      Clicks: {count}
-    </button>
-  );
+
+  return <button onClick={() => setCount(count + 1)}>Clicks: {count}</button>;
 }
 ```
 
@@ -67,13 +67,13 @@ export const filteredCharactersAtom = atom((get) => {
 });
 
 // In component
-"use client";
+("use client");
 import { useAtom } from "jotai";
 import { filterAtom } from "@/app/atoms/filterAtom";
 
 export function FilterInput() {
   const [filter, setFilter] = useAtom(filterAtom);
-  
+
   return <input value={filter} onChange={(e) => setFilter(e.target.value)} />;
 }
 ```
@@ -90,7 +90,7 @@ import { submitForm } from "./actions";
 
 export function Form() {
   const [state, action] = useActionState(submitForm, { message: "" });
-  
+
   return (
     <form action={action}>
       <input name="email" />
@@ -108,4 +108,3 @@ export function Form() {
 - [React Hooks](../react/README.md#hooks)
 - [useActionState](../react/hooks/useActionState.md)
 - [Jotai Documentation](../jotai/)
-

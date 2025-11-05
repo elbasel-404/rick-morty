@@ -1,5 +1,8 @@
 # Performance Optimization
 
+[🏠 Home](../index.md) | [Guides](./index.md)
+
+
 Learn how to make components faster and more efficient.
 
 ---
@@ -7,6 +10,7 @@ Learn how to make components faster and more efficient.
 ## Overview
 
 Key optimization techniques:
+
 - Lazy loading and code splitting
 - Memoization
 - Virtual scrolling
@@ -80,7 +84,7 @@ import Image from "next/image";
   width={300}
   height={300}
   loading="lazy"
-/>
+/>;
 ```
 
 ### Preload Critical Images
@@ -98,11 +102,11 @@ import { useDeferredValue } from "react";
 
 function SearchResults({ query }) {
   const deferredQuery = useDeferredValue(query);
-  
+
   const results = useMemo(() => {
     return search(deferredQuery);
   }, [deferredQuery]);
-  
+
   return <div>{results}</div>;
 }
 ```
@@ -114,4 +118,3 @@ function SearchResults({ query }) {
 - [React Performance](../react/performance/profiling.md)
 - [Lazy Loading](../react/concepts/lazy.md)
 - [Next.js Image](../next/image.md)
-

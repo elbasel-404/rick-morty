@@ -1,12 +1,20 @@
-Concepts
+# Concepts
+
+[🏠 Home](../../index.md) | [Jotai](../index.md) | [Basics](./index.md)
+
 Jotai is a library that will make you return to the basics of React development & keep everything simple.
 
-From scratch
+## From Scratch
+
 Before trying to compare Jotai with what we may have known previously, let's just dive straight into something very simple.
 
 The React world is very much like our world, it's a big set of small entities, we call them components, and we know that they have their own state. Structuring your components to interact altogether will create your app.
 
 Now, the Jotai world also has its small entities, atoms, and they also have their state. Composing atoms will create your app state!
+
+---
+
+[🏠 Home](../../index.md) | [Jotai](../index.md) | [Basics](./index.md)
 
 Jotai considers anything to be an atom, so you may say: Huh, I need objects and arrays, filter them and then sort them out. And here's the beauty of it, Jotai gracefully lets you create dumb atoms derived from even more dumb atoms.
 

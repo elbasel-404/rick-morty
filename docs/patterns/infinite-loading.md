@@ -1,5 +1,8 @@
 # Infinite Loading with Next.js Server Actions
 
+[🏠 Home](../index.md) | [Patterns](./index.md)
+
+
 When handling large data volumes, effective front-end pagination is crucial for maintaining performance and readability, especially on slower devices. To add a modern touch to pagination, we'll explore infinite scroll, and how to leverage the power of Next.js server actions.
 
 ## Step 1 — Initialize the Project
