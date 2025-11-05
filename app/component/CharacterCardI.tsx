@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState, useEffect, useMemo } from "react";
+import { useInViewport } from "./useInViewport";
 
 interface Character {
   id: number;
@@ -24,6 +25,14 @@ export const CharacterCardI = ({ character }: CharacterCardProps) => {
   const [rotation, setRotation] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  // Use intersection observer to detect when card is near viewport
+  // rootMargin of 400px means we preload ~5 cards before they come into view
+  const { elementRef, isInViewport } = useInViewport({
+    threshold: 0.1,
+    rootMargin: "400px",
+  });
 
   useEffect(() => {
     setIsMounted(true);
@@ -86,7 +95,7 @@ export const CharacterCardI = ({ character }: CharacterCardProps) => {
     }[status] || "bg-gray-500";
 
   return (
-    <div className="relative w-full h-full min-h-[400px]">
+    <div ref={elementRef} className="relative w-full h-full min-h-[400px]">
       <div
         className="relative w-full h-full min-h-[400px]"
         style={{ perspective: "1000px" }}
@@ -108,12 +117,22 @@ export const CharacterCardI = ({ character }: CharacterCardProps) => {
         >
           {/* Full-height background image with minimal overlay */}
           <div className="absolute inset-0">
-            <Image
-              fill
-              src={image}
-              alt={name}
-              className="w-full h-full object-cover"
-            />
+            {isInViewport ? (
+              <Image
+                width={300}
+                height={300}
+                src={image}
+                alt={name}
+                className={`w-full h-full object-cover transition-all duration-700 ${
+                  imageLoaded ? "blur-0 scale-100" : "blur-2xl scale-110"
+                }`}
+                loading="lazy"
+                unoptimized
+                onLoad={() => setImageLoaded(true)}
+              />
+            ) : (
+              <div className="w-full h-full bg-slate-800" />
+            )}
 
             {/* Gradient overlay - dark at bottom for readability */}
             <div
