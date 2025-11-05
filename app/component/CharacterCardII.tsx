@@ -95,16 +95,16 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
         )}
 
         {isInViewport && (!imageLoaded || !showCard) && (
-          <div 
+          <div
             className="absolute inset-0 bg-black rounded-xl sm:rounded-2xl border-4 sm:border-6 border-cyan-500/30 overflow-hidden z-10"
-            style={{ 
+            style={{
               opacity: hideSkeleton ? 0 : 1,
-              transition: 'opacity 800ms cubic-bezier(0.4, 0.0, 0.2, 1)'
+              transition: "opacity 800ms cubic-bezier(0.4, 0.0, 0.2, 1)",
             }}
           >
             {/* Animated gradient background */}
             <div className="absolute inset-0 bg-linear-to-br from-slate-800 via-slate-700 to-slate-900 animate-pulse" />
-            
+
             {/* Shimmer effect */}
             <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite]">
               <div className="h-full w-full bg-linear-to-r from-transparent via-cyan-500/10 to-transparent" />
@@ -154,7 +154,8 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
             className="relative w-full h-full"
             style={{
               transformStyle: "preserve-3d",
-              transition: "transform 0.6s cubic-bezier(.5,.3,.3,1), opacity 1200ms cubic-bezier(0.4, 0.0, 0.2, 1)",
+              transition:
+                "transform 0.6s cubic-bezier(.5,.3,.3,1), opacity 1200ms cubic-bezier(0.4, 0.0, 0.2, 1)",
               transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
               opacity: showCard ? 1 : 0,
             }}
