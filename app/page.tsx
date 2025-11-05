@@ -5,7 +5,7 @@ const HomePage = async () => {
   return (
     <main>
       <h1>Homepage</h1>
-      {/* <pre>{JSON.stringify(charactersData, null, 2)}</pre> */}
+      <pre>{JSON.stringify(charactersData, null, 2)}</pre>
     </main>
   );
 };

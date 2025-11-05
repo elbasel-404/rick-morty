@@ -12,9 +12,9 @@ export const getCharactersList = async ({
   name,
   status,
 }: GetCharacterListParams) => {
-  const { result } = await get({
+  const { data } = await get({
     endpoint: CHARACTER_ENDPOINT,
     queryParams: { page, name, status },
   });
-  return result;
+  return data;
 };

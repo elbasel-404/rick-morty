@@ -1,16 +1,16 @@
-import { type ZodType, type ZodError, flattenError } from "zod";
+import { type ZodType, type ZodError, flattenError, json } from "zod";
 
 // * separate types for success and failure to create a discriminated union
 interface ValidationSuccess<T> {
   valid: true;
   data: T;
-  error?: never;
+  error?: null;
 }
 
 interface ValidationFailure {
   valid: false;
-  data?: never;
-  error: Record<string, string[] | undefined>;
+  data?: unknown;
+  error: Record<string, string[]>;
 }
 
 type ValidationResult<T> = ValidationSuccess<T> | ValidationFailure;
@@ -32,20 +32,23 @@ export const validateJson = <T>(
   json: unknown,
   schema: ZodType<T>
 ): ValidationResult<T> => {
-  const { data, error } = schema.safeParse(json);
+  const schemaToUse = Array.isArray(json) ? schema.array() : schema;
+  const { data, error } = schemaToUse.safeParse(json);
 
-  if (error) return handleValidationError<T>(error);
+  if (error) return handleValidationError(error);
   return {
     valid: true,
-    data,
+    data: data as T,
+    error: null,
   };
 };
 
-const handleValidationError = <T>(error: ZodError): ValidationFailure => {
+const handleValidationError = (error: ZodError): ValidationFailure => {
   const flattened = flattenError(error);
 
   return {
     valid: false,
     error: flattened.fieldErrors,
+    data: json,
   };
 };

@@ -2,12 +2,12 @@ import z from "zod";
 
 const locationSchema = z.object({
   name: z.string(),
-  url: z.url(),
+  url: z.url().or(z.string()),
 });
 
 const originSchema = z.object({
   name: z.string(),
-  url: z.url(),
+  url: z.url().or(z.string()),
 });
 
 export const characterSchema = z.object({
