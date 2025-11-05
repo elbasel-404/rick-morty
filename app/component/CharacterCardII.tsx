@@ -2,14 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { useCardRotation } from "./hooks/useCardRotation";
-import { useParticles } from "./hooks/useParticles";
 import { useImageLoad } from "./hooks/useImageLoad";
 import { useInViewport } from "./useInViewport";
 import { getCyberStatusConfig } from "./utils/cyberStyles";
 import { CyberGrid } from "./card-parts/CyberGrid";
 import { ScanLine } from "./card-parts/ScanLine";
 import { CornerAccents } from "./card-parts/CornerAccents";
-import { CyberParticles } from "./card-parts/CyberParticles";
 import { CyberStyles } from "./card-parts/CyberStyles";
 import { CyberLoadingSpinner } from "./card-parts/CyberLoadingSpinner";
 import { CyberCardFront } from "./card-parts/CyberCardFront";
@@ -39,7 +37,6 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
 
   // Custom hooks
   const { rotation, handleMouseMove, resetRotation } = useCardRotation();
-  const particles = useParticles(character.id, 12);
   const { imageLoaded, handleImageLoad } = useImageLoad();
   const { elementRef, isInViewport } = useInViewport({
     threshold: 0.1,
@@ -64,9 +61,12 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
   };
 
   return (
-    <div ref={elementRef} className="flex items-center justify-center min-h-screen p-4">
+    <div
+      ref={elementRef}
+      className="flex items-center justify-center min-h-screen p-4"
+    >
       <div
-        className="relative w-full max-w-[98vw] sm:max-w-4xl md:max-w-6xl lg:max-w-7xl xl:max-w-8xl h-96 sm:h-112 md:h-128 lg:h-144"
+        className="relative w-full max-w-[98vw] sm:max-w-5xl md:max-w-7xl lg:max-w-[90vw] xl:max-w-[95vw] h-64 sm:h-80 md:h-96 lg:h-112"
         style={{
           perspective: "1000px",
           transformStyle: "preserve-3d",
@@ -122,7 +122,6 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
                 characterImage={character.image}
                 characterName={character.name}
               />
-              <CyberParticles particles={particles} isMounted={isMounted} />
             </div>
 
             {/* Card Back - Full Character Data */}
@@ -146,7 +145,6 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
                 statusConfig={statusConfig}
                 isHovered={isHovered}
               />
-              <CyberParticles particles={particles} isMounted={isMounted} />
             </div>
           </div>
         )}
