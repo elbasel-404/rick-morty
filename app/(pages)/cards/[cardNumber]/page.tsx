@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getCharactersList } from "../../../server/getCharactersList";
+import { getCharactersList } from "@server";
 import {
   JsonViewer,
   CharacterCardI,
