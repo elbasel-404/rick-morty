@@ -1,22 +1,16 @@
-interface CyberCardFrontProps {
+interface FrontProps {
   characterImage: string;
   characterName: string;
 }
 
-export const CyberCardFront = ({
-  characterImage,
-  characterName,
-}: CyberCardFrontProps) => {
+export const Front = ({ characterImage, characterName }: FrontProps) => {
   return (
     <div className="relative w-full h-full">
       {/* Character image - brighter with minimal overlay */}
       <img
         src={characterImage}
         alt={characterName}
-        className="w-full h-full object-cover"
-        style={{
-          filter: "contrast(1.1) saturate(1.3) brightness(1.05)",
-        }}
+        className="w-full h-full object-cover filter-[contrast(1.1)_saturate(1.3)_brightness(1.05)]"
       />
 
       {/* Subtle gradient overlay for text readability */}
@@ -34,12 +28,7 @@ export const CyberCardFront = ({
 
       {/* Holographic scan line */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute w-full h-1 bg-linear-to-r from-transparent via-cyan-400/50 to-transparent"
-          style={{
-            animation: "scan 4s linear infinite",
-          }}
-        />
+        <div className="absolute w-full h-1 bg-linear-to-r from-transparent via-cyan-400/50 to-transparent animate-[scan_4s_linear_infinite]" />
       </div>
     </div>
   );

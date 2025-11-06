@@ -2,13 +2,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCharactersList } from "@server";
 import {
-  JsonViewer,
-  CharacterCardI,
-  CharacterCardII,
   CharacterCardIII,
   CharacterCardIV,
   CharacterCardV,
+  CyberCard,
+  SimpleCard,
 } from "@component";
+import { cn } from "@util";
 
 interface CardPageProps {
   params: Promise<{
@@ -16,7 +16,7 @@ interface CardPageProps {
   }>;
 }
 
-export async function generateStaticParams() {
+export const generateStaticParams = () => {
   return [
     { cardNumber: "1" },
     { cardNumber: "2" },
@@ -24,7 +24,7 @@ export async function generateStaticParams() {
     { cardNumber: "4" },
     { cardNumber: "5" },
   ];
-}
+};
 
 const CardPage = async ({ params }: CardPageProps) => {
   const { cardNumber } = await params;
@@ -39,16 +39,16 @@ const CardPage = async ({ params }: CardPageProps) => {
     return <div>No data available</div>;
   }
 
+  const cardComponentMap = {
+    "1": SimpleCard,
+    "2": CyberCard,
+    "3": CharacterCardIII,
+    "4": CharacterCardIV,
+    "5": CharacterCardV,
+  };
+
   const CardComponent =
-    cardNumber === "2"
-      ? CharacterCardII
-      : cardNumber === "3"
-      ? CharacterCardIII
-      : cardNumber === "4"
-      ? CharacterCardIV
-      : cardNumber === "5"
-      ? CharacterCardV
-      : CharacterCardI;
+    cardComponentMap[cardNumber as keyof typeof cardComponentMap];
 
   return (
     <main className="min-h-screen bg-black">
@@ -57,24 +57,8 @@ const CardPage = async ({ params }: CardPageProps) => {
           Rick and Morty Characters
         </h1>
 
-        <div className="mb-6 flex flex-wrap items-center gap-3">
-          <span className="font-semibold text-lg text-white">Card Style:</span>
-          {[1, 2, 3, 4, 5].map((num) => (
-            <Link
-              href={`/cards/${num}`}
-              key={num}
-              className={`px-4 py-2 rounded-lg font-medium ${
-                cardNumber === String(num)
-                  ? "bg-blue-500 text-white shadow-lg"
-                  : "bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
-              }`}
-            >
-              {num}
-            </Link>
-          ))}
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2">
+        <CardSwitcher cardNumber={cardNumber} />
+        <CharacterGrid>
           {charactersData.map((c, index) => {
             return (
               <div key={c.id} data-index={index}>
@@ -82,10 +66,40 @@ const CardPage = async ({ params }: CardPageProps) => {
               </div>
             );
           })}
-        </div>
+        </CharacterGrid>
       </div>
     </main>
   );
 };
 
 export default CardPage;
+
+const CharacterGrid = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2">
+      {children}
+    </div>
+  );
+};
+
+const CardSwitcher = ({ cardNumber = "1" }) => {
+  return (
+    <div className="mb-6 flex flex-wrap items-center gap-3">
+      <span className="font-semibold text-lg text-white">Card Style:</span>
+      {[1, 2, 3, 4, 5].map((num) => (
+        <Link
+          href={`/cards/${num}`}
+          key={num}
+          className={cn(
+            "px-4 py-2 rounded-lg font-medium",
+            cardNumber === String(num)
+              ? "bg-blue-500 text-white shadow-lg"
+              : "bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
+          )}
+        >
+          {num}
+        </Link>
+      ))}
+    </div>
+  );
+};

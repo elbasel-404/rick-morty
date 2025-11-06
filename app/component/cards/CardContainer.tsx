@@ -140,7 +140,7 @@ export const CardContainer = ({
               isHidden={hideSkeleton}
               duration={skeletonFadeOutDuration}
               unmountOnHide={true}
-              style={{ position: "absolute", inset: 0, zIndex: 10 }}
+              className="absolute inset-0 z-10"
             >
               <SkeletonLoader
                 opacity={1}

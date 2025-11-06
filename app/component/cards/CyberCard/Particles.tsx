@@ -9,11 +9,11 @@ interface Particle {
   isCyan: boolean;
 }
 
-interface CyberParticlesProps {
+interface ParticlesProps {
   particles: Particle[];
 }
 
-export const CyberParticles = ({ particles }: CyberParticlesProps) => {
+export const Particles = ({ particles }: ParticlesProps) => {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
       {particles.map((particle, i) => (

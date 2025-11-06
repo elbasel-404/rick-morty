@@ -1,21 +1,15 @@
-interface CyberStatsProps {
+interface StatsProps {
   gender: string;
   episodeCount: number;
 }
 
-export const CyberStats = ({ gender, episodeCount }: CyberStatsProps) => {
+export const Stats = ({ gender, episodeCount }: StatsProps) => {
   return (
     <div
       className="grid grid-cols-2 gap-3 sm:gap-4 md:gap-5"
       style={{ transform: "translateZ(20px)" }}
     >
-      <div
-        className="relative border border-cyan-500/40 p-3 sm:p-4 md:p-5 clip-corner transition-all"
-        style={{
-          boxShadow:
-            "0 0 20px rgba(6, 182, 212, 0.3), inset 0 0 20px rgba(6, 182, 212, 0.05)",
-        }}
-      >
+      <div className="relative border border-cyan-500/40 p-3 sm:p-4 md:p-5 clip-corner transition-all [box-shadow:0_0_20px_rgba(6,182,212,0.3),inset_0_0_20px_rgba(6,182,212,0.05)]">
         <p className="text-cyan-400 text-xs sm:text-sm md:text-base uppercase tracking-wider mb-2 font-bold">
           Gender
         </p>
@@ -24,13 +18,7 @@ export const CyberStats = ({ gender, episodeCount }: CyberStatsProps) => {
         </p>
       </div>
 
-      <div
-        className="relative border border-pink-500/40 p-3 sm:p-4 md:p-5 clip-corner transition-all"
-        style={{
-          boxShadow:
-            "0 0 20px rgba(236, 72, 153, 0.3), inset 0 0 20px rgba(236, 72, 153, 0.05)",
-        }}
-      >
+      <div className="relative border border-pink-500/40 p-3 sm:p-4 md:p-5 clip-corner transition-all [box-shadow:0_0_20px_rgba(236,72,153,0.3),inset_0_0_20px_rgba(236,72,153,0.05)]">
         <p className="text-pink-400 text-xs sm:text-sm md:text-base uppercase tracking-wider mb-2 font-bold">
           Episodes
         </p>

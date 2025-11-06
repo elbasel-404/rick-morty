@@ -1,12 +1,6 @@
 import { cn } from "@util";
-import { CyberImage } from "./CyberImage";
-import { CyberStatusBadge } from "./CyberStatusBadge";
-import { CyberIDBadge } from "./CyberIDBadge";
-import { CyberCharacterName } from "./CyberCharacterName";
-import { CyberStats } from "./CyberStats";
-import { CyberLocations } from "./CyberLocations";
 
-interface CyberCardBackProps {
+interface BackProps {
   character: {
     id: number;
     name: string;
@@ -27,21 +21,14 @@ interface CyberCardBackProps {
   isHovered: boolean;
 }
 
-export const CyberCardBack = ({
-  character,
-  statusConfig,
-  isHovered,
-}: CyberCardBackProps) => {
+export const Back = ({ character, statusConfig, isHovered }: BackProps) => {
   return (
     <div className="relative w-full h-full">
       {/* Full Background Image */}
       <img
         src={character.image}
         alt={character.name}
-        className="absolute inset-0 w-full h-full object-cover"
-        style={{
-          filter: "contrast(1.15) saturate(1.3) brightness(0.75)",
-        }}
+        className="absolute inset-0 w-full h-full object-cover filter-[contrast(1.15)_saturate(1.3)_brightness(0.75)]"
       />
 
       {/* Dark overlay for better text visibility */}

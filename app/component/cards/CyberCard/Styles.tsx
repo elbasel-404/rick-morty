@@ -1,4 +1,4 @@
-export const CyberStyles = () => {
+export const Styles = () => {
   return (
     <style>{`
       .backface-hidden {

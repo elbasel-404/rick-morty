@@ -3,12 +3,12 @@
 import { useState } from "react";
 import { useCardRotation } from "@hooks";
 import { getCyberStatusConfig } from "@styles";
-import { CyberGrid } from "./CyberGrid";
+import { Grid } from "./Grid";
 import { ScanLine } from "./ScanLine";
 import { CornerAccents } from "./CornerAccents";
-import { CyberStyles } from "./CyberStyles";
-import { CyberCardFront } from "./CyberCardFront";
-import { CyberCardBack } from "./CyberCardBack";
+import { Styles } from "./Styles";
+import { Front } from "./Front";
+import { Back } from "./Back";
 import { DEFAULT_ANIMATION_TIMINGS } from "@util";
 import { CardContainer } from "../CardContainer";
 
@@ -25,11 +25,11 @@ interface Character {
   type: string;
 }
 
-interface CharacterCardProps {
+interface CyberCardProps {
   character: Character;
 }
 
-export const CharacterCardII = ({ character }: CharacterCardProps) => {
+export const CyberCard = ({ character }: CyberCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
 
@@ -61,7 +61,7 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
       cardFadeInDuration={DEFAULT_ANIMATION_TIMINGS.cardFadeIn}
       cardFadeInDelay={DEFAULT_ANIMATION_TIMINGS.cardFadeInDelay}
     >
-      {({ isVisible, imageLoaded }) => (
+      {({ imageLoaded }) => (
         <>
           <div
             className="relative w-full h-64 sm:h-80 md:h-96 lg:h-112"
@@ -95,10 +95,10 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
                     : "0 0 30px rgba(6, 182, 212, 0.2)",
                 }}
               >
-                <CyberGrid />
+                <Grid />
                 <ScanLine />
                 <CornerAccents />
-                <CyberCardFront
+                <Front
                   characterImage={character.image}
                   characterName={character.name}
                 />
@@ -117,10 +117,10 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
                     : "0 0 30px rgba(6, 182, 212, 0.2)",
                 }}
               >
-                <CyberGrid />
+                <Grid />
                 <ScanLine />
                 <CornerAccents />
-                <CyberCardBack
+                <Back
                   character={character}
                   statusConfig={statusConfig}
                   isHovered={isHovered}
@@ -129,7 +129,7 @@ export const CharacterCardII = ({ character }: CharacterCardProps) => {
             </div>
           </div>
 
-          <CyberStyles />
+          <Styles />
         </>
       )}
     </CardContainer>

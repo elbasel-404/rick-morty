@@ -1,6 +1,6 @@
 import { gradients } from "@styles";
 
-export const CardOverlays = () => {
+export const Overlay = () => {
   return (
     <>
       {/* Gradient overlay - dark at bottom for readability */}

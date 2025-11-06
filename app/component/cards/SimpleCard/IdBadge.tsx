@@ -1,11 +1,11 @@
 import { textShadow } from "@styles";
 
-interface IDBadgeProps {
+interface IdBadgeProps {
   id: number;
   isHovered: boolean;
 }
 
-export const IDBadge = ({ id, isHovered }: IDBadgeProps) => {
+export const IdBadge = ({ id, isHovered }: IdBadgeProps) => {
   return (
     <div
       className="absolute top-3 left-3 px-2 py-1 text-white text-base font-bold z-40 transition-all duration-500 ease-out"

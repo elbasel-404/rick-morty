@@ -1,14 +1,10 @@
-interface CyberCharacterNameProps {
+interface NameProps {
   name: string;
   species: string;
   type: string;
 }
 
-export const CyberCharacterName = ({
-  name,
-  species,
-  type,
-}: CyberCharacterNameProps) => {
+export const Name = ({ name, species, type }: NameProps) => {
   return (
     <div className="relative" style={{ transform: "translateZ(30px)" }}>
       <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-pink-400 to-cyan-400 mb-1 uppercase tracking-tight leading-tight">

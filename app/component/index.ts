@@ -1,4 +1,6 @@
 export {
+  SimpleCard,
+  CyberCard,
   CharacterCardI,
   CharacterCardII,
   CharacterCardIII,

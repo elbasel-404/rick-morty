@@ -15,7 +15,7 @@ export const CharacterCardV = ({ character }: CharacterCardProps) => {
       </div>
 
       {/* Top Ribbon */}
-      <div className="absolute top-0 left-4 w-8 h-10 bg-gradient-to-b from-gray-700 to-gray-900 rounded-b-md flex items-center justify-center text-white text-xs font-semibold shadow-md">
+      <div className="absolute top-0 left-4 w-8 h-10 bg-linear-to-b from-gray-700 to-gray-900 rounded-b-md flex items-center justify-center text-white text-xs font-semibold shadow-md">
         PRO
       </div>
 
@@ -24,7 +24,7 @@ export const CharacterCardV = ({ character }: CharacterCardProps) => {
         <img src={image} alt={name} className="w-full h-80 object-cover" />
 
         {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/90 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-white via-white/90 to-transparent" />
       </div>
 
       {/* Content */}

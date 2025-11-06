@@ -1,12 +1,12 @@
 import { textShadow } from "@styles";
 
-interface CharacterNameProps {
+interface NameProps {
   name: string;
   species: string;
   type?: string;
 }
 
-export const CharacterName = ({ name, species, type }: CharacterNameProps) => {
+export const Name = ({ name, species, type }: NameProps) => {
   return (
     <div
       className="absolute bottom-3 left-3 right-3 z-30 text-center px-5 py-4"

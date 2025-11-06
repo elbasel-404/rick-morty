@@ -61,15 +61,17 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
         onMouseLeave={handleMouseLeave}
       >
         <div
-          className="relative w-96 bg-white rounded-3xl overflow-hidden transition-all duration-300 ease-out"
+          className={cn(
+            "relative w-96 bg-white rounded-3xl overflow-hidden transition-all duration-300 ease-out",
+            isHovered
+              ? "[box-shadow:0_30px_60px_rgba(0,0,0,0.15),0_0_0_12px_rgba(255,255,255,0.8)]"
+              : "[box-shadow:0_20px_40px_rgba(0,0,0,0.1),0_0_0_12px_rgba(255,255,255,0.6)]"
+          )}
           style={{
             transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) ${
               isHovered ? "translateY(-8px)" : "translateY(0)"
             }`,
             transformStyle: "preserve-3d",
-            boxShadow: isHovered
-              ? "0 30px 60px rgba(0, 0, 0, 0.15), 0 0 0 12px rgba(255, 255, 255, 0.8)"
-              : "0 20px 40px rgba(0, 0, 0, 0.1), 0 0 0 12px rgba(255, 255, 255, 0.6)",
           }}
         >
           {/* Image section */}

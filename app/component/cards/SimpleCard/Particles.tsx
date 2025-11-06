@@ -6,11 +6,11 @@ interface Particle {
   depth: number;
 }
 
-interface FloatingParticlesProps {
+interface ParticlesProps {
   particles: Particle[];
 }
 
-export const FloatingParticles = ({ particles }: FloatingParticlesProps) => {
+export const Particles = ({ particles }: ParticlesProps) => {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
       {particles.map((particle, i) => (

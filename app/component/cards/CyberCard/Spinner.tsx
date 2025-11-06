@@ -1,4 +1,4 @@
-export const CyberLoadingSpinner = () => {
+export const Spinner = () => {
   return (
     <div className="absolute inset-0 flex items-center justify-center bg-black/90 backdrop-blur-sm z-50">
       <div className="relative">

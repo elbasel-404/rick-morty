@@ -1,4 +1,4 @@
-export const Card3DEffects = () => {
+export const Effects = () => {
   return (
     <>
       {/* Top edge highlight for 3D effect */}

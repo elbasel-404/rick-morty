@@ -1,10 +1,10 @@
-interface CyberImageProps {
+interface ImageProps {
   src: string;
   alt: string;
   isHovered: boolean;
 }
 
-export const CyberImage = ({ src, alt, isHovered }: CyberImageProps) => {
+export const Image = ({ src, alt, isHovered }: ImageProps) => {
   return (
     <div
       className="relative w-full h-48 sm:h-56 md:h-64 lg:h-80 overflow-hidden"
@@ -13,10 +13,7 @@ export const CyberImage = ({ src, alt, isHovered }: CyberImageProps) => {
       <img
         src={src}
         alt={alt}
-        className="w-full h-full object-cover"
-        style={{
-          filter: "contrast(1.1) saturate(1.2)",
-        }}
+        className="w-full h-full object-cover filter-[contrast(1.1)_saturate(1.2)]"
       />
       {/* Cyber gradient overlays */}
       <div className="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent" />

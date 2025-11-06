@@ -1,7 +1,7 @@
-import Image from "next/image";
+import NextImage from "next/image";
 import { cn } from "@util";
 
-interface CardImageProps {
+interface ImageProps {
   src: string;
   alt: string;
   isInViewport: boolean;
@@ -9,19 +9,19 @@ interface CardImageProps {
   onLoad: () => void;
 }
 
-export const CardImage = ({
+export const Image = ({
   src,
   alt,
   isInViewport,
   imageLoaded,
   onLoad,
-}: CardImageProps) => {
+}: ImageProps) => {
   if (!isInViewport) {
     return <div className="w-full h-full bg-slate-800" />;
   }
 
   return (
-    <Image
+    <NextImage
       width={300}
       height={300}
       src={src}
