@@ -6,7 +6,6 @@ import { getStatusColor } from "@styles";
 import { CardImage } from "./CardImage";
 import { CardOverlays } from "./CardOverlays";
 import { Card3DEffects } from "./Card3DEffects";
-import { FloatingParticles } from "./FloatingParticles";
 import { StatusBadge } from "./StatusBadge";
 import { IDBadge } from "./IDBadge";
 import { CharacterName } from "./CharacterName";
@@ -121,9 +120,6 @@ export const CharacterCardI = ({ character }: CharacterCardProps) => {
               location={character.location.name}
               isHovered={isHovered}
             />
-
-            {/* Particles */}
-            <FloatingParticles particles={particles} />
           </div>
         </div>
       )}

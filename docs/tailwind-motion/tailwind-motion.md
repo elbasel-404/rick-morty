@@ -2,7 +2,6 @@
 
 [🏠 Home](../index.md) | [Tailwind Motion](./index.md)
 
-
 ## Overview
 
 Tailwind Motion provides powerful animation utilities for Tailwind CSS. This guide covers enter animations, exit animations, loop animations, scroll-triggered animations, and animation modifiers.
@@ -48,7 +47,7 @@ You can customize enter animations using modifiers:
 
 ```html
 <div
-  class="motion-translate-y-in-100 motion-duration-[2s] motion-ease-spring-smooth"
+  class="motion-translate-y-in-100 motion-duration-2000 motion-ease-spring-smooth"
 >
   Slow, smooth entrance
 </div>
@@ -95,7 +94,7 @@ You can customize exit animations using modifiers:
 
 ```html
 <div
-  class="motion-translate-y-out-100 motion-duration-[2s] motion-ease-spring-smooth"
+  class="motion-translate-y-out-100 motion-duration-2000 motion-ease-spring-smooth"
 >
   Slow, smooth exit
 </div>
@@ -148,7 +147,7 @@ Loop animations can be modified with `/mirror` or `/reset` to achieve different 
 Adding `/mirror` creates a back-and-forth animation that reverses direction:
 
 ```html
-<div class="motion-translate-y-loop-50/mirror">Back-and-forth motion</div>
+<div class="motion-translate-y-loop-50">Back-and-forth motion</div>
 ```
 
 #### Reset Loops
@@ -183,7 +182,7 @@ You can customize loop animations using modifiers:
 
 ```html
 <div
-  class="-motion-translate-y-loop-50 motion-duration-[2s] motion-ease-spring-smooth"
+  class="-motion-translate-y-loop-50 motion-duration-2000 motion-ease-spring-smooth"
 >
   Slow, smooth floating
 </div>
@@ -320,7 +319,7 @@ Most modifiers support arbitrary values using square brackets:
 
 ```html
 <div
-  class="motion-scale-in-50 motion-duration-[1500ms] motion-ease-[cubic-bezier(1,-0.4,0.35,0.95)]"
+  class="motion-scale-in-50 motion-duration-1500 motion-ease-[cubic-bezier(1,-0.4,0.35,0.95)]"
 >
   Custom timing
 </div>
@@ -405,7 +404,7 @@ Enter the number of characters you want to animate in the square brackets.
 #### Flomoji
 
 ```html
-<div class="motion-preset-flomoji-[🚀]">flomoji-[🚀]</div>
+<div class="motion-preset-flomoji-🚀">flomoji-[🚀]</div>
 ```
 
 ---
