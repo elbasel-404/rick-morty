@@ -52,6 +52,8 @@ export const CyberCard = ({ character }: CyberCardProps) => {
     <CardContainer
       imageUrl={character.image}
       imageAlt={character.name}
+      imageWidth={300}
+      imageHeight={448}
       skeletonVariant="card-ii"
       skeletonClassName="rounded-2xl border-4 sm:rounded-3xl sm:border-6 border-cyan-500/30"
       className="relative mx-auto w-full max-w-88 px-5 sm:mx-0 sm:max-w-full sm:px-0"

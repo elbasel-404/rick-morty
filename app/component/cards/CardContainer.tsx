@@ -13,6 +13,10 @@ interface CardContainerProps {
   imageUrl: string;
   /** Alt text for image (for accessibility) */
   imageAlt: string;
+  /** Image width */
+  imageWidth: number;
+  /** Image height */
+  imageHeight: number;
   /** Skeleton variant to display during loading */
   skeletonVariant?: "card-i" | "card-ii" | "default";
   /** Additional className for skeleton */
@@ -38,6 +42,8 @@ interface CardContainerProps {
 export const CardContainer = ({
   imageUrl,
   imageAlt,
+  imageWidth,
+  imageHeight,
   skeletonVariant = "default",
   skeletonClassName = "",
   className = "",
@@ -167,6 +173,8 @@ export const CardContainer = ({
       <LazyImage
         src={imageUrl}
         alt={imageAlt}
+        width={imageWidth}
+        height={imageHeight}
         isInViewport={isInViewport}
         onLoad={handleImageLoad}
         mode="preload"

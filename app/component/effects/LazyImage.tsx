@@ -3,11 +3,15 @@
 import { useRef, useEffect, useState, ImgHTMLAttributes } from "react";
 
 interface LazyImageProps
-  extends Omit<ImgHTMLAttributes<HTMLImageElement>, "onLoad"> {
+  extends Omit<ImgHTMLAttributes<HTMLImageElement>, "onLoad" | "width" | "height"> {
   /** Image source URL */
   src: string;
   /** Alt text */
   alt: string;
+  /** Image width */
+  width: number;
+  /** Image height */
+  height: number;
   /** Whether the image is in viewport (triggers loading) */
   isInViewport: boolean;
   /** Callback when image loads */
@@ -21,6 +25,8 @@ interface LazyImageProps
 export const LazyImage = ({
   src,
   alt,
+  width,
+  height,
   isInViewport,
   onLoad,
   mode = "preload",
@@ -62,6 +68,8 @@ export const LazyImage = ({
       alt={alt}
       className={mode === "preload" ? "hidden" : className}
       aria-hidden={mode === "preload" ? "true" : undefined}
+      width={width}
+      height={height}
       {...imgProps}
     />
   );

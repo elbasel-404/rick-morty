@@ -56,6 +56,8 @@ export const GradientCard = ({ character }: CharacterCardProps) => {
     <CardContainer
       imageUrl={image}
       imageAlt={name}
+      imageWidth={300}
+      imageHeight={300}
       skeletonVariant="card-ii"
       skeletonClassName="rounded-2xl border border-cyan-500/30"
       className="relative w-full"

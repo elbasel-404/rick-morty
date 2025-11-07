@@ -162,13 +162,14 @@ export const InfiniteCharacterGrid = ({
         return;
       }
 
-      setCharacters((previous) => {
-        const existingIds = new Set(previous.map((character) => character.id));
-        const uniqueNewCharacters = payload.characters.filter(
-          (character) => !existingIds.has(character.id)
-        );
-        return [...previous, ...uniqueNewCharacters];
-      });
+      // setCharacters((previous) => {
+      //   const existingIds = new Set(previous.map((character) => character.id));
+      //   const uniqueNewCharacters = payload.characters.filter(
+      //     (character) => !existingIds.has(character.id)
+      //   );
+      //   return [...previous, ...uniqueNewCharacters];
+      // });
+      setCharacters((prev) => [...prev, ...payload.characters]);
 
       setNextPage(payload.nextPage);
     } catch (requestError) {

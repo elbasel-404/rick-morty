@@ -49,6 +49,8 @@ export const SimpleCard = ({ character }: CharacterCardProps) => {
     <CardContainer
       imageUrl={character.image}
       imageAlt={character.name}
+      imageWidth={300}
+      imageHeight={300}
       skeletonVariant="card-i"
       skeletonClassName="border-4 border-purple-500/30"
       className="relative w-full h-full min-h-[400px]"
