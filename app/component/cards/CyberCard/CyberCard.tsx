@@ -71,6 +71,8 @@ export const CyberCard = ({ character }: CyberCardProps) => {
             onMouseMove={handleMouseMove}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
+            role="img"
+            aria-label={`Character card for ${character.name}`}
           >
             <div
               className="relative h-full w-full"

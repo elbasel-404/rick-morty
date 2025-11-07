@@ -59,6 +59,8 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={handleMouseLeave}
+        role="img"
+        aria-label={`Character card for ${name}`}
       >
         <div
           className={cn(
@@ -90,6 +92,7 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
 
             {/* Favorite button */}
             <button
+              type="button"
               onClick={() => setIsFavorited(!isFavorited)}
               className="absolute top-5 right-5 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-95"
               style={{ transform: "translateZ(40px)" }}
@@ -157,6 +160,7 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
 
             {/* Action button */}
             <button
+              type="button"
               className="w-full bg-black text-white rounded-full py-4 font-semibold text-base hover:bg-gray-900 transition-all active:scale-98"
               style={{ transform: "translateZ(10px)" }}
             >

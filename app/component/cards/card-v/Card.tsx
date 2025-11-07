@@ -40,7 +40,10 @@ export const CharacterCardV = ({ character }: CharacterCardProps) => {
             <span className="font-semibold text-gray-800">Status:</span>{" "}
             {status}
           </div>
-          <button className="px-4 py-1.5 bg-black text-white rounded-full font-medium hover:bg-gray-800 transition">
+          <button
+            type="button"
+            className="px-4 py-1.5 bg-black text-white rounded-full font-medium hover:bg-gray-800 transition"
+          >
             Follow
           </button>
         </div>

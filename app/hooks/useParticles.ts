@@ -1,4 +1,5 @@
 interface Particle {
+  id: string;
   left: number;
   top: number;
   duration: number;
@@ -21,6 +22,7 @@ export const generateParticles = (
   };
 
   return Array.from({ length: count }, (_, i) => ({
+    id: `particle-${seed}-${i}`,
     left: seededRandom(i * 2) * 100,
     top: seededRandom(i * 2 + 1) * 100,
     duration: 3 + seededRandom(i * 3) * 4,

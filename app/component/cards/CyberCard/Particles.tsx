@@ -1,6 +1,7 @@
 import { cn } from "@util";
 
 interface Particle {
+  id: string;
   left: number;
   top: number;
   duration: number;
@@ -16,9 +17,9 @@ interface ParticlesProps {
 export const Particles = ({ particles }: ParticlesProps) => {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      {particles.map((particle, i) => (
+      {particles.map((particle) => (
         <div
-          key={i}
+          key={particle.id}
           className={cn(
             "absolute w-0.5 sm:w-1 h-0.5 sm:h-1 rounded-full opacity-60",
             "motion-preset-float motion-ease-in-out",

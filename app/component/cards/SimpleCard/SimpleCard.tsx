@@ -64,6 +64,8 @@ export const SimpleCard = ({ character }: CharacterCardProps) => {
           onMouseMove={handleMouseMove}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={handleMouseLeave}
+          role="img"
+          aria-label={`Character card for ${character.name}`}
         >
           <div
             className={cn(
