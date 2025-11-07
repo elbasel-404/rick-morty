@@ -8,7 +8,7 @@ type CharacterPageParams = {
 };
 
 interface CharacterPageProps {
-  params: CharacterPageParams | Promise<CharacterPageParams>;
+  params: Promise<CharacterPageParams>;
 }
 
 export const revalidate = 120;

@@ -30,9 +30,15 @@ interface Character {
 
 interface CharacterCardProps {
   character: Character;
+  hasLoadedOnce: boolean;
+  onLoad: () => void;
 }
 
-export const SimpleCard = ({ character }: CharacterCardProps) => {
+export const SimpleCard = ({
+  character,
+  hasLoadedOnce,
+  onLoad,
+}: CharacterCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const { rotation, handleMouseMove, resetRotation } = useCardRotation();
@@ -51,6 +57,8 @@ export const SimpleCard = ({ character }: CharacterCardProps) => {
       imageAlt={character.name}
       imageWidth={300}
       imageHeight={300}
+      hasLoadedOnce={hasLoadedOnce}
+      onLoad={onLoad}
       skeletonVariant="card-i"
       skeletonClassName="border-4 border-purple-500/30"
       className="relative w-full h-full min-h-[400px]"

@@ -17,6 +17,10 @@ interface CardContainerProps {
   imageWidth: number;
   /** Image height */
   imageHeight: number;
+  /** Whether the card has been loaded once */
+  hasLoadedOnce: boolean;
+  /** Callback when the card has loaded once */
+  onLoad: () => void;
   /** Skeleton variant to display during loading */
   skeletonVariant?: "card-i" | "card-ii" | "default";
   /** Additional className for skeleton */
@@ -44,6 +48,8 @@ export const CardContainer = ({
   imageAlt,
   imageWidth,
   imageHeight,
+  hasLoadedOnce,
+  onLoad,
   skeletonVariant = "default",
   skeletonClassName = "",
   className = "",
@@ -57,9 +63,7 @@ export const CardContainer = ({
 }: CardContainerProps) => {
   // ...state and hooks...
 
-
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
   const [showCard, setShowCard] = useState(false);
   const [hideSkeleton, setHideSkeleton] = useState(false);
   const [initialLoadComplete, setInitialLoadComplete] = useState(false);
@@ -97,8 +101,7 @@ export const CardContainer = ({
       return;
     }
 
-    setImageLoaded(true);
-    // Only set imageLoaded, don't set hasLoadedOnce here
+    onLoad();
 
     if (isCached && initialLoadRef.current) {
       initialLoadRef.current = false;
@@ -138,19 +141,6 @@ export const CardContainer = ({
     return () => clearTimeout(timer);
   }, []);
 
-  // Set hasLoadedOnce the first time the card enters the viewport
-  useEffect(() => {
-    if (!initialLoadComplete || hasLoadedOnce) {
-      return;
-    }
-    if (isInViewport) {
-      setHasLoadedOnce(true);
-    }
-    if (skeletonStartTimeRef.current === null && isInViewport) {
-      skeletonStartTimeRef.current = Date.now();
-    }
-  }, [initialLoadComplete, isInViewport, hasLoadedOnce]);
-
   // Cleanup timeout
   useEffect(() => {
     return () => {
@@ -165,7 +155,7 @@ export const CardContainer = ({
 
   // Prevent skeleton flashing: don't show skeleton if image is loaded or cached
   const shouldShowSkeleton =
-    !imageLoaded && !hasLoadedOnce && isInViewport && initialLoadComplete;
+    !hasLoadedOnce && !imageLoaded && isInViewport && initialLoadComplete;
 
   return (
     <div ref={elementRef} className={cn("relative", className)}>
@@ -198,11 +188,11 @@ export const CardContainer = ({
 
       {/* Card content with fade in */}
       <FadeIn
-        isVisible={showCard || hasLoadedOnce}
+        isVisible={hasLoadedOnce || showCard}
         duration={cardFadeInDuration}
         delay={cardFadeInDelay}
       >
-        {children({ isVisible: showCard || hasLoadedOnce, imageLoaded })}
+        {children({ isVisible: hasLoadedOnce || showCard, imageLoaded })}
       </FadeIn>
     </div>
   );

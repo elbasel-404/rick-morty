@@ -1,22 +1,23 @@
+import Image from "next/image";
+
 interface FrontProps {
   characterImage: string;
   characterName: string;
 }
 
 export const Front = ({ characterImage, characterName }: FrontProps) => {
-  // Accept imageLoaded as prop for fade-in effect
-  // For now, fallback to always visible if not provided
-  // You may need to pass imageLoaded from parent CardContainer
   return (
     <div
       className="relative h-full w-full overflow-hidden"
       style={{ transformStyle: "preserve-3d" }}
     >
-      <img
+      <Image
         src={characterImage}
         alt={characterName}
         className="absolute inset-0 h-full w-full object-cover filter-[contrast(1.1)_saturate(1.3)_brightness(1.05)] transition-all duration-700 opacity-100"
-        style={{ background: '#0f172a' }}
+        style={{ background: "#0f172a" }}
+        width={300}
+        height={448}
       />
       <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent" />
       <div className="absolute inset-0 bg-linear-to-br from-cyan-500/15 via-transparent to-pink-500/15 mix-blend-overlay" />

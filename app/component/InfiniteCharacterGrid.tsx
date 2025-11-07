@@ -114,8 +114,13 @@ export const InfiniteCharacterGrid = ({
 }: InfiniteCharacterGridProps) => {
   const [characters, setCharacters] = useState<Character[]>(initialCharacters);
   const [nextPage, setNextPage] = useState<number | null>(initialNextPage);
+  const [loadedCards, setLoadedCards] = useState(new Set<number>());
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const handleCardLoad = useCallback((characterId: number) => {
+    setLoadedCards((prev) => new Set(prev).add(characterId));
+  }, []);
 
   const SelectedCard = CARD_VARIANTS[cardVariant];
   const hasMore = nextPage !== null;
@@ -162,14 +167,13 @@ export const InfiniteCharacterGrid = ({
         return;
       }
 
-      // setCharacters((previous) => {
-      //   const existingIds = new Set(previous.map((character) => character.id));
-      //   const uniqueNewCharacters = payload.characters.filter(
-      //     (character) => !existingIds.has(character.id)
-      //   );
-      //   return [...previous, ...uniqueNewCharacters];
-      // });
-      setCharacters((prev) => [...prev, ...payload.characters]);
+      setCharacters((previous) => {
+        const existingIds = new Set(previous.map((character) => character.id));
+        const uniqueNewCharacters = payload.characters.filter(
+          (character) => !existingIds.has(character.id)
+        );
+        return [...previous, ...uniqueNewCharacters];
+      });
 
       setNextPage(payload.nextPage);
     } catch (requestError) {
@@ -218,7 +222,11 @@ export const InfiniteCharacterGrid = ({
             data-character-id={character.id}
             aria-label={`View details for ${character.name}`}
           >
-            <SelectedCard character={character} />
+            <SelectedCard
+              character={character}
+              hasLoadedOnce={loadedCards.has(character.id)}
+              onLoad={() => handleCardLoad(character.id)}
+            />
           </Link>
         );
       }}

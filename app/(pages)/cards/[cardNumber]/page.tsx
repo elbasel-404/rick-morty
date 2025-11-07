@@ -14,19 +14,14 @@ interface CardPageProps {
 }
 
 export const generateStaticParams = () => {
-  return [
-    { cardNumber: "1" },
-    { cardNumber: "2" },
-    { cardNumber: "3" },
-    { cardNumber: "4" },
-  ];
+  return [{ cardNumber: "1" }, { cardNumber: "2" }, { cardNumber: "3" }];
 };
 
 const CardPage = async ({ params }: CardPageProps) => {
   const { cardNumber } = await params;
 
   // Validate card number
-  if (!["1", "2", "3", "4"].includes(cardNumber)) {
+  if (!["1", "2", "3"].includes(cardNumber)) {
     notFound();
   }
 

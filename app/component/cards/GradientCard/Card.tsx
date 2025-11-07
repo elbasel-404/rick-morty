@@ -22,9 +22,15 @@ interface Character {
 
 interface CharacterCardProps {
   character: Character;
+  hasLoadedOnce: boolean;
+  onLoad: () => void;
 }
 
-export const GradientCard = ({ character }: CharacterCardProps) => {
+export const GradientCard = ({
+  character,
+  hasLoadedOnce,
+  onLoad,
+}: CharacterCardProps) => {
   const { rotation, handleMouseMove, resetRotation } = useCardRotation();
   const [isHovered, setIsHovered] = useState(false);
 
@@ -58,6 +64,8 @@ export const GradientCard = ({ character }: CharacterCardProps) => {
       imageAlt={name}
       imageWidth={300}
       imageHeight={300}
+      hasLoadedOnce={hasLoadedOnce}
+      onLoad={onLoad}
       skeletonVariant="card-ii"
       skeletonClassName="rounded-2xl border border-cyan-500/30"
       className="relative w-full"
