@@ -312,6 +312,14 @@ export const CharacterExplorer = ({
     void fetchInitialPage();
   }, [fetchInitialPage, isFetching]);
 
+  useEffect(() => {
+    if (isAutoRefreshPaused) {
+      return;
+    }
+
+    setTimeLeftMs((current) => (current === 0 ? REFRESH_INTERVAL_MS : current));
+  }, [isAutoRefreshPaused]);
+
   const formattedSecondsLeft = useMemo(() => {
     const totalSeconds = Math.max(0, Math.ceil(timeLeftMs / 1000));
     return totalSeconds.toString().padStart(2, "0");
@@ -408,13 +416,18 @@ const Timer = ({
 }: TimerProps) => {
   return (
     <div className="fixed right-6 top-6 z-50 flex flex-col items-center gap-3">
-      <div className="group relative flex h-32 w-32 items-center justify-center">
-        <div className="absolute inset-0 rounded-full border-2 border-slate-700 bg-slate-950/70 backdrop-blur-md transition-all duration-200 group-hover:border-blue-500 group-hover:shadow-[0_0_25px_rgba(59,130,246,0.25)]" />
+      <div className="group relative flex h-24 w-24 items-center justify-center">
+        <div className="absolute inset-0 rounded-full border border-slate-500 transition-all duration-200 group-hover:border-blue-400" />
         <div
           aria-live="polite"
-          className="relative z-10 flex items-center font-mono text-slate-100 transition-opacity duration-200 group-hover:opacity-0 group-focus-within:opacity-0"
+          className={cn(
+            "pointer-events-none relative z-10 flex items-center font-mono text-slate-100 transition-opacity duration-200",
+            isAutoRefreshPaused
+              ? "opacity-0"
+              : "opacity-100 group-hover:opacity-0"
+          )}
         >
-          <span className="text-5xl font-bold leading-none">
+          <span className="text-3xl font-bold leading-none">
             {formattedSecondsLeft}
           </span>
         </div>
@@ -425,8 +438,10 @@ const Timer = ({
             isAutoRefreshPaused ? "Resume auto refresh" : "Pause auto refresh"
           }
           className={cn(
-            "absolute inset-0 flex items-center justify-center rounded-full text-slate-50 opacity-0 transition-opacity duration-200 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950",
-            "group-hover:opacity-100",
+            "absolute inset-0 flex items-center justify-center rounded-full text-slate-50 transition-opacity duration-200 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950",
+            isAutoRefreshPaused
+              ? "opacity-100"
+              : "opacity-0 group-hover:opacity-100",
             isAutoRefreshPaused ? "bg-emerald-500/90" : "bg-blue-500/90"
           )}
         >
@@ -438,7 +453,11 @@ const Timer = ({
               strokeWidth={2}
               viewBox="0 0 24 24"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8 5v14l11-7z" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M8 5v14l11-7z"
+              />
             </svg>
           ) : (
             <svg
