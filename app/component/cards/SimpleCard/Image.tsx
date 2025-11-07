@@ -16,10 +16,6 @@ export const Image = ({
   imageLoaded,
   onLoad,
 }: ImageProps) => {
-  if (!isInViewport) {
-    return <div className="w-full h-full bg-slate-800" />;
-  }
-
   return (
     <NextImage
       width={300}
@@ -28,11 +24,14 @@ export const Image = ({
       alt={alt}
       className={cn(
         "w-full h-full object-cover transition-all duration-700",
-        imageLoaded ? "blur-0 scale-100" : "blur-2xl scale-110"
+        imageLoaded
+          ? "opacity-100 blur-0 scale-100"
+          : "opacity-0 blur-2xl scale-110"
       )}
       loading="lazy"
       unoptimized
       onLoad={onLoad}
+      style={{ background: "#1e293b" }}
     />
   );
 };

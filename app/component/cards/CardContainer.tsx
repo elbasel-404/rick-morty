@@ -49,6 +49,9 @@ export const CardContainer = ({
   viewportRootMargin = "400px",
   children,
 }: CardContainerProps) => {
+  // ...state and hooks...
+
+
   const [imageLoaded, setImageLoaded] = useState(false);
   const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
   const [showCard, setShowCard] = useState(false);
@@ -63,13 +66,33 @@ export const CardContainer = ({
     rootMargin: viewportRootMargin,
   });
 
+  // Fallback: if image is visible but not loaded after 1s, set imageLoaded to true
+  useEffect(() => {
+    if (!imageLoaded && isInViewport) {
+      const timer = setTimeout(() => {
+        setImageLoaded(true);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [imageLoaded, isInViewport]);
+
+  // Fallback: if image is visible but not loaded after 1s, set imageLoaded to true
+  useEffect(() => {
+    if (!imageLoaded && isInViewport) {
+      const timer = setTimeout(() => {
+        setImageLoaded(true);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [imageLoaded, isInViewport]);
+
   const handleImageLoad = (loaded: boolean, isCached: boolean) => {
     if (!loaded || hasLoadedOnce) {
       return;
     }
 
     setImageLoaded(true);
-    setHasLoadedOnce(true);
+    // Only set imageLoaded, don't set hasLoadedOnce here
 
     if (isCached && initialLoadRef.current) {
       initialLoadRef.current = false;
@@ -109,12 +132,15 @@ export const CardContainer = ({
     return () => clearTimeout(timer);
   }, []);
 
+  // Set hasLoadedOnce the first time the card enters the viewport
   useEffect(() => {
-    if (!initialLoadComplete || !isInViewport || hasLoadedOnce) {
+    if (!initialLoadComplete || hasLoadedOnce) {
       return;
     }
-
-    if (skeletonStartTimeRef.current === null) {
+    if (isInViewport) {
+      setHasLoadedOnce(true);
+    }
+    if (skeletonStartTimeRef.current === null && isInViewport) {
       skeletonStartTimeRef.current = Date.now();
     }
   }, [initialLoadComplete, isInViewport, hasLoadedOnce]);
@@ -131,8 +157,9 @@ export const CardContainer = ({
     };
   }, []);
 
+  // Prevent skeleton flashing: don't show skeleton if image is loaded or cached
   const shouldShowSkeleton =
-    !hasLoadedOnce && isInViewport && initialLoadComplete;
+    !imageLoaded && !hasLoadedOnce && isInViewport && initialLoadComplete;
 
   return (
     <div ref={elementRef} className={cn("relative", className)}>
