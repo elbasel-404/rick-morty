@@ -281,7 +281,7 @@ export const CharacterExplorer = ({
 
   return (
     <section className="space-y-6">
-      <nav className="rounded-xl border-2 border-slate-700 bg-transparent p-5 backdrop-blur">
+      <nav className="relative z-20 rounded-xl border-2 border-slate-700 bg-transparent p-5 backdrop-blur">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex w-full flex-col gap-3 md:max-w-md md:flex-row">
             <label className="flex flex-1 items-center gap-2 text-base text-slate-300">
