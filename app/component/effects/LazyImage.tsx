@@ -41,6 +41,10 @@ export const LazyImage = ({
   const [isLoaded, setIsLoaded] = useState(false);
   const onLoadRef = useRef(onLoad);
 
+  // Reuse Image objects for the same src to avoid creating multiple Image instances
+  // across renders (reduces memory churn).
+  const imageCacheRef = useRef<Map<string, HTMLImageElement>>(new Map());
+
   useEffect(() => {
     onLoadRef.current = onLoad;
   }, [onLoad]);
@@ -52,11 +56,19 @@ export const LazyImage = ({
 
     let currentImage: HTMLImageElement | null = null;
 
-    if (mode === "preload") {
-      currentImage = new window.Image();
-      currentImage.src = src;
+    // Try reuse from module-local cache
+    const cached = imageCacheRef.current.get(src);
+    if (cached) {
+      currentImage = cached;
+    } else if (mode === "preload") {
+      const newImg = new window.Image();
+      newImg.src = src;
+      imageCacheRef.current.set(src, newImg);
+      currentImage = newImg;
     } else if (imgRef.current) {
+      // If rendering inline, prefer the DOM element
       currentImage = imgRef.current;
+      imageCacheRef.current.set(src, imgRef.current);
     }
 
     if (currentImage) {

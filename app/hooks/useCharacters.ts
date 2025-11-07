@@ -30,7 +30,7 @@ interface NormalizedParams {
 const DEFAULT_ERROR_MESSAGE = "Unable to load characters.";
 
 const normalizeParams = (
-  params: UseCharactersParams = {},
+  params: UseCharactersParams = {}
 ): NormalizedParams => ({
   page: params.page && params.page > 0 ? params.page : 1,
   name: params.name?.trim() || undefined,
@@ -39,7 +39,7 @@ const normalizeParams = (
 });
 
 export const useCharacters = (
-  params: UseCharactersParams = {},
+  params: UseCharactersParams = {}
 ): UseCharactersResult => {
   const [data, setData] = useState<Character[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -47,10 +47,12 @@ export const useCharacters = (
 
   // Abort pending requests so the UI never shows stale responses.
   const abortControllerRef = useRef<AbortController | null>(null);
+  // Sequence number to avoid race conditions: only apply the latest response
+  const seqRef = useRef(0);
   const isMountedRef = useRef(true);
   const normalizedParams = useMemo(
     () => normalizeParams(params),
-    [params.page, params.name, params.species, params.status, params],
+    [params.page, params.name, params.species, params.status, params]
   );
   const latestParamsRef = useRef<NormalizedParams>(normalizedParams);
 
@@ -68,6 +70,10 @@ export const useCharacters = (
   const fetchCharacters = useCallback(async (nextParams?: NormalizedParams) => {
     const activeParams = nextParams ?? latestParamsRef.current;
     latestParamsRef.current = activeParams;
+
+    // bump sequence
+    const seq = seqRef.current + 1;
+    seqRef.current = seq;
 
     abortControllerRef.current?.abort();
     const controller = new AbortController();
@@ -109,7 +115,7 @@ export const useCharacters = (
 
       const charactersValidation = validateJson(
         responseValidation.data.results,
-        characterSchema,
+        characterSchema
       );
 
       if (!charactersValidation.valid) {
@@ -132,8 +138,11 @@ export const useCharacters = (
         ? charactersValidation.data
         : [charactersValidation.data];
 
-      setData(characters);
-      setError(null);
+      // only apply if this is still the latest request
+      if (seqRef.current === seq && isMountedRef.current) {
+        setData(characters);
+        setError(null);
+      }
     } catch (requestError) {
       if (axios.isCancel(requestError)) {
         return;
@@ -150,12 +159,12 @@ export const useCharacters = (
         error: requestError,
       });
 
-      if (isMountedRef.current) {
+      if (isMountedRef.current && seqRef.current === seq) {
         setError(message);
         setData(null);
       }
     } finally {
-      if (isMountedRef.current) {
+      if (isMountedRef.current && seqRef.current === seq) {
         setIsLoading(false);
       }
     }

@@ -10,6 +10,9 @@ import {
   useRef,
   useState,
 } from "react";
+import { useAsyncOperation } from "../hooks/useAsyncOperation";
+import { tryCatch } from "@util";
+import { useAutoRefresh } from "../hooks/useAutoRefresh";
 import { useDebounceValue } from "../hooks/useDebounceValue";
 import {
   type CardVariant,
@@ -65,11 +68,7 @@ export const CharacterExplorer = ({
     characters: initialCharacters,
     nextPage: initialNextPage,
   });
-  const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [timeLeftMs, setTimeLeftMs] = useState(REFRESH_INTERVAL_MS);
-  const [isAutoRefreshPaused, setIsAutoRefreshPaused] = useState(false);
-  const requestIdRef = useRef(0);
   const isFirstLoadRef = useRef(true);
 
   useEffect(() => {
@@ -77,7 +76,6 @@ export const CharacterExplorer = ({
       characters: initialCharacters,
       nextPage: initialNextPage,
     });
-    setTimeLeftMs(REFRESH_INTERVAL_MS);
   }, [initialCharacters, initialNextPage]);
 
   const handleNameChange = useCallback(
@@ -85,10 +83,10 @@ export const CharacterExplorer = ({
       const nextName = event.target.value;
 
       setSearchInput((previous) =>
-        previous === nextName ? previous : nextName,
+        previous === nextName ? previous : nextName
       );
     },
-    [],
+    []
   );
 
   const handleStatusChange = useCallback((nextStatus: string) => {
@@ -130,51 +128,46 @@ export const CharacterExplorer = ({
     });
   }, [debouncedSearch]);
 
-  const fetchInitialPage = useCallback(async () => {
-    const requestId = requestIdRef.current + 1;
-    requestIdRef.current = requestId;
+  const { execute, isLoading: isFetching } = useAsyncOperation<{
+    characters: Character[];
+    nextPage: number | null;
+  }>({
+    onError: (err) => console.error("Failed to fetch characters:", err),
+  });
 
-    setIsFetching(true);
+  const fetchInitialPage = useCallback(async () => {
     setError(null);
 
-    try {
-      const result = await fetchCharactersPage({
-        page: 1,
-        name: filters.name.trim().length > 0 ? filters.name.trim() : undefined,
-        status: filters.status === "all" ? undefined : filters.status,
-      });
+    const result = await execute(async () =>
+      tryCatch(async () => {
+        const payload = await fetchCharactersPage({
+          page: 1,
+          name:
+            filters.name.trim().length > 0 ? filters.name.trim() : undefined,
+          status: filters.status === "all" ? undefined : filters.status,
+        });
 
-      if (requestIdRef.current !== requestId) {
-        return;
-      }
+        if (payload.error) {
+          throw new Error(payload.error);
+        }
 
-      if (result.error) {
-        setError(result.error);
-        setGridState({ characters: [], nextPage: null });
-        return;
-      }
+        return {
+          characters: payload.characters,
+          nextPage: payload.nextPage,
+        };
+      }, "Failed to fetch characters")
+    );
 
+    if (result.success) {
       setGridState({
-        characters: result.characters,
-        nextPage: result.nextPage,
+        characters: result.data.characters,
+        nextPage: result.data.nextPage,
       });
-    } catch (requestError) {
-      if (requestIdRef.current !== requestId) {
-        return;
-      }
-
-      const message =
-        requestError instanceof Error
-          ? requestError.message
-          : "Unknown error while fetching characters.";
-      setError(message);
+    } else {
+      setError(result.error);
       setGridState({ characters: [], nextPage: null });
-    } finally {
-      if (requestIdRef.current === requestId) {
-        setIsFetching(false);
-      }
     }
-  }, [filters.name, filters.status]);
+  }, [execute, filters.name, filters.status]);
 
   useEffect(() => {
     if (isFirstLoadRef.current) {
@@ -182,54 +175,20 @@ export const CharacterExplorer = ({
       return;
     }
 
-    setTimeLeftMs(REFRESH_INTERVAL_MS);
     void fetchInitialPage();
   }, [fetchInitialPage]);
 
-  useEffect(() => {
-    if (isAutoRefreshPaused) {
-      return;
-    }
-
-    const intervalId = window.setInterval(() => {
-      setTimeLeftMs((previous) => (previous <= 1000 ? 0 : previous - 1000));
-    }, 1000);
-
-    return () => window.clearInterval(intervalId);
-  }, [isAutoRefreshPaused]);
-
-  useEffect(() => {
-    if (isAutoRefreshPaused || timeLeftMs > 0) {
-      return;
-    }
-
-    setTimeLeftMs(REFRESH_INTERVAL_MS);
-
-    if (!isFetching) {
-      void fetchInitialPage();
-    }
-  }, [fetchInitialPage, isAutoRefreshPaused, isFetching, timeLeftMs]);
-
-  const toggleAutoRefresh = useCallback(() => {
-    setIsAutoRefreshPaused((previous) => !previous);
-  }, []);
-
-  const handleManualRefresh = useCallback(() => {
-    if (isFetching) {
-      return;
-    }
-
-    setTimeLeftMs(REFRESH_INTERVAL_MS);
-    void fetchInitialPage();
-  }, [fetchInitialPage, isFetching]);
-
-  useEffect(() => {
-    if (isAutoRefreshPaused) {
-      return;
-    }
-
-    setTimeLeftMs((current) => (current === 0 ? REFRESH_INTERVAL_MS : current));
-  }, [isAutoRefreshPaused]);
+  const {
+    timeLeftMs,
+    isPaused: isAutoRefreshPaused,
+    isRefreshing,
+    togglePause: toggleAutoRefresh,
+    refresh: handleManualRefresh,
+  } = useAutoRefresh({
+    intervalMs: REFRESH_INTERVAL_MS,
+    onRefresh: fetchInitialPage,
+    enabled: true,
+  });
 
   const formattedSecondsLeft = useMemo(() => {
     const totalSeconds = Math.max(0, Math.ceil(timeLeftMs / 1000));
@@ -242,7 +201,7 @@ export const CharacterExplorer = ({
       status: filters.status === "all" ? undefined : filters.status,
       sortOrder: filters.sortOrder,
     }),
-    [filters],
+    [filters]
   );
 
   return (
@@ -297,7 +256,7 @@ export const CharacterExplorer = ({
 
       {gridState.characters.length === 0 && !error ? (
         <div className="rounded-lg border-2 border-slate-700 bg-transparent p-6 text-center text-base text-slate-300">
-          {isFetching
+          {isFetching || isRefreshing
             ? "Loading characters..."
             : "No characters match your filters."}
         </div>

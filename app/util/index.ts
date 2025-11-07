@@ -18,3 +18,4 @@ export { getApiRootUrl } from "./getApiRootUrl";
 export { logError } from "./logError";
 export { validateJson } from "./validateJson";
 export { handleAxiosError } from "./errorUtils";
+export { tryCatch, success, failure, type Result } from "./result";
