@@ -1,4 +1,5 @@
 # Rick and Morty Characters Browser
+live on: https://rick-and-morty-elbasel.vercel.app/cards/1
 
 A modern, high-performance web application for browsing and exploring characters from the Rick and Morty universe. This project showcases advanced React patterns, server-side rendering, and cutting-edge web technologies to deliver a smooth and responsive user experience.
 
