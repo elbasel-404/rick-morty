@@ -14,4 +14,5 @@ export { FadeIn, FadeOut, LazyImage, ViewportDetector } from "./effects";
 // Shared Components
 export { SkeletonLoader } from "./SkeletonLoader";
 export { InfiniteCharacterGrid } from "./InfiniteCharacterGrid";
-export type { CardVariant } from "./InfiniteCharacterGrid";
+export { CharacterExplorer } from "./CharacterExplorer";
+export type { CardVariant, SortOption } from "./InfiniteCharacterGrid";

@@ -27,6 +27,28 @@ const CARD_VARIANTS = {
 } as const;
 
 export type CardVariant = keyof typeof CARD_VARIANTS;
+export type SortOption =
+  | "name-asc"
+  | "name-desc"
+  | "created-asc"
+  | "created-desc";
+
+interface GridFilters {
+  name?: string;
+  status?: string;
+  sortOrder: SortOption;
+}
+
+const getCreatedTimestamp = (character: Character) => {
+  const createdValue = (character as { created?: string }).created;
+
+  if (typeof createdValue === "string") {
+    const timestamp = Date.parse(createdValue);
+    return Number.isNaN(timestamp) ? character.id : timestamp;
+  }
+
+  return character.id;
+};
 
 type FooterContext = {
   isLoading: boolean;
@@ -103,12 +125,14 @@ interface InfiniteCharacterGridProps {
   initialCharacters: Character[];
   initialNextPage: number | null;
   cardVariant: CardVariant;
+  filters: GridFilters;
 }
 
 export const InfiniteCharacterGrid = ({
   initialCharacters,
   initialNextPage,
   cardVariant,
+  filters,
 }: InfiniteCharacterGridProps) => {
   const [characters, setCharacters] = useState<Character[]>(initialCharacters);
   const [nextPage, setNextPage] = useState<number | null>(initialNextPage);
@@ -119,6 +143,29 @@ export const InfiniteCharacterGrid = ({
   const SelectedCard = CARD_VARIANTS[cardVariant];
   const hasMore = nextPage !== null;
 
+  const sortCharacters = useCallback(
+    (items: Character[]) => {
+      const sorted = [...items];
+
+      switch (filters.sortOrder) {
+        case "name-desc":
+          return sorted.sort((a, b) => b.name.localeCompare(a.name));
+        case "created-asc":
+          return sorted.sort(
+            (a, b) => getCreatedTimestamp(a) - getCreatedTimestamp(b)
+          );
+        case "created-desc":
+          return sorted.sort(
+            (a, b) => getCreatedTimestamp(b) - getCreatedTimestamp(a)
+          );
+        case "name-asc":
+        default:
+          return sorted.sort((a, b) => a.name.localeCompare(b.name));
+      }
+    },
+    [filters.sortOrder]
+  );
+
   const loadMore = useCallback(async () => {
     if (!nextPage || isLoading) return;
 
@@ -128,6 +175,8 @@ export const InfiniteCharacterGrid = ({
     try {
       const payload: FetchCharactersResult = await fetchCharactersPage({
         page: nextPage,
+        name: filters.name,
+        status: filters.status,
       });
 
       if (payload.error) {
@@ -142,7 +191,7 @@ export const InfiniteCharacterGrid = ({
           return !existingIds.has(character.id);
         });
 
-        return [...previous, ...uniqueNewCharacters];
+        return sortCharacters([...previous, ...uniqueNewCharacters]);
       });
 
       setNextPage(payload.nextPage);
@@ -155,12 +204,21 @@ export const InfiniteCharacterGrid = ({
     } finally {
       setIsLoading(false);
     }
-  }, [isLoading, nextPage]);
+  }, [filters.name, filters.status, isLoading, nextPage, sortCharacters]);
 
   const handleEndReached = useCallback(() => {
     if (!hasMore || isLoading) return;
     void loadMore();
   }, [hasMore, isLoading, loadMore]);
+
+  useEffect(() => {
+    setCharacters(sortCharacters(initialCharacters));
+    setNextPage(initialNextPage);
+  }, [initialCharacters, initialNextPage, sortCharacters]);
+
+  useEffect(() => {
+    setCharacters((previous) => sortCharacters(previous));
+  }, [sortCharacters]);
 
   useEffect(() => {
     const root = document.documentElement;

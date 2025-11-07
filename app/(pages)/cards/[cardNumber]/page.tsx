@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCharactersList } from "@server";
-import { InfiniteCharacterGrid } from "@component";
+import { CharacterExplorer } from "@component";
 import type { CardVariant } from "@component";
 import { cn, extractNextPage } from "@util";
 
@@ -44,11 +44,13 @@ const CardPage = async ({ params }: CardPageProps) => {
         </h1>
 
         <CardSwitcher cardNumber={cardNumber} />
-        <InfiniteCharacterGrid
-          initialCharacters={characterResult.characters}
-          initialNextPage={nextPage}
-          cardVariant={cardVariant}
-        />
+        <div className="z-50">
+          <CharacterExplorer
+            initialCharacters={characterResult.characters}
+            initialNextPage={nextPage}
+            cardVariant={cardVariant}
+          />
+        </div>
       </div>
     </main>
   );

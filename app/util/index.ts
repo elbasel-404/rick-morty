@@ -12,3 +12,9 @@ export {
   ANIMATION_EASING,
   type AnimationTimings,
 } from "../lib/animationConfig";
+
+export {
+  debounce,
+  type DebouncedFunction,
+  type DebounceOptions,
+} from "./debounce";

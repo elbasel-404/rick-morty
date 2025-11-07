@@ -17,30 +17,30 @@ export const Locations = ({ origin, location, isHovered }: LocationsProps) => {
           : "translateZ(35px) translateY(20px)",
       }}
     >
-      <div className="flex-1 text-center px-3 py-2">
+      <div className="flex-1 text-center px-3 py-2 bg-black/30 backdrop-blur-sm rounded-lg shadow-lg">
         <p
-          className="text-white/80 text-[10px] uppercase tracking-wider font-medium mb-1"
+          className="text-white/80 text-xs uppercase tracking-wider font-medium mb-1"
           style={{ textShadow: textShadow.subtle }}
         >
           Origin
         </p>
         <p
-          className="text-white font-bold text-sm line-clamp-1"
+          className="text-white font-bold text-base line-clamp-1"
           style={{ textShadow: textShadow.medium }}
         >
           {origin}
         </p>
       </div>
 
-      <div className="flex-1 text-center px-3 py-2">
+      <div className="flex-1 text-center px-3 py-2 bg-black/30 backdrop-blur-sm rounded-lg shadow-lg">
         <p
-          className="text-white/80 text-[10px] uppercase tracking-wider font-medium mb-1"
+          className="text-white/80 text-xs uppercase tracking-wider font-medium mb-1"
           style={{ textShadow: textShadow.subtle }}
         >
           Location
         </p>
         <p
-          className="text-white font-bold text-sm line-clamp-1"
+          className="text-white font-bold text-base line-clamp-1"
           style={{ textShadow: textShadow.medium }}
         >
           {location}
