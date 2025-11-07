@@ -76,7 +76,7 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
 
       <div
         className={cn(
-          "relative w-full max-w-2xl bg-gradient-to-b from-slate-800 to-slate-900 rounded-2xl overflow-hidden transition-all duration-300 ease-out border border-slate-700/50",
+          "relative w-full max-w-2xl bg-linear-to-b from-slate-800 to-slate-900 rounded-2xl overflow-hidden transition-all duration-300 ease-out border border-slate-700/50",
           isHovered
             ? "[box-shadow:0_0_50px_rgba(59,130,246,0.4),0_20px_60px_rgba(0,0,0,0.6)]"
             : "[box-shadow:0_10px_30px_rgba(0,0,0,0.5),0_0_20px_rgba(59,130,246,0.1)]"
@@ -103,7 +103,7 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
           />
 
           {/* Dark gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/40 to-transparent" />
 
           {/* Water vortex effect */}
           {isHovered && (
@@ -160,14 +160,14 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
           {/* Status accent bar */}
           <div
             className={cn(
-              "absolute top-0 left-0 right-0 h-1 bg-gradient-to-r",
+              "absolute top-0 left-0 right-0 h-1 bg-linear-to-r",
               statusColor
             )}
           />
 
           {/* Character name overlay */}
           <div
-            className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-slate-950/95 via-slate-950/70 to-transparent backdrop-blur"
+            className="absolute bottom-0 left-0 right-0 p-6 bg-linear-to-t from-slate-950/95 via-slate-950/70 to-transparent backdrop-blur"
             style={{ transform: "translateZ(30px)" }}
           >
             <h2 className="text-5xl font-bold text-white mb-3">{name}</h2>
@@ -193,7 +193,7 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-700/60 bg-slate-900/70 backdrop-blur">
                 <div
                   className={cn(
-                    "w-2.5 h-2.5 rounded-full bg-gradient-to-br",
+                    "w-2.5 h-2.5 rounded-full bg-linear-to-br",
                     statusColor
                   )}
                 />

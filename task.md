@@ -46,6 +46,7 @@ No auth required; CORS-friendly
 - **Error Boundary:** Add a simple error boundary around lazily-loaded routes
 - **Skeletons:** Suspense fallback + lightweight skeleton UIs
 - **Offline Hint:** If fetch fails, show a retry with exponential backoff (in the custom hook)
+  >
 
 ## Technical Requirements & Constraints
 
