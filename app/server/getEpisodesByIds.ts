@@ -1,7 +1,6 @@
-import axios from "axios";
 import { axiosClient } from "@http";
-import { episodeSchema, type Episode } from "@schema";
-import { logError, validateJson } from "@util";
+import { type Episode, episodeSchema } from "@schema";
+import { handleAxiosError, logError, validateJson } from "@util";
 
 interface GetEpisodesByIdsParams {
   ids: string[];
@@ -40,7 +39,9 @@ export const getEpisodesByIds = async ({
 
   try {
     const { data } = await axiosClient.request(requestConfig);
-    const validation = validateJson(data, episodeSchema);
+    const schemaToUse =
+      sanitizedIds.length > 1 ? z.array(episodeSchema) : episodeSchema;
+    const validation = validateJson(data, schemaToUse);
 
     if (!validation.valid) {
       logError({
@@ -54,72 +55,25 @@ export const getEpisodesByIds = async ({
       } satisfies EpisodesByIdsResult;
     }
 
-    const rawEpisodes = validation.data as Episode | Episode[];
-    const episodes = Array.isArray(rawEpisodes) ? rawEpisodes : [rawEpisodes];
+    const episodes = Array.isArray(validation.data)
+      ? validation.data
+      : [validation.data];
 
     return {
       episodes,
       error: null,
     } satisfies EpisodesByIdsResult;
   } catch (error) {
-    const requestUrl = axiosClient.getUri(requestConfig);
-
-    if (axios.isAxiosError(error)) {
-      if (error.response) {
-        const status = error.response.status;
-        const errorMessage = `Episode request failed with status ${status}.`;
-        const responsePayload = error.response.data;
-        const serializedPayload =
-          typeof responsePayload === "string"
-            ? responsePayload
-            : (() => {
-                try {
-                  return JSON.stringify(responsePayload, null, 2);
-                } catch {
-                  return "Unable to serialize error response.";
-                }
-              })();
-
-        logError({
-          errorTitle: `Failed to fetch episodes with ids ${sanitizedIds.join(
-            ","
-          )}`,
-          errorContent: serializedPayload ?? errorMessage,
-        });
-
-        return {
-          episodes: [],
-          error: FETCH_ERROR_MESSAGE,
-        } satisfies EpisodesByIdsResult;
-      }
-
-      const errorMessage = error.message ?? "Unknown error occurred.";
-      logError({
-        errorTitle: `Network error while fetching episodes ${sanitizedIds.join(
-          ","
-        )}`,
-        errorContent: errorMessage,
-      });
-
-      return {
-        episodes: [],
-        error: FETCH_ERROR_MESSAGE,
-      } satisfies EpisodesByIdsResult;
-    }
-
-    const errorMessage =
-      error instanceof Error ? error.message : "Unknown error occurred.";
-
-    logError({
-      errorTitle: `Unexpected error while fetching episodes ${sanitizedIds.join(
-        ","
-      )}`,
-      errorContent: `${errorMessage} (request: ${requestUrl})`,
+    const errorMessage = handleAxiosError({
+      error,
+      requestConfig,
+      errorMessagePrefix: `Failed to fetch episodes with ids ${sanitizedIds.join(",")}`,
+      fallbackMessage: FETCH_ERROR_MESSAGE,
     });
 
     return {
       episodes: [],
-      error: FETCH_ERROR_MESSAGE,
+      error: errorMessage,
     } satisfies EpisodesByIdsResult;
   }
 };

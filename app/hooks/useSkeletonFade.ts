@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface UseSkeletonFadeOptions {
   imageLoaded: boolean;
@@ -15,6 +15,8 @@ interface UseSkeletonFadeReturn {
   cardOpacity: number;
 }
 
+const INITIAL_VIEWPORT_DELAY_MS = 100;
+
 export const useSkeletonFade = ({
   imageLoaded,
   isInViewport,
@@ -24,7 +26,9 @@ export const useSkeletonFade = ({
   const [hideSkeleton, setHideSkeleton] = useState(false);
   const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
   const initialLoadRef = useRef(true);
-  const loadTimeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+  const loadTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
+  );
 
   useEffect(() => {
     if (imageLoaded && !hasLoadedOnce) {
@@ -46,7 +50,7 @@ export const useSkeletonFade = ({
       // Then after skeleton fades, show card
       loadTimeoutRef.current = setTimeout(
         () => setShowCard(true),
-        fadeOutDuration
+        fadeOutDuration,
       );
 
       return () => {
@@ -62,14 +66,14 @@ export const useSkeletonFade = ({
     if (isInViewport) {
       const timer = setTimeout(() => {
         initialLoadRef.current = false;
-      }, 100);
+      }, INITIAL_VIEWPORT_DELAY_MS);
       return () => clearTimeout(timer);
     }
   }, [isInViewport]);
 
   // Only show skeleton if we haven't loaded yet AND we're in viewport
-  const showSkeleton =
-    !hasLoadedOnce && isInViewport && !initialLoadRef.current;
+  const _showContent = isLoaded;
+  const showSkeleton = !isLoaded;
   const skeletonOpacity = showSkeleton && !hideSkeleton ? 1 : 0;
   const cardOpacity = hasLoadedOnce || showCard ? 1 : 0;
 

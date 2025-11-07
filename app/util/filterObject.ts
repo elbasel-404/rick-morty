@@ -12,10 +12,10 @@ type ReturnType<T> = Record<keyof T, Exclude<T[keyof T], undefined>>;
  *
  */
 export const filterObject = <T extends Record<string, unknown>>(
-  obj: T | undefined
+  obj: T | undefined,
 ) => {
   if (!obj) return;
   return Object.fromEntries(
-    Object.entries(obj).filter(([, value]) => value !== undefined)
+    Object.entries(obj).filter(([, value]) => value !== undefined),
   ) as ReturnType<T>;
 };

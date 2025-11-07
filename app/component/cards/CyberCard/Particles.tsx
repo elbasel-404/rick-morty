@@ -22,7 +22,7 @@ export const Particles = ({ particles }: ParticlesProps) => {
           className={cn(
             "absolute w-0.5 sm:w-1 h-0.5 sm:h-1 rounded-full opacity-60",
             "motion-preset-float motion-ease-in-out",
-            particle.isCyan ? "bg-cyan-400" : "bg-pink-400"
+            particle.isCyan ? "bg-cyan-400" : "bg-pink-400",
           )}
           style={{
             left: `${particle.left}%`,

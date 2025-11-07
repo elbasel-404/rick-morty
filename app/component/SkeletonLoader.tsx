@@ -18,7 +18,7 @@ export const SkeletonLoader = ({
     <div
       className={cn(
         "absolute inset-0 bg-black rounded-xl overflow-hidden z-10",
-        className
+        className,
       )}
       style={{
         opacity,

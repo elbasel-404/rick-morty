@@ -1,9 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import type { Character, Episode } from "@schema";
 import { cn, logError } from "@util";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 type CharacterDetailVariant = "page" | "modal";
 
@@ -54,14 +54,14 @@ export const CharacterDetail = ({
   episodes,
 }: CharacterDetailProps) => {
   const [recentCharacters, setRecentCharacters] = useState<ViewedCharacter[]>(
-    []
+    [],
   );
   const isModal = variant === "modal";
 
   // Persist the last five viewed characters so they can be surfaced quickly on future visits.
   useEffect(() => {
     const storedValue = window.localStorage.getItem(
-      RECENTLY_VIEWED_STORAGE_KEY
+      RECENTLY_VIEWED_STORAGE_KEY,
     );
 
     let parsedValue: ViewedCharacter[] = [];
@@ -76,7 +76,7 @@ export const CharacterDetail = ({
                 typeof item === "object" &&
                 item !== null &&
                 typeof item.id === "number" &&
-                typeof item.name === "string"
+                typeof item.name === "string",
             )
             .map((item) => ({
               id: item.id,
@@ -103,14 +103,14 @@ export const CharacterDetail = ({
     };
 
     const dedupedEntries = parsedValue.filter(
-      (entry) => entry.id !== currentCharacter.id
+      (entry) => entry.id !== currentCharacter.id,
     );
 
     const updatedEntries = [currentCharacter, ...dedupedEntries].slice(0, 5);
 
     window.localStorage.setItem(
       RECENTLY_VIEWED_STORAGE_KEY,
-      JSON.stringify(updatedEntries)
+      JSON.stringify(updatedEntries),
     );
 
     setRecentCharacters(updatedEntries);
@@ -129,7 +129,7 @@ export const CharacterDetail = ({
       label: "First appeared",
       value:
         character.episode.length > 0
-          ? episodes?.[0]?.name ?? formatEpisodeLabel(character.episode[0]!)
+          ? (episodes?.[0]?.name ?? formatEpisodeLabel(character.episode[0]))
           : "Unknown",
     },
     {
@@ -140,7 +140,7 @@ export const CharacterDetail = ({
       label: "Most recent episode",
       value:
         character.episode.length > 0
-          ? formatEpisodeLabel(character.episode[character.episode.length - 1]!)
+          ? formatEpisodeLabel(character.episode[character.episode.length - 1])
           : "Unknown",
     },
   ];
@@ -156,7 +156,7 @@ export const CharacterDetail = ({
   });
   const remainingEpisodes = Math.max(
     character.episode.length - episodeEntries.length,
-    0
+    0,
   );
 
   const factsLeftColumn = primaryFacts.slice(0, 6);
@@ -164,7 +164,7 @@ export const CharacterDetail = ({
 
   const renderFact = (
     fact: { label: string; value: string },
-    options?: { compact?: boolean }
+    options?: { compact?: boolean },
   ) => {
     const compact = options?.compact ?? false;
 
@@ -173,13 +173,13 @@ export const CharacterDetail = ({
         key={fact.label}
         className={cn(
           "group rounded-xl border border-border bg-card hover:bg-card/80 transition-all duration-200",
-          compact ? "p-3 sm:p-4" : "p-4 sm:p-5"
+          compact ? "p-3 sm:p-4" : "p-4 sm:p-5",
         )}
       >
         <dt
           className={cn(
             "font-bold uppercase tracking-widest text-muted-foreground group-hover:text-primary transition-colors",
-            compact ? "text-[0.65rem] sm:text-xs" : "text-xs sm:text-sm"
+            compact ? "text-[0.65rem] sm:text-xs" : "text-xs sm:text-sm",
           )}
         >
           {fact.label}
@@ -189,7 +189,7 @@ export const CharacterDetail = ({
             "font-semibold leading-relaxed text-foreground",
             compact
               ? "mt-1.5 text-sm sm:text-base"
-              : "mt-2 sm:mt-3 text-base sm:text-lg"
+              : "mt-2 sm:mt-3 text-base sm:text-lg",
           )}
         >
           {fact.value}
@@ -223,6 +223,7 @@ export const CharacterDetail = ({
                     {character.name}
                   </h1>
                   <button
+                    type="button"
                     onClick={() => {
                       window.location.reload();
                     }}
@@ -236,7 +237,9 @@ export const CharacterDetail = ({
                       strokeWidth={2}
                       stroke="currentColor"
                       className="h-4 w-4"
+                      aria-hidden="true"
                     >
+                      <title>Refresh icon</title>
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -253,7 +256,7 @@ export const CharacterDetail = ({
                 <span
                   className={cn(
                     "inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide whitespace-nowrap sm:px-4 sm:py-1.5 sm:text-sm",
-                    getStatusBadgeClassName(character.status)
+                    getStatusBadgeClassName(character.status),
                   )}
                 >
                   {character.status}
@@ -316,7 +319,7 @@ export const CharacterDetail = ({
               <span
                 className={cn(
                   "inline-flex items-center rounded-full px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-sm font-semibold uppercase tracking-wide whitespace-nowrap shrink-0",
-                  getStatusBadgeClassName(character.status)
+                  getStatusBadgeClassName(character.status),
                 )}
               >
                 {character.status}

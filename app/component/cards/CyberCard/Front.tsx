@@ -6,7 +6,11 @@ interface FrontProps {
   imageLoaded: boolean;
 }
 
-export const Front = ({ characterImage, characterName, imageLoaded }: FrontProps) => {
+export const Front = ({
+  characterImage,
+  characterName,
+  imageLoaded,
+}: FrontProps) => {
   // Accept imageLoaded as prop for fade-in effect
   // For now, fallback to always visible if not provided
   // You may need to pass imageLoaded from parent CardContainer
@@ -15,11 +19,13 @@ export const Front = ({ characterImage, characterName, imageLoaded }: FrontProps
       className="relative h-full w-full overflow-hidden"
       style={{ transformStyle: "preserve-3d" }}
     >
-      <img
+      <Image
         src={characterImage}
         alt={characterName}
-        className={`absolute inset-0 h-full w-full object-cover filter-[contrast(1.1)_saturate(1.3)_brightness(1.05)] transition-all duration-700 ${imageLoaded ? 'opacity-100' : 'opacity-0'}`}
-        style={{ background: '#0f172a' }}
+        fill
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        className={`object-cover filter-[contrast(1.1)_saturate(1.3)_brightness(1.05)] transition-all duration-700 ${imageLoaded ? "opacity-100" : "opacity-0"}`}
+        style={{ background: "#0f172a" }}
       />
       <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent" />
       <div className="absolute inset-0 bg-linear-to-br from-cyan-500/15 via-transparent to-pink-500/15 mix-blend-overlay" />

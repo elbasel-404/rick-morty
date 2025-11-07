@@ -10,7 +10,7 @@ export const getApiRootUrl = () => {
 
   if (!apiRootUrl) {
     console.warn(
-      `API root URL env vars are missing. Falling back to '${FALLBACK_URL}'.`
+      `API root URL env vars are missing. Falling back to '${FALLBACK_URL}'.`,
     );
     return FALLBACK_URL;
   }

@@ -1,12 +1,12 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface UseInViewportOptions {
   threshold?: number;
   rootMargin?: string;
 }
 
-export const useInViewport = (options: UseInViewportOptions = {}) => {
+export const useInViewport = (_options: UseInViewportOptions = {}) => {
   const [isInViewport, setIsInViewport] = useState(false);
   const elementRef = useRef<HTMLDivElement>(null);
 
@@ -15,10 +15,7 @@ export const useInViewport = (options: UseInViewportOptions = {}) => {
       ([entry]) => {
         setIsInViewport(entry.isIntersecting);
       },
-      {
-        threshold: options.threshold ?? 0.1,
-        rootMargin: options.rootMargin ?? "200px", // Preload when 200px away
-      }
+      { threshold: 0.25 },
     );
 
     const currentElement = elementRef.current;
@@ -27,11 +24,11 @@ export const useInViewport = (options: UseInViewportOptions = {}) => {
     }
 
     return () => {
-      if (currentElement) {
-        observer.unobserve(currentElement);
+      if (elementRef.current) {
+        observer.unobserve(elementRef.current);
       }
     };
-  }, [options.threshold, options.rootMargin]);
+  }, []);
 
   return { elementRef, isInViewport };
 };

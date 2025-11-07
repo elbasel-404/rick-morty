@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, CSSProperties, useEffect, useState } from "react";
+import { type CSSProperties, type ReactNode, useEffect, useState } from "react";
 
 interface FadeInProps {
   /** Whether the element should be visible */

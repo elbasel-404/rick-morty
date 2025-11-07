@@ -17,7 +17,7 @@ const now = () => Date.now();
 export const debounce = <T extends (...args: any[]) => any>(
   func: T,
   wait = 0,
-  options: DebounceOptions = {}
+  options: DebounceOptions = {},
 ): DebouncedFunction<T> => {
   const waitDuration = Math.max(0, wait);
   let timerId: ReturnType<typeof setTimeout> | null = null;

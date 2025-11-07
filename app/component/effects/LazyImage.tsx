@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useEffect, useState, ImgHTMLAttributes } from "react";
+import { type ImgHTMLAttributes, useEffect, useRef, useState } from "react";
 
 interface LazyImageProps
   extends Omit<
@@ -39,6 +39,11 @@ export const LazyImage = ({
 }: LazyImageProps) => {
   const imgRef = useRef<HTMLImageElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const onLoadRef = useRef(onLoad);
+
+  useEffect(() => {
+    onLoadRef.current = onLoad;
+  }, [onLoad]);
 
   useEffect(() => {
     if (!isInViewport || isLoaded) {
@@ -58,20 +63,20 @@ export const LazyImage = ({
       // Check if image is already cached
       if (currentImage.complete && currentImage.naturalHeight !== 0) {
         setIsLoaded(true);
-        onLoad?.(true, true); // loaded, cached
+        onLoadRef.current?.(true, true); // loaded, cached
         return;
       }
 
       // Handle load event
       const handleLoad = () => {
         setIsLoaded(true);
-        onLoad?.(true, false); // loaded, not cached
+        onLoadRef.current?.(true, false); // loaded, not cached
       };
 
       currentImage.addEventListener("load", handleLoad);
       return () => currentImage?.removeEventListener("load", handleLoad);
     }
-  }, [isInViewport, isLoaded, onLoad, src, mode]);
+  }, [isInViewport, isLoaded, src, mode]);
 
   // Don't render anything if not in viewport and not in inline mode
   if (!isInViewport && mode !== "inline") return null;

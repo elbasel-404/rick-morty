@@ -1,5 +1,5 @@
-import axios from "axios";
 import { getApiRootUrl } from "@util";
+import axios from "axios";
 
 const DEFAULT_TIMEOUT_MS = 10000;
 

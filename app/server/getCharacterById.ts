@@ -1,7 +1,6 @@
-import axios from "axios";
 import { axiosClient } from "@http";
-import { characterSchema, type Character } from "@schema";
-import { logError, validateJson } from "@util";
+import { type Character, characterSchema } from "@schema";
+import { handleAxiosError, logError, validateJson } from "@util";
 
 interface GetCharacterByIdParams {
   id: string;
@@ -44,58 +43,16 @@ export const getCharacterById = async ({
       error: null,
     } satisfies CharacterByIdResult;
   } catch (error) {
-    const requestUrl = axiosClient.getUri(requestConfig);
-
-    if (axios.isAxiosError(error)) {
-      if (error.response) {
-        const status = error.response.status;
-        const errorMessage = `Character request failed with status ${status}.`;
-        const responsePayload = error.response.data;
-        const serializedPayload =
-          typeof responsePayload === "string"
-            ? responsePayload
-            : (() => {
-                try {
-                  return JSON.stringify(responsePayload, null, 2);
-                } catch {
-                  return "Unable to serialize error response.";
-                }
-              })();
-
-        logError({
-          errorTitle: `Failed to fetch character with id ${id}`,
-          errorContent: serializedPayload ?? errorMessage,
-        });
-
-        return {
-          character: null,
-          error: FETCH_ERROR_MESSAGE,
-        } satisfies CharacterByIdResult;
-      }
-
-      const errorMessage = error.message ?? "Unknown error occurred.";
-      logError({
-        errorTitle: `Network error while fetching character ${id}`,
-        errorContent: errorMessage,
-      });
-
-      return {
-        character: null,
-        error: FETCH_ERROR_MESSAGE,
-      } satisfies CharacterByIdResult;
-    }
-
-    const errorMessage =
-      error instanceof Error ? error.message : "Unknown error occurred.";
-
-    logError({
-      errorTitle: `Unexpected error while fetching character ${id}`,
-      errorContent: `${errorMessage} (request: ${requestUrl})`,
+    const errorMessage = handleAxiosError({
+      error,
+      requestConfig,
+      errorMessagePrefix: `Failed to fetch character with id ${id}`,
+      fallbackMessage: FETCH_ERROR_MESSAGE,
     });
 
     return {
       character: null,
-      error: FETCH_ERROR_MESSAGE,
+      error: errorMessage,
     } satisfies CharacterByIdResult;
   }
 };

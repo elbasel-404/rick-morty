@@ -32,19 +32,26 @@ export interface AnimationTimings {
  * - Card fade delay: 150ms * modifier (sequential timing gap)
  * - Total: minVisibility + fadeOut + delay + fadeIn
  */
+const BASE_SKELETON_FADE_OUT_DURATION = 800;
+const BASE_CARD_FADE_IN_DURATION = 900;
+const BASE_CARD_FADE_IN_DELAY = 150;
+const FIXED_MIN_SKELETON_VISIBILITY = 2000; // 2 seconds
+
 export function calculateAnimationTimings(
-  speedModifier = 0.1
+  speedModifier = 1.0,
 ): AnimationTimings {
   // Ensure modifier is positive
   const modifier = Math.max(0.1, speedModifier);
 
-  // Fixed minimum skeleton visibility (1 second as requested)
-  const minSkeletonVisibility = 2000;
+  // Fixed minimum skeleton visibility
+  const minSkeletonVisibility = FIXED_MIN_SKELETON_VISIBILITY;
 
   // Calculate proportional durations based on modifier
-  const skeletonFadeOut = Math.round(800 * modifier);
-  const cardFadeIn = Math.round(900 * modifier);
-  const cardFadeInDelay = Math.round(150 * modifier);
+  const skeletonFadeOut = Math.round(
+    BASE_SKELETON_FADE_OUT_DURATION * modifier,
+  );
+  const cardFadeIn = Math.round(BASE_CARD_FADE_IN_DURATION * modifier);
+  const cardFadeInDelay = Math.round(BASE_CARD_FADE_IN_DELAY * modifier);
 
   // Total sequence duration
   const totalDuration =

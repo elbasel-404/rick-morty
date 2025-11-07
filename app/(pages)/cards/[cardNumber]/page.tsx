@@ -1,9 +1,9 @@
+import type { CardVariant } from "@component";
+import { CharacterExplorer } from "@component";
+import { getCharactersList } from "@server";
+import { cn, extractNextPage } from "@util";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getCharactersList } from "@server";
-import { CharacterExplorer } from "@component";
-import type { CardVariant } from "@component";
-import { cn, extractNextPage } from "@util";
 
 type CardPageParams = {
   cardNumber: string;
@@ -67,7 +67,7 @@ const CardSwitcher = ({ cardNumber = "1" }) => {
             "px-4 py-2 rounded-lg font-medium",
             cardNumber === String(num)
               ? "bg-blue-500 text-white shadow-lg"
-              : "bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
+              : "bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600",
           )}
         >
           {num}

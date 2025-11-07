@@ -1,11 +1,10 @@
 "use client";
+import type { DebounceOptions } from "@util";
 import { useEffect, useMemo, useRef, useState } from "react";
-
 import {
-  useDebounceCallback,
   type DebouncedState,
-} from "./useDebounceCalllback";
-import { type DebounceOptions } from "@util";
+  useDebounceCallback,
+} from "./useDebounceCallback";
 
 type UseDebounceValueOptions<T> = DebounceOptions & {
   equalityFn?: (left: T, right: T) => boolean;
@@ -20,14 +19,14 @@ type SetStateDebounced<T> = DebouncedState<
 export function useDebounceValue<T>(
   valueOrInitializer: T | (() => T),
   delay: number,
-  options: UseDebounceValueOptions<T> = {}
+  options: UseDebounceValueOptions<T> = {},
 ): [T, SetStateDebounced<T>] {
   const resolveValue = useMemo(
     () =>
       typeof valueOrInitializer === "function"
         ? (valueOrInitializer as () => T)
         : () => valueOrInitializer,
-    [valueOrInitializer]
+    [valueOrInitializer],
   );
 
   const [debouncedValue, setDebouncedValue] = useState<T>(() => resolveValue());
@@ -38,7 +37,7 @@ export function useDebounceValue<T>(
   const updateDebouncedValue = useDebounceCallback(
     setDebouncedValue,
     delay,
-    options
+    options,
   );
 
   useEffect(() => {

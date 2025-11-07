@@ -1,9 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import axios from "axios";
-import { apiResponseSchema, characterSchema, type Character } from "@schema";
+import { axiosClient } from "@http";
+import { apiResponseSchema, type Character, characterSchema } from "@schema";
 import { filterObject, validateJson } from "@util";
+import axios from "axios";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 interface UseCharactersParams {
   page?: number;
@@ -26,13 +27,10 @@ interface NormalizedParams {
   species?: string;
 }
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_ROOT_URL ?? "https://rickandmortyapi.com/api";
-const DEFAULT_TIMEOUT_MS = 10000;
 const DEFAULT_ERROR_MESSAGE = "Unable to load characters.";
 
 const normalizeParams = (
-  params: UseCharactersParams = {}
+  params: UseCharactersParams = {},
 ): NormalizedParams => ({
   page: params.page && params.page > 0 ? params.page : 1,
   name: params.name?.trim() || undefined,
@@ -40,14 +38,8 @@ const normalizeParams = (
   species: params.species?.trim() || undefined,
 });
 
-const axiosClient = axios.create({
-  baseURL: API_BASE_URL,
-  headers: { Accept: "application/json" },
-  timeout: DEFAULT_TIMEOUT_MS,
-});
-
 export const useCharacters = (
-  params: UseCharactersParams = {}
+  params: UseCharactersParams = {},
 ): UseCharactersResult => {
   const [data, setData] = useState<Character[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -58,7 +50,7 @@ export const useCharacters = (
   const isMountedRef = useRef(true);
   const normalizedParams = useMemo(
     () => normalizeParams(params),
-    [params.page, params.name, params.species, params.status]
+    [params.page, params.name, params.species, params.status, params],
   );
   const latestParamsRef = useRef<NormalizedParams>(normalizedParams);
 
@@ -117,7 +109,7 @@ export const useCharacters = (
 
       const charactersValidation = validateJson(
         responseValidation.data.results,
-        characterSchema
+        characterSchema,
       );
 
       if (!charactersValidation.valid) {

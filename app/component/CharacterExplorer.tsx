@@ -1,20 +1,19 @@
 "use client";
 
+import type { Character } from "@schema";
+import { fetchCharactersPage } from "@server";
 import {
-  ChangeEvent,
+  type ChangeEvent,
   useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
 } from "react";
-import type { Character } from "@schema";
-import { fetchCharactersPage } from "@server";
-import { cn } from "@util";
 import { useDebounceValue } from "../hooks/useDebounceValue";
 import {
-  InfiniteCharacterGrid,
   type CardVariant,
+  InfiniteCharacterGrid,
   type SortOption,
 } from "./InfiniteCharacterGrid";
 
@@ -45,94 +44,6 @@ const SORT_OPTIONS: { label: string; value: SortOption }[] = [
 
 const SEARCH_DEBOUNCE_MS = 400;
 const REFRESH_INTERVAL_MS = 30_000;
-
-interface CustomDropdownProps {
-  value: string;
-  onChange: (value: string) => void;
-  options: { label: string; value: string }[];
-  disabled?: boolean;
-  label: string;
-}
-
-const CustomDropdown = ({
-  value,
-  onChange,
-  options,
-  disabled = false,
-  label,
-}: CustomDropdownProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  const selectedOption = options.find((opt) => opt.value === value);
-
-  return (
-    <div className="relative" ref={dropdownRef}>
-      <label className="flex items-center gap-2 text-base text-slate-300">
-        <span className="font-medium">{label}</span>
-        <button
-          type="button"
-          onClick={() => !disabled && setIsOpen(!isOpen)}
-          disabled={disabled}
-          className="min-w-40 rounded-lg border-2 border-slate-700 bg-transparent px-4 py-2.5 text-base text-slate-100 text-left focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-between"
-        >
-          <span>{selectedOption?.label}</span>
-          <svg
-            className={`w-4 h-4 transition-transform ${
-              isOpen ? "rotate-180" : ""
-            }`}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M19 9l-7 7-7-7"
-            />
-          </svg>
-        </button>
-      </label>
-
-      {isOpen && (
-        <div className="absolute z-50 mt-1 w-full rounded-lg border-2 border-slate-700 bg-slate-950 shadow-lg">
-          {options.map((option) => (
-            <button
-              key={option.value}
-              type="button"
-              onClick={() => {
-                onChange(option.value);
-                setIsOpen(false);
-              }}
-              className={`w-full px-4 py-2.5 text-left text-base hover:bg-slate-800 first:rounded-t-md last:rounded-b-md ${
-                option.value === value
-                  ? "bg-blue-500/20 text-blue-300"
-                  : "text-slate-100"
-              }`}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
 
 export const CharacterExplorer = ({
   initialCharacters,
@@ -174,10 +85,10 @@ export const CharacterExplorer = ({
       const nextName = event.target.value;
 
       setSearchInput((previous) =>
-        previous === nextName ? previous : nextName
+        previous === nextName ? previous : nextName,
       );
     },
-    []
+    [],
   );
 
   const handleStatusChange = useCallback((nextStatus: string) => {
@@ -331,7 +242,7 @@ export const CharacterExplorer = ({
       status: filters.status === "all" ? undefined : filters.status,
       sortOrder: filters.sortOrder,
     }),
-    [filters]
+    [filters],
   );
 
   return (
@@ -402,80 +313,4 @@ export const CharacterExplorer = ({
   );
 };
 
-interface TimerProps {
-  formattedSecondsLeft: string;
-  isAutoRefreshPaused: boolean;
-  toggleAutoRefresh: () => void;
-  handleManualRefresh: () => void;
-  isFetching: boolean;
-}
-const Timer = ({
-  formattedSecondsLeft,
-  isAutoRefreshPaused,
-  toggleAutoRefresh,
-}: TimerProps) => {
-  return (
-    <div className="fixed right-6 top-6 z-50 flex flex-col items-center gap-3">
-      <div className="group relative flex h-24 w-24 items-center justify-center">
-        <div className="absolute inset-0 rounded-full border border-slate-500 transition-all duration-200 group-hover:border-blue-400" />
-        <div
-          aria-live="polite"
-          className={cn(
-            "pointer-events-none relative z-10 flex items-center font-mono text-slate-100 transition-opacity duration-200",
-            isAutoRefreshPaused
-              ? "opacity-0"
-              : "opacity-100 group-hover:opacity-0"
-          )}
-        >
-          <span className="text-3xl font-bold leading-none">
-            {formattedSecondsLeft}
-          </span>
-        </div>
-        <button
-          type="button"
-          onClick={toggleAutoRefresh}
-          aria-label={
-            isAutoRefreshPaused ? "Resume auto refresh" : "Pause auto refresh"
-          }
-          className={cn(
-            "absolute inset-0 flex items-center justify-center rounded-full text-slate-50 transition-opacity duration-200 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950",
-            isAutoRefreshPaused
-              ? "opacity-100"
-              : "opacity-0 group-hover:opacity-100",
-            isAutoRefreshPaused ? "bg-emerald-500/90" : "bg-blue-500/90"
-          )}
-        >
-          {isAutoRefreshPaused ? (
-            <svg
-              className="h-7 w-7"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M8 5v14l11-7z"
-              />
-            </svg>
-          ) : (
-            <svg
-              className="h-7 w-7"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M10 5h-1a1 1 0 00-1 1v12a1 1 0 001 1h1a1 1 0 001-1V6a1 1 0 00-1-1zm6 0h-1a1 1 0 00-1 1v12a1 1 0 001 1h1a1 1 0 001-1V6a1 1 0 00-1-1z"
-              />
-            </svg>
-          )}
-        </button>
-      </div>
-    </div>
-  );
-};
+import { CustomDropdown, Timer } from "@component";

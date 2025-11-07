@@ -1,3 +1,3 @@
 export { apiResponseSchema } from "./apiResponseSchema";
-export { characterSchema, type Character } from "./characterSchema";
-export { episodeSchema, type Episode } from "./episodeSchema";
+export { type Character, characterSchema } from "./characterSchema";
+export { type Episode, episodeSchema } from "./episodeSchema";

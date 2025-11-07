@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { cn } from "@util";
 
 interface BackProps {
@@ -38,13 +39,13 @@ const Header = ({
         className={cn(
           "h-2.5 w-2.5 rounded-full animate-pulse",
           statusConfig.bg,
-          statusConfig.glow
+          statusConfig.glow,
         )}
       />
       <span
         className={cn(
           "text-xs font-semibold uppercase tracking-wide text-white sm:text-sm",
-          statusConfig.text
+          statusConfig.text,
         )}
       >
         {status}
@@ -111,13 +112,13 @@ const InfoBox = ({
         "group relative overflow-hidden rounded-lg border bg-gradient-to-br px-3 py-2.5 sm:px-4 sm:py-3 backdrop-blur-md transition-all duration-300",
         borderColor,
         bgGradient,
-        hoverBorder
+        hoverBorder,
       )}
     >
       <p
         className={cn(
           "text-xs font-semibold uppercase tracking-wide transition-colors",
-          labelColor
+          labelColor,
         )}
       >
         {label}
@@ -164,10 +165,12 @@ const Corners = () => (
 export const Back = ({ character, statusConfig }: BackProps) => {
   return (
     <div className="relative h-full w-full overflow-hidden">
-      <img
+      <Image
         src={character.image}
         alt={character.name}
-        className="absolute inset-0 h-full w-full object-cover filter-[contrast(1.2)_saturate(1.3)_brightness(0.75)]"
+        fill
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        className="object-cover filter-[contrast(1.2)_saturate(1.3)_brightness(0.75)]"
       />
       <div className="absolute inset-0 bg-black/70" />
 

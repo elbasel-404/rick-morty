@@ -1,8 +1,7 @@
 "use client";
+import { type DebouncedFunction, type DebounceOptions, debounce } from "@util";
 import { useMemo, useRef } from "react";
-
 import { useUnmount } from "./useUnmount";
-import { debounce, type DebounceOptions, type DebouncedFunction } from "@util";
 
 type ControlFunctions<T extends (...args: any) => any> = {
   cancel: () => void;
@@ -18,7 +17,7 @@ export type DebouncedState<T extends (...args: any) => any> = ((
 export function useDebounceCallback<T extends (...args: any) => any>(
   func: T,
   delay = 500,
-  options?: DebounceOptions
+  options?: DebounceOptions,
 ): DebouncedState<T> {
   const debouncedFunc = useRef<DebouncedFunction<T> | null>(null);
 

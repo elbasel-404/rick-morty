@@ -1,7 +1,7 @@
-import Link from "next/link";
-import { notFound } from "next/navigation";
 import { CharacterDetail, SlideInModal } from "@component";
 import { getCharacterById, getEpisodesByIds } from "@server";
+
+import { notFound } from "next/navigation";
 
 type CharacterModalParams = {
   cardNumber: string;

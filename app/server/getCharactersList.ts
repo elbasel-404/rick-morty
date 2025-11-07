@@ -1,6 +1,6 @@
-import { get } from "@http";
 import { CHARACTER_ENDPOINT } from "@endpoint";
-import { apiResponseSchema, type Character } from "@schema";
+import { get } from "@http";
+import type { apiResponseSchema, Character } from "@schema";
 import type { z } from "zod";
 
 interface GetCharacterListParams {

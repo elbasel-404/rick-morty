@@ -1,2 +1,2 @@
-export { get } from "./get";
 export { axiosClient } from "./axiosClient";
+export { get } from "./get";

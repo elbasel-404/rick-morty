@@ -1,2 +1,2 @@
-export { getStatusColor, textShadow, gradients } from "./cardStyles";
+export { getStatusColor, gradients, textShadow } from "./cardStyles";
 export { getCyberStatusConfig } from "./cyberStyles";

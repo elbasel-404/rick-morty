@@ -1,8 +1,8 @@
 "use server";
 
-import { getCharactersList } from "../getCharactersList";
+import type { Character } from "@schema";
 import { extractNextPage } from "@util";
-import { type Character } from "@schema";
+import { getCharactersList } from "../getCharactersList";
 
 interface FetchCharactersPageParams {
   page: number;

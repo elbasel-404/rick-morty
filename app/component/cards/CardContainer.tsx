@@ -1,10 +1,9 @@
-
-import { ReactNode } from "react";
 import { useCardState } from "@hooks";
 import { cn } from "@util";
-import { LazyImage } from "../effects/LazyImage";
+import type { ReactNode } from "react";
 import { FadeIn } from "../effects/FadeIn";
 import { FadeOut } from "../effects/FadeOut";
+import { LazyImage } from "../effects/LazyImage";
 import { SkeletonLoader } from "../SkeletonLoader";
 
 interface CardContainerProps {
@@ -62,7 +61,7 @@ export const CardContainer = ({
   });
 
   return (
-    <div ref={elementRef} className={cn("relative", className)}>
+    <div ref={elementRef} className={cn("relative min-h-[448px]", className)}>
       <LazyImage
         src={imageUrl}
         alt={imageAlt}

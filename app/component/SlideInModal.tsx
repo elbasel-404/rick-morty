@@ -1,15 +1,15 @@
 "use client";
 
+import { cn } from "@util";
+import { useRouter } from "next/navigation";
 import {
+  type ReactNode,
   useCallback,
   useEffect,
   useMemo,
-  useState,
   useRef,
-  type ReactNode,
+  useState,
 } from "react";
-import { useRouter } from "next/navigation";
-import { cn } from "@util";
 
 interface SlideInModalProps {
   children: ReactNode;
@@ -102,52 +102,46 @@ export const SlideInModal = ({
 
   return (
     <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={title ?? "Modal"}
+      tabIndex={-1}
       className={cn(
-        "fixed inset-0 z-50 flex justify-end bg-slate-950/60 backdrop-blur-sm transition-opacity duration-200",
-        isVisible ? "opacity-100" : "pointer-events-none opacity-0"
+        "relative flex h-full w-full flex-col overflow-hidden border border-slate-800/70 bg-white/5 text-slate-100 shadow-2xl",
+        prefersReducedMotion
+          ? ""
+          : "transition-transform duration-300 ease-out",
+        isVisible ? "translate-x-0" : "translate-x-full",
       )}
-      onClick={dismiss}
+      onClick={(event) => event.stopPropagation()}
+      onKeyDown={(event) => event.stopPropagation()}
     >
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-label={title ?? "Modal"}
+      <button
+        type="button"
+        onClick={dismiss}
+        aria-label="Close modal"
         className={cn(
-          "relative flex h-full w-full flex-col overflow-hidden border border-slate-800/70 bg-white/5 text-slate-100 shadow-2xl",
-          prefersReducedMotion
-            ? ""
-            : "transition-transform duration-300 ease-out",
-          isVisible ? "translate-x-0" : "translate-x-full"
+          "mr-8 mt-1 absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white shadow-sm transition",
+          "hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400",
         )}
-        onClick={(event) => event.stopPropagation()}
       >
-        <button
-          type="button"
-          onClick={dismiss}
-          aria-label="Close modal"
-          className={cn(
-            "mr-8 mt-1 absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white shadow-sm transition",
-            "hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400"
-          )}
+        <span className="sr-only">Close modal</span>
+        <svg
+          aria-hidden="true"
+          className="h-4 w-4"
+          viewBox="0 0 14 14"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <span className="sr-only">Close modal</span>
-          <svg
-            aria-hidden="true"
-            className="h-4 w-4"
-            viewBox="0 0 14 14"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M1 1l12 12M13 1 1 13"
-              stroke="currentColor"
-              strokeWidth={1.75}
-              strokeLinecap="round"
-            />
-          </svg>
-        </button>
-        <div className="flex h-full flex-1 overflow-hidden">{children}</div>
-      </div>
+          <path
+            d="M1 1l12 12M13 1 1 13"
+            stroke="currentColor"
+            strokeWidth={1.75}
+            strokeLinecap="round"
+          />
+        </svg>
+      </button>
+      <div className="flex h-full flex-1 overflow-hidden">{children}</div>
     </div>
   );
 };

@@ -1,20 +1,18 @@
 "use client";
 
+import type { Character } from "@schema";
+import { type FetchCharactersResult, fetchCharactersPage } from "@server";
+import { cn } from "@util";
+import Link from "next/link";
 import {
-  ComponentPropsWithoutRef,
+  type ComponentPropsWithoutRef,
   forwardRef,
   useCallback,
-  useEffect,
   useMemo,
-  useRef,
   useState,
 } from "react";
-import Link from "next/link";
 import { VirtuosoGrid } from "react-virtuoso";
-import type { Character } from "@schema";
-import { fetchCharactersPage, type FetchCharactersResult } from "@server";
-import { cn } from "@util";
-import { GradientCard, CyberCard, SimpleCard } from "./cards";
+import { CyberCard, GradientCard, SimpleCard } from "./cards";
 
 const CARD_VARIANTS = {
   "1": SimpleCard,
@@ -63,7 +61,7 @@ const GridList = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<"div">>(
         gridTemplateColumns: "repeat(auto-fit, minmax(18rem, 1fr))",
       }}
     />
-  )
+  ),
 );
 
 GridList.displayName = "GridList";
@@ -76,7 +74,7 @@ const GridItem = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<"div">>(
       className={cn("flex h-full", className)}
       style={style}
     />
-  )
+  ),
 );
 
 GridItem.displayName = "GridItem";
@@ -134,18 +132,17 @@ export const InfiniteCharacterGrid = ({
           return sorted.sort((a, b) => b.name.localeCompare(a.name));
         case "created-asc":
           return sorted.sort(
-            (a, b) => getCreatedTimestamp(a) - getCreatedTimestamp(b)
+            (a, b) => getCreatedTimestamp(a) - getCreatedTimestamp(b),
           );
         case "created-desc":
           return sorted.sort(
-            (a, b) => getCreatedTimestamp(b) - getCreatedTimestamp(a)
+            (a, b) => getCreatedTimestamp(b) - getCreatedTimestamp(a),
           );
-        case "name-asc":
         default:
           return sorted.sort((a, b) => a.name.localeCompare(b.name));
       }
     },
-    [filters.sortOrder]
+    [filters.sortOrder],
   );
 
   const loadMore = useCallback(async () => {
@@ -170,7 +167,7 @@ export const InfiniteCharacterGrid = ({
       setCharacters((previous) => {
         const existingIds = new Set(previous.map((character) => character.id));
         const uniqueNewCharacters = payload.characters.filter(
-          (character) => !existingIds.has(character.id)
+          (character) => !existingIds.has(character.id),
         );
         return [...previous, ...uniqueNewCharacters];
       });
@@ -185,7 +182,7 @@ export const InfiniteCharacterGrid = ({
     } finally {
       setIsLoading(false);
     }
-  }, [filters.name, filters.status, isLoading, nextPage, sortCharacters]);
+  }, [filters.name, filters.status, isLoading, nextPage]);
 
   const handleEndReached = useCallback(() => {
     if (!hasMore || isLoading) return;

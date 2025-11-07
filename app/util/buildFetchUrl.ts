@@ -28,10 +28,7 @@ export const buildFetchUrl = ({
   const baseUrl = getApiRootUrl();
 
   // Clean leading slash to prevent double slashes in the final URL
-  // in case the endpoint url starts with "/"
-  const cleanEndpointUrl = endpointUrl.startsWith("/")
-    ? endpointUrl.replace("/", "")
-    : endpointUrl;
+  const cleanEndpointUrl = endpointUrl.replace(/^\//, "");
 
   // Return simple URL if no query parameters
   if (!queryParams) return `${baseUrl}/${cleanEndpointUrl}`;

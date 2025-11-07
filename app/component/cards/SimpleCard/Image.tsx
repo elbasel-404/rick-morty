@@ -1,10 +1,11 @@
-import NextImage from "next/image";
 import { cn } from "@util";
+import NextImage from "next/image";
 
 interface ImageProps {
   src: string;
   alt: string;
-  isInViewport: boolean;
+  width: number;
+  height: number;
   imageLoaded: boolean;
   onLoad: () => void;
 }
@@ -12,21 +13,22 @@ interface ImageProps {
 export const Image = ({
   src,
   alt,
-  isInViewport,
+  width,
+  height,
   imageLoaded,
   onLoad,
 }: ImageProps) => {
   return (
     <NextImage
-      width={300}
-      height={300}
+      width={width}
+      height={height}
       src={src}
       alt={alt}
       className={cn(
         "w-full h-full object-cover transition-all duration-700",
         imageLoaded
           ? "opacity-100 blur-0 scale-100"
-          : "opacity-0 blur-2xl scale-110"
+          : "opacity-0 blur-2xl scale-110",
       )}
       loading="lazy"
       unoptimized

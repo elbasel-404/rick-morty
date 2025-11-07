@@ -6,6 +6,8 @@ interface Rotation {
   y: number;
 }
 
+const ROTATION_SENSITIVITY = 10;
+
 export const useCardRotation = () => {
   const [rotation, setRotation] = useState<Rotation>({ x: 0, y: 0 });
 
@@ -18,8 +20,8 @@ export const useCardRotation = () => {
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    const rotateX = (y - centerY) / 10;
-    const rotateY = (centerX - x) / 10;
+    const rotateX = (y - centerY) / ROTATION_SENSITIVITY;
+    const rotateY = (centerX - x) / ROTATION_SENSITIVITY;
 
     setRotation({ x: rotateX, y: rotateY });
   };
