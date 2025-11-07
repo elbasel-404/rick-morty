@@ -26,10 +26,10 @@ export interface AnimationTimings {
  * @returns Calculated animation timings with guaranteed relationships
  *
  * Timing Algorithm:
- * - Minimum skeleton visibility: Fixed at 1000ms (1 second) as requested
+ * - Minimum skeleton visibility: Fixed at 2000ms (2 seconds)
  * - Skeleton fade out: 800ms * modifier (quick exit)
- * - Card fade in: 1800ms * modifier (elegant entrance, 2.25x skeleton fade)
- * - Card fade delay: 200ms * modifier (sequential timing gap)
+ * - Card fade in: 900ms * modifier (snappier entrance, ~1.1x skeleton fade)
+ * - Card fade delay: 150ms * modifier (sequential timing gap)
  * - Total: minVisibility + fadeOut + delay + fadeIn
  */
 export function calculateAnimationTimings(
@@ -43,8 +43,8 @@ export function calculateAnimationTimings(
 
   // Calculate proportional durations based on modifier
   const skeletonFadeOut = Math.round(800 * modifier);
-  const cardFadeIn = Math.round(1800 * modifier);
-  const cardFadeInDelay = Math.round(200 * modifier);
+  const cardFadeIn = Math.round(900 * modifier);
+  const cardFadeInDelay = Math.round(150 * modifier);
 
   // Total sequence duration
   const totalDuration =

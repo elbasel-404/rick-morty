@@ -21,7 +21,7 @@ interface FadeInProps {
 
 export const FadeIn = ({
   isVisible,
-  duration = 1200,
+  duration = 900,
   delay = 0,
   easing = "cubic-bezier(0.4, 0.0, 0.2, 1)",
   className = "",
@@ -34,8 +34,8 @@ export const FadeIn = ({
       style={{
         opacity: isVisible ? 1 : 0,
         transition: `opacity ${duration}ms ${easing} ${delay}ms`,
-        width: '100%',
-        height: '100%',
+        width: "100%",
+        height: "100%",
         ...style,
       }}
     >
