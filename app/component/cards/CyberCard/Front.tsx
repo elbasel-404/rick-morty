@@ -21,10 +21,7 @@ export const Front = ({ characterImage, characterName }: FrontProps) => {
 
       <div className="relative z-10 flex h-full flex-col justify-end px-6 py-8 sm:px-10 sm:py-10 md:px-12 md:py-12">
         <div className="flex flex-col gap-3 max-w-72 sm:max-w-88">
-          <p className="text-[0.7rem] uppercase tracking-[0.4em] text-cyan-100/70">
-            Character Profile
-          </p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)] uppercase">
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-white leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)] uppercase">
             {characterName}
           </h2>
         </div>
