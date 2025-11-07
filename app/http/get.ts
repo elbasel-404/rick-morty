@@ -1,7 +1,10 @@
+import axios, { type AxiosRequestConfig } from "axios";
 import type { Endpoint } from "@type";
-import { buildFetchUrl, filterObject, logError, validateJson } from "@util";
+import { filterObject, logError, validateJson } from "@util";
 import { apiResponseSchema } from "@schema";
 import { flattenError, type ZodError, type ZodType, type z } from "zod";
+
+import { axiosClient } from "./axiosClient";
 
 /**
  * Discriminated union type for HTTP GET request results.
@@ -85,11 +88,13 @@ export const get = async <T>({
 }: GetDataParams<T>): Promise<GetDataResult<T>> => {
   const { url, schema } = endpoint;
 
-  // Build the complete URL with query parameters
-  const queryUrl = buildQueryUrl(url, queryParams);
+  const sanitizedParams = filterObject(queryParams);
 
   // Fetch data from the API
-  const fetchResult = await fetchData(queryUrl, url);
+  const fetchResult = await fetchData({
+    endpointUrl: url,
+    queryParams: sanitizedParams,
+  });
   if (!fetchResult.success) {
     return {
       success: false,
@@ -132,76 +137,87 @@ export const get = async <T>({
   } satisfies GetSuccessResult<T>;
 };
 
-/**
- * Builds the complete query URL with filtered query parameters.
- * Removes undefined values before constructing the URL.
- *
- * @param url - The base endpoint URL
- * @param queryParams - Optional query parameters (undefined values will be filtered out)
- * @returns The complete URL with query string
- */
-const buildQueryUrl = (
-  url: string,
-  queryParams?: Record<string, string | undefined>
-): string => {
-  const filteredQueryParams = filterObject(queryParams);
-  return buildFetchUrl({
-    endpointUrl: url,
-    queryParams: filteredQueryParams,
-  });
+type FetchDataParams = {
+  endpointUrl: string;
+  queryParams?: Record<string, string>;
 };
 
 /**
- * Fetches data from the specified URL and handles network/HTTP errors.
+ * Executes an Axios GET request and normalizes the result.
  *
- * Performs error handling for:
- * - Network failures (connection issues, timeouts, etc.)
+ * Handles:
  * - HTTP errors (4xx, 5xx status codes)
- * - JSON parsing errors
- *
- * @param queryUrl - The complete URL to fetch from
- * @param endpointUrl - The base endpoint URL (for error logging)
- * @returns A result object containing either the parsed JSON or error details
+ * - Network failures/timeouts
+ * - Axios specific error shapes
  */
-const fetchData = async (
-  queryUrl: string,
-  endpointUrl: string
-): Promise<FetchResult> => {
-  try {
-    const response = await fetch(queryUrl, {
-      method: "GET",
-    });
+const fetchData = async (params: FetchDataParams): Promise<FetchResult> => {
+  const { endpointUrl, queryParams } = params;
+  const requestConfig: AxiosRequestConfig = {
+    method: "get",
+    url: endpointUrl,
+    ...(queryParams ? { params: queryParams } : {}),
+  };
 
-    // Handle HTTP errors (4xx, 5xx status codes)
-    if (!response.ok) {
-      const errorMessage = `HTTP error! status: ${response.status}`;
+  try {
+    const response = await axiosClient.request(requestConfig);
+    return { success: true, data: response.data, error: null };
+  } catch (error) {
+    const requestUrl = axiosClient.getUri(requestConfig);
+
+    if (axios.isAxiosError(error)) {
+      if (error.response) {
+        const status = error.response.status;
+        const errorMessage = `HTTP error! status: ${status}`;
+
+        const responsePayload = error.response.data;
+        const serializedPayload =
+          typeof responsePayload === "string"
+            ? responsePayload
+            : (() => {
+                try {
+                  return JSON.stringify(responsePayload, null, 2);
+                } catch {
+                  return "Unable to serialize error response.";
+                }
+              })();
+
+        logError({
+          errorTitle: `Axios request failed at endpoint: ${requestUrl}`,
+          errorContent: serializedPayload ?? errorMessage,
+        });
+
+        return {
+          success: false,
+          error: errorMessage,
+          data: null,
+        } satisfies FetchErrorResult;
+      }
+
+      const errorMessage = error.message ?? "Unknown error";
       logError({
-        errorTitle: `Fetch failed at endpoint: ${endpointUrl}`,
+        errorTitle: `Network error at endpoint: ${requestUrl}`,
         errorContent: errorMessage,
       });
+
       return {
         success: false,
-        error: errorMessage,
-        data: null, // Include response body for debugging
-      };
+        error: `Network error: ${errorMessage}`,
+        data: null,
+      } satisfies FetchErrorResult;
     }
 
-    // Parse JSON response
-    const json = await response.json();
-    return { success: true, data: json, error: null };
-  } catch (error) {
-    // Handle network errors, timeouts, or JSON parsing errors
     const errorMessage =
       error instanceof Error ? error.message : "Unknown error";
     logError({
-      errorTitle: `Network error at endpoint: ${endpointUrl}`,
+      errorTitle: `Unexpected error at endpoint: ${requestUrl}`,
       errorContent: errorMessage,
     });
+
     return {
       success: false,
       error: `Network error: ${errorMessage}`,
       data: null,
-    };
+    } satisfies FetchErrorResult;
   }
 };
 

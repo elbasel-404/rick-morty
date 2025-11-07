@@ -1,7 +1,7 @@
+"use client";
 import Image from "next/image";
 import type { Character, Episode } from "@schema";
 import { cn } from "@util";
-import Link from "next/link";
 
 type CharacterDetailVariant = "page" | "modal";
 
@@ -144,9 +144,12 @@ export const CharacterDetail = ({
           <h1 className="text-3xl text-center w-full sm:text-4xl font-bold text-foreground leading-tight">
             {character.name}
           </h1>
-          <Link
-            href={`/characters/${character.id}`}
-            prefetch
+          <button
+            onClick={() => {
+              window.location.reload();
+            }}
+            // href={`/characters/${character.id}`}
+            // prefetch
             className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-700/80 text-slate-200 transition hover:border-slate-500 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60"
           >
             <svg
@@ -163,21 +166,21 @@ export const CharacterDetail = ({
                 d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
               />
             </svg>
-          </Link>
+          </button>
         </div>
         <div className="flex flex-col gap-4 sm:gap-5">
           <header className="flex flex-col gap-2 sm:gap-3">
-            <div className="flex flex-wrap items-start sm:items-center justify-between gap-2.5">
+            <div className="px-2 flex flex-wrap items-start sm:items-center justify-between gap-2.5">
               <span
                 className={cn(
-                  "inline-flex items-center rounded-full px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-sm font-semibold uppercase tracking-wide whitespace-nowrap shrink-0",
+                  "px-2 inline-flex items-center rounded-full px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-sm font-semibold uppercase tracking-wide whitespace-nowrap shrink-0",
                   getStatusBadgeClassName(character.status)
                 )}
               >
                 {character.status}
               </span>
             </div>
-            <p className="text-sm sm:text-base text-muted-foreground">
+            <p className="px-2 text-sm sm:text-base text-muted-foreground">
               Character ID #{character.id}
             </p>
           </header>
