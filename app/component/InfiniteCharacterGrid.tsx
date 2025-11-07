@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
+import Link from "next/link";
 import { VirtuosoGrid } from "react-virtuoso";
 import type { Character } from "@schema";
 import { fetchCharactersPage, type FetchCharactersResult } from "@server";
@@ -276,9 +277,15 @@ export const InfiniteCharacterGrid = ({
         if (!character) return null;
 
         return (
-          <div className="flex w-full" data-character-id={character.id}>
+          <Link
+            href={`/characters/${character.id}`}
+            scroll={false}
+            className="group flex w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60"
+            data-character-id={character.id}
+            aria-label={`View details for ${character.name}`}
+          >
             <SelectedCard character={character} />
-          </div>
+          </Link>
         );
       }}
     />

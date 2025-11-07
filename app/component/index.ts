@@ -7,6 +7,8 @@ export {
   CharacterCardV,
 } from "./cards";
 export { JsonViewer } from "./JsonViewer";
+export { CharacterDetail } from "./CharacterDetail";
+export { SlideInModal } from "./SlideInModal";
 
 // Effects
 export { FadeIn, FadeOut, LazyImage, ViewportDetector } from "./effects";
