@@ -226,7 +226,8 @@ export const CharacterDetail = ({
                     onClick={() => {
                       window.location.reload();
                     }}
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-700/80 text-slate-200 transition hover:border-slate-500 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60"
+                    className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-sky-500 via-blue-500 to-indigo-500 text-white shadow-lg shadow-sky-500/30 ring-2 ring-slate-900/40 transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-sky-400"
+                    aria-label="Refresh character details"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
