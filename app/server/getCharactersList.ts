@@ -1,5 +1,7 @@
 import { get } from "@http";
 import { CHARACTER_ENDPOINT } from "@endpoint";
+import { apiResponseSchema, type Character } from "@schema";
+import type { z } from "zod";
 
 interface GetCharacterListParams {
   page?: string;
@@ -16,14 +18,35 @@ interface GetCharacterListParams {
  * @param params.status - Filter results by character status
  * @returns The API response data containing characters and pagination info
  */
+type ApiInfo = z.infer<typeof apiResponseSchema>["info"];
+
+export interface CharacterListResult {
+  characters: Character[] | null;
+  info: ApiInfo | null;
+  error: string | null;
+}
+
 export const getCharactersList = async ({
   page,
   name,
   status,
-}: GetCharacterListParams) => {
-  const { data } = await get({
+}: GetCharacterListParams): Promise<CharacterListResult> => {
+  const result = await get<Character>({
     endpoint: CHARACTER_ENDPOINT,
     queryParams: { page, name, status },
   });
-  return data;
+
+  if (!result.success) {
+    return {
+      characters: result.data,
+      info: null,
+      error: result.error,
+    };
+  }
+
+  return {
+    characters: result.data,
+    info: result.info,
+    error: null,
+  };
 };

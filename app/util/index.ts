@@ -4,6 +4,7 @@ export { logError } from "./logError";
 export { validateJson } from "./validateJson";
 export { filterObject } from "./filterObject";
 export { cn } from "./cn";
+export { extractNextPage } from "./extractNextPage";
 export {
   calculateAnimationTimings,
   DEFAULT_ANIMATION_TIMINGS,

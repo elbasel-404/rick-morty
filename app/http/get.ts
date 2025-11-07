@@ -1,15 +1,43 @@
 import type { Endpoint } from "@type";
 import { buildFetchUrl, filterObject, logError, validateJson } from "@util";
 import { apiResponseSchema } from "@schema";
-import { flattenError, type ZodError, type ZodType } from "zod";
+import { flattenError, type ZodError, type ZodType, type z } from "zod";
 
 /**
  * Discriminated union type for HTTP GET request results.
  * Ensures type-safe handling of success and error cases.
  */
-type GetDataResult<T> =
-  | { success: true; data: T[]; error: null }
-  | { success: false; data: T[] | null; error: string };
+type ApiResponseInfo = z.infer<typeof apiResponseSchema>["info"];
+
+interface GetSuccessResult<T> {
+  success: true;
+  data: T[];
+  info: ApiResponseInfo;
+  error: null;
+}
+
+interface GetErrorResult<T> {
+  success: false;
+  data: T[] | null;
+  info: null;
+  error: string;
+}
+
+type GetDataResult<T> = GetSuccessResult<T> | GetErrorResult<T>;
+
+interface FetchSuccessResult {
+  success: true;
+  data: unknown;
+  error: null;
+}
+
+interface FetchErrorResult {
+  success: false;
+  data: null;
+  error: string;
+}
+
+type FetchResult = FetchSuccessResult | FetchErrorResult;
 
 /**
  * Parameters for performing a typed HTTP GET request.
@@ -63,7 +91,12 @@ export const get = async <T>({
   // Fetch data from the API
   const fetchResult = await fetchData(queryUrl, url);
   if (!fetchResult.success) {
-    return { ...fetchResult, data: fetchResult.data as T[] };
+    return {
+      success: false,
+      data: null,
+      info: null,
+      error: fetchResult.error,
+    } satisfies GetErrorResult<T>;
   }
 
   // Validate the general API response structure
@@ -91,7 +124,12 @@ export const get = async <T>({
     });
   }
 
-  return { success: true, data: resultValidation.data as T[], error: null };
+  return {
+    success: true,
+    data: resultValidation.data as T[],
+    info: responseValidation.data.info as ApiResponseInfo,
+    error: null,
+  } satisfies GetSuccessResult<T>;
 };
 
 /**
@@ -128,7 +166,7 @@ const buildQueryUrl = (
 const fetchData = async (
   queryUrl: string,
   endpointUrl: string
-): Promise<GetDataResult<unknown>> => {
+): Promise<FetchResult> => {
   try {
     const response = await fetch(queryUrl, {
       method: "GET",
@@ -240,5 +278,10 @@ const handleValidationError = <T>({
   console.log(`${url} fetched and validated`);
   console.log(`Found ${invalidData.length} invalid items:`);
 
-  return { success: false, error: errorMessage, data: receivedData as T[] };
+  return {
+    success: false,
+    error: errorMessage,
+    data: receivedData as T[],
+    info: null,
+  };
 };

@@ -39,12 +39,12 @@ export function calculateAnimationTimings(
   const modifier = Math.max(0.1, speedModifier);
 
   // Fixed minimum skeleton visibility (1 second as requested)
-  const minSkeletonVisibility = 1000;
+  const minSkeletonVisibility = 2000;
 
   // Calculate proportional durations based on modifier
-  const skeletonFadeOut = Math.round(800 * modifier);
-  const cardFadeIn = Math.round(1800 * modifier);
-  const cardFadeInDelay = Math.round(200 * modifier);
+  const skeletonFadeOut = Math.round(800 * modifier) + 3;
+  const cardFadeIn = Math.round(1800 * modifier) + 3;
+  const cardFadeInDelay = Math.round(200 * modifier) + 3;
 
   // Total sequence duration
   const totalDuration =

@@ -1,14 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCharactersList } from "@server";
-import {
-  CharacterCardIII,
-  CharacterCardIV,
-  CharacterCardV,
-  CyberCard,
-  SimpleCard,
-} from "@component";
-import { cn } from "@util";
+import { InfiniteCharacterGrid } from "@component";
+import type { CardVariant } from "@component";
+import { cn, extractNextPage } from "@util";
 
 interface CardPageProps {
   params: Promise<{
@@ -34,21 +29,13 @@ const CardPage = async ({ params }: CardPageProps) => {
     notFound();
   }
 
-  const charactersData = await getCharactersList({ page: cardNumber });
-  if (!charactersData) {
+  const characterResult = await getCharactersList({ page: cardNumber });
+  if (!characterResult.characters || characterResult.characters.length === 0) {
     return <div>No data available</div>;
   }
 
-  const cardComponentMap = {
-    "1": SimpleCard,
-    "2": CyberCard,
-    "3": CharacterCardIII,
-    "4": CharacterCardIV,
-    "5": CharacterCardV,
-  };
-
-  const CardComponent =
-    cardComponentMap[cardNumber as keyof typeof cardComponentMap];
+  const nextPage = extractNextPage(characterResult.info?.next ?? null);
+  const cardVariant = cardNumber as CardVariant;
 
   return (
     <main className="min-h-screen bg-black">
@@ -58,29 +45,17 @@ const CardPage = async ({ params }: CardPageProps) => {
         </h1>
 
         <CardSwitcher cardNumber={cardNumber} />
-        <CharacterGrid>
-          {charactersData.map((c, index) => {
-            return (
-              <div key={c.id} data-index={index}>
-                <CardComponent character={c} />
-              </div>
-            );
-          })}
-        </CharacterGrid>
+        <InfiniteCharacterGrid
+          initialCharacters={characterResult.characters}
+          initialNextPage={nextPage}
+          cardVariant={cardVariant}
+        />
       </div>
     </main>
   );
 };
 
 export default CardPage;
-
-const CharacterGrid = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-2">
-      {children}
-    </div>
-  );
-};
 
 const CardSwitcher = ({ cardNumber = "1" }) => {
   return (
