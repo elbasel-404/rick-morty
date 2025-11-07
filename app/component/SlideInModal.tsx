@@ -113,7 +113,7 @@ export const SlideInModal = ({
         aria-modal="true"
         aria-label={title ?? "Modal"}
         className={cn(
-          "relative flex h-full w-full max-w-xs sm:max-w-sm flex-col overflow-hidden border border-slate-800/70 bg-white/5 text-slate-100 shadow-2xl",
+          "relative flex h-full w-full flex-col overflow-hidden border border-slate-800/70 bg-white/5 text-slate-100 shadow-2xl",
           prefersReducedMotion
             ? ""
             : "transition-transform duration-300 ease-out",
@@ -121,7 +121,7 @@ export const SlideInModal = ({
         )}
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="flex-1 overflow-y-auto pb-3">{children}</div>
+        <div className="flex h-full flex-1 overflow-hidden">{children}</div>
       </div>
     </div>
   );

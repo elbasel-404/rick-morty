@@ -33,7 +33,7 @@ const CharacterModalPage = async ({ params }: CharacterModalPageProps) => {
       title={`${result.character.name}`}
       returnHref={`/cards/${cardNumber}`}
     >
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-6 w-full">
         <div className="flex justify-end"></div>
         <CharacterDetail
           character={result.character}
