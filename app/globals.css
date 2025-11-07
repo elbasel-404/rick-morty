@@ -24,29 +24,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
   overflow-x: hidden;
-}
-
-html {
-  scroll-snap-type: y proximity;
-}
-
-html.scrollbar-fade-in {
-  scrollbar-width: thin;
-}
-
-html.scrollbar-fade-in::-webkit-scrollbar-thumb {
-  animation: scrollbarFadeIn 5s ease forwards;
-}
-
-@keyframes scrollbarFadeIn {
-  from {
-    background-color: transparent;
-  }
-  to {
-    background-color: rgba(148, 163, 184, 0.45);
-  }
 }
 
 /* ==========================================

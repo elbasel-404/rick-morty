@@ -1,16 +1,17 @@
+import Image from "next/image";
 interface ImageProps {
   src: string;
   alt: string;
   isHovered: boolean;
 }
 
-export const Image = ({ src, alt, isHovered }: ImageProps) => {
+export const CardImage = ({ src, alt, isHovered }: ImageProps) => {
   return (
     <div
       className="relative w-full h-48 sm:h-56 md:h-64 lg:h-80 overflow-hidden"
       style={{ transform: "translateZ(30px)" }}
     >
-      <img
+      <Image
         src={src}
         alt={alt}
         className="w-full h-full object-cover filter-[contrast(1.1)_saturate(1.2)]"

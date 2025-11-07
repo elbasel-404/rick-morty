@@ -5,6 +5,7 @@ import {
   forwardRef,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
@@ -90,24 +91,6 @@ function LoadingFooter({ context }: { context?: FooterContext }) {
       </div>
     );
   }
-
-  if (context.isLoading) {
-    return (
-      <div className="col-span-full py-6 text-center text-sm text-zinc-200">
-        Loading more characters...
-      </div>
-    );
-  }
-
-  if (!context.hasMore) {
-    return (
-      <div className="col-span-full py-6 text-center text-sm text-zinc-400">
-        You&apos;ve reached the end of the list.
-      </div>
-    );
-  }
-
-  return null;
 }
 
 const GRID_COMPONENTS = {
@@ -133,7 +116,6 @@ export const InfiniteCharacterGrid = ({
   const [nextPage, setNextPage] = useState<number | null>(initialNextPage);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const scrollbarFadeTimeoutRef = useRef<number | null>(null);
 
   const SelectedCard = CARD_VARIANTS[cardVariant];
   const hasMore = nextPage !== null;
@@ -182,11 +164,10 @@ export const InfiniteCharacterGrid = ({
 
       setCharacters((previous) => {
         const existingIds = new Set(previous.map((character) => character.id));
-        const uniqueNewCharacters = payload.characters.filter((character) => {
-          return !existingIds.has(character.id);
-        });
-
-        return sortCharacters([...previous, ...uniqueNewCharacters]);
+        const uniqueNewCharacters = payload.characters.filter(
+          (character) => !existingIds.has(character.id)
+        );
+        return [...previous, ...uniqueNewCharacters];
       });
 
       setNextPage(payload.nextPage);
@@ -206,67 +187,25 @@ export const InfiniteCharacterGrid = ({
     void loadMore();
   }, [hasMore, isLoading, loadMore]);
 
-  useEffect(() => {
-    setCharacters(sortCharacters(initialCharacters));
-    setNextPage(initialNextPage);
-  }, [initialCharacters, initialNextPage, sortCharacters]);
-
-  useEffect(() => {
-    setCharacters((previous) => sortCharacters(previous));
-  }, [sortCharacters]);
-
-  useEffect(() => {
-    const root = document.documentElement;
-
-    if (isLoading) {
-      if (scrollbarFadeTimeoutRef.current !== null) {
-        window.clearTimeout(scrollbarFadeTimeoutRef.current);
-        scrollbarFadeTimeoutRef.current = null;
-      }
-
-      root.classList.add("scrollbar-hidden");
-      root.classList.remove("scrollbar-fade-in");
-      return;
-    }
-
-    if (root.classList.contains("scrollbar-hidden")) {
-      root.classList.remove("scrollbar-hidden");
-      root.classList.add("scrollbar-fade-in");
-
-      scrollbarFadeTimeoutRef.current = window.setTimeout(() => {
-        root.classList.remove("scrollbar-fade-in");
-        scrollbarFadeTimeoutRef.current = null;
-      }, 300);
-    }
-  }, [isLoading]);
-
-  useEffect(() => {
-    return () => {
-      const root = document.documentElement;
-
-      if (scrollbarFadeTimeoutRef.current !== null) {
-        window.clearTimeout(scrollbarFadeTimeoutRef.current);
-      }
-
-      root.classList.remove("scrollbar-hidden");
-      root.classList.remove("scrollbar-fade-in");
-    };
-  }, []);
+  const sortedCharacters = useMemo(() => {
+    return sortCharacters(characters);
+  }, [characters, sortCharacters]);
 
   return (
     <VirtuosoGrid
       useWindowScroll
-      totalCount={characters.length}
+      totalCount={sortedCharacters.length}
       endReached={handleEndReached}
-      increaseViewportBy={200}
+      increaseViewportBy={500}
       context={{ isLoading, hasMore, error }}
       components={GRID_COMPONENTS}
       computeItemKey={(index) => {
-        const character = characters[index];
+        const character = sortedCharacters[index];
         return character ? `character-${character.id}` : `character-${index}`;
       }}
+      className="min-h-screen"
       itemContent={(index) => {
-        const character = characters[index];
+        const character = sortedCharacters[index];
 
         if (!character) return null;
 
