@@ -199,7 +199,6 @@ const handleValidationError = <T>({
   itemSchema,
 }: HandleValidationErrorParams<T>): GetDataResult<T> => {
   const errorMessage = JSON.stringify(validationError, null, 2);
-  console.log(typeof receivedData);
 
   // Find specific items that failed validation (if schema and data provided)
   const invalidData =
