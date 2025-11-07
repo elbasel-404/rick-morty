@@ -5,10 +5,12 @@ import { CharacterExplorer } from "@component";
 import type { CardVariant } from "@component";
 import { cn, extractNextPage } from "@util";
 
+type CardPageParams = {
+  cardNumber: string;
+};
+
 interface CardPageProps {
-  params: Promise<{
-    cardNumber: string;
-  }>;
+  params: CardPageParams | Promise<CardPageParams>;
 }
 
 export const generateStaticParams = () => {

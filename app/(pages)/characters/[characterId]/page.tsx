@@ -3,10 +3,12 @@ import { notFound } from "next/navigation";
 import { CharacterDetail } from "@component";
 import { getCharacterById, getEpisodesByIds } from "@server";
 
+type CharacterPageParams = {
+  characterId: string;
+};
+
 interface CharacterPageProps {
-  params: Promise<{
-    characterId: string;
-  }>;
+  params: CharacterPageParams | Promise<CharacterPageParams>;
 }
 
 export const revalidate = 120;
