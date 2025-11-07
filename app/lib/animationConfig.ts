@@ -33,7 +33,7 @@ export interface AnimationTimings {
  * - Total: minVisibility + fadeOut + delay + fadeIn
  */
 export function calculateAnimationTimings(
-  speedModifier = 1.0
+  speedModifier = 0.1
 ): AnimationTimings {
   // Ensure modifier is positive
   const modifier = Math.max(0.1, speedModifier);
@@ -42,9 +42,9 @@ export function calculateAnimationTimings(
   const minSkeletonVisibility = 2000;
 
   // Calculate proportional durations based on modifier
-  const skeletonFadeOut = Math.round(800 * modifier) + 3;
-  const cardFadeIn = Math.round(1800 * modifier) + 3;
-  const cardFadeInDelay = Math.round(200 * modifier) + 3;
+  const skeletonFadeOut = Math.round(800 * modifier);
+  const cardFadeIn = Math.round(1800 * modifier);
+  const cardFadeInDelay = Math.round(200 * modifier);
 
   // Total sequence duration
   const totalDuration =

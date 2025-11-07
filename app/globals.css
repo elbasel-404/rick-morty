@@ -30,6 +30,47 @@ body {
 
 html {
   scroll-snap-type: y proximity;
+  scrollbar-color: rgba(148, 163, 184, 0.45) transparent;
+}
+
+html::-webkit-scrollbar {
+  width: 10px;
+  transition: width 0.25s ease;
+}
+
+html::-webkit-scrollbar-thumb {
+  background-color: rgba(148, 163, 184, 0.45);
+  border-radius: 9999px;
+  transition: background-color 0.25s ease;
+}
+
+html.scrollbar-hidden {
+  scrollbar-width: none;
+}
+
+html.scrollbar-hidden::-webkit-scrollbar {
+  width: 0;
+}
+
+html.scrollbar-hidden::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+
+html.scrollbar-fade-in {
+  scrollbar-width: thin;
+}
+
+html.scrollbar-fade-in::-webkit-scrollbar-thumb {
+  animation: scrollbarFadeIn 1s ease forwards;
+}
+
+@keyframes scrollbarFadeIn {
+  from {
+    background-color: transparent;
+  }
+  to {
+    background-color: rgba(148, 163, 184, 0.45);
+  }
 }
 
 /* ==========================================

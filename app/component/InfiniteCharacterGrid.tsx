@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 import type { Character } from "@schema";
 import { fetchCharactersPage, type FetchCharactersResult } from "@server";
@@ -45,6 +45,7 @@ export const InfiniteCharacterGrid = ({
   const [nextPage, setNextPage] = useState<number | null>(initialNextPage);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const scrollbarFadeTimeoutRef = useRef<number | null>(null);
 
   const SelectedCard = CARD_VARIANTS[cardVariant];
   const hasMore = nextPage !== null;
@@ -92,6 +93,44 @@ export const InfiniteCharacterGrid = ({
     if (!hasMore || isLoading) return;
     void loadMore();
   }, [hasMore, isLoading, loadMore]);
+
+  useEffect(() => {
+    const root = document.documentElement;
+
+    if (isLoading) {
+      if (scrollbarFadeTimeoutRef.current !== null) {
+        window.clearTimeout(scrollbarFadeTimeoutRef.current);
+        scrollbarFadeTimeoutRef.current = null;
+      }
+
+      root.classList.add("scrollbar-hidden");
+      root.classList.remove("scrollbar-fade-in");
+      return;
+    }
+
+    if (root.classList.contains("scrollbar-hidden")) {
+      root.classList.remove("scrollbar-hidden");
+      root.classList.add("scrollbar-fade-in");
+
+      scrollbarFadeTimeoutRef.current = window.setTimeout(() => {
+        root.classList.remove("scrollbar-fade-in");
+        scrollbarFadeTimeoutRef.current = null;
+      }, 300);
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    return () => {
+      const root = document.documentElement;
+
+      if (scrollbarFadeTimeoutRef.current !== null) {
+        window.clearTimeout(scrollbarFadeTimeoutRef.current);
+      }
+
+      root.classList.remove("scrollbar-hidden");
+      root.classList.remove("scrollbar-fade-in");
+    };
+  }, []);
 
   return (
     <Virtuoso
