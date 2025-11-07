@@ -10,6 +10,7 @@ import {
 } from "react";
 import type { Character } from "@schema";
 import { fetchCharactersPage } from "@server";
+import { useDebounceValue } from "../hooks/useDebounceValue";
 import {
   InfiniteCharacterGrid,
   type CardVariant,
@@ -40,6 +41,8 @@ const SORT_OPTIONS: { label: string; value: SortOption }[] = [
   { label: "Name (A → Z)", value: "name-asc" },
   { label: "Name (Z → A)", value: "name-desc" },
 ];
+
+const SEARCH_DEBOUNCE_MS = 400;
 
 interface CustomDropdownProps {
   value: string;
@@ -143,6 +146,8 @@ export const CharacterExplorer = ({
     status: "all",
     sortOrder: "name-asc",
   });
+  const [searchInput, setSearchInput] = useState(() => "");
+  const [debouncedSearch] = useDebounceValue(searchInput, SEARCH_DEBOUNCE_MS);
   const [gridState, setGridState] = useState<GridState>({
     characters: initialCharacters,
     nextPage: initialNextPage,
@@ -163,16 +168,9 @@ export const CharacterExplorer = ({
     (event: ChangeEvent<HTMLInputElement>) => {
       const nextName = event.target.value;
 
-      setFilters((previous) => {
-        if (previous.name === nextName) {
-          return previous;
-        }
-
-        return {
-          ...previous,
-          name: nextName,
-        };
-      });
+      setSearchInput((previous) =>
+        previous === nextName ? previous : nextName
+      );
     },
     []
   );
@@ -202,6 +200,19 @@ export const CharacterExplorer = ({
       };
     });
   }, []);
+
+  useEffect(() => {
+    setFilters((previous) => {
+      if (previous.name === debouncedSearch) {
+        return previous;
+      }
+
+      return {
+        ...previous,
+        name: debouncedSearch,
+      };
+    });
+  }, [debouncedSearch]);
 
   useEffect(() => {
     if (isFirstLoadRef.current) {
@@ -277,7 +288,7 @@ export const CharacterExplorer = ({
               <span className="hidden font-medium md:inline">Search</span>
               <input
                 type="search"
-                value={filters.name}
+                value={searchInput}
                 onChange={handleNameChange}
                 placeholder="Search characters..."
                 className="w-full rounded-lg border-2 border-slate-700 bg-transparent px-4 py-2.5 text-base text-slate-100 placeholder:text-slate-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
