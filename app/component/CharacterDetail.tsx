@@ -186,7 +186,7 @@ export const CharacterDetail = ({
         </dt>
         <dd
           className={cn(
-            "font-semibold text-foreground leading-relaxed",
+            "font-semibold leading-relaxed text-foreground",
             compact
               ? "mt-1.5 text-sm sm:text-base"
               : "mt-2 sm:mt-3 text-base sm:text-lg"
@@ -218,14 +218,37 @@ export const CharacterDetail = ({
           <header className="flex flex-col gap-3 border-b border-border pb-4">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div className="flex flex-col gap-2">
-                <h1 className="text-3xl font-bold leading-tight text-foreground sm:text-4xl">
-                  {character.name}
-                </h1>
+                <div className="flex gap-2">
+                  <h1 className="text-3xl font-bold leading-tight text-foreground sm:text-4xl">
+                    {character.name}
+                  </h1>
+                  <button
+                    onClick={() => {
+                      window.location.reload();
+                    }}
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-700/80 text-slate-200 transition hover:border-slate-500 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                      className="h-4 w-4"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
+                      />
+                    </svg>
+                  </button>
+                </div>
                 <p className="text-sm text-muted-foreground sm:text-base">
                   Character ID #{character.id}
                 </p>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 pr-18">
                 <span
                   className={cn(
                     "inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide whitespace-nowrap sm:px-4 sm:py-1.5 sm:text-sm",
@@ -234,27 +257,6 @@ export const CharacterDetail = ({
                 >
                   {character.status}
                 </span>
-                <button
-                  onClick={() => {
-                    window.location.reload();
-                  }}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-700/80 text-slate-200 transition hover:border-slate-500 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                    className="h-4 w-4"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
-                    />
-                  </svg>
-                </button>
               </div>
             </div>
           </header>

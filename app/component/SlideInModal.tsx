@@ -121,6 +121,31 @@ export const SlideInModal = ({
         )}
         onClick={(event) => event.stopPropagation()}
       >
+        <button
+          type="button"
+          onClick={dismiss}
+          aria-label="Close modal"
+          className={cn(
+            "mr-8 mt-1 absolute right-4 top-4 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white shadow-sm transition",
+            "hover:bg-white/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400"
+          )}
+        >
+          <span className="sr-only">Close modal</span>
+          <svg
+            aria-hidden="true"
+            className="h-4 w-4"
+            viewBox="0 0 14 14"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1 1l12 12M13 1 1 13"
+              stroke="currentColor"
+              strokeWidth={1.75}
+              strokeLinecap="round"
+            />
+          </svg>
+        </button>
         <div className="flex h-full flex-1 overflow-hidden">{children}</div>
       </div>
     </div>
