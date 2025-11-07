@@ -1,7 +1,7 @@
 "use client";
 
 import { useInViewport } from "@hooks";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 interface ViewportDetectorProps {
   /** Intersection observer threshold (0-1) */

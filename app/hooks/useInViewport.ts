@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface UseInViewportOptions {
   threshold?: number;
@@ -17,7 +17,7 @@ export const useInViewport = (options: UseInViewportOptions = {}) => {
       {
         threshold: options.threshold ?? 0.1,
         rootMargin: options.rootMargin ?? "200px", // Preload when 200px away
-      }
+      },
     );
 
     const currentElement = elementRef.current;

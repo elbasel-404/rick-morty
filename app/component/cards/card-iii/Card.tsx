@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { Heart } from "lucide-react";
 import { useCardRotation } from "@hooks";
 import { cn } from "@util";
+import { Heart } from "lucide-react";
+import { useState } from "react";
 
 interface Character {
   id: number;
@@ -65,7 +65,7 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
             "relative w-96 bg-white rounded-3xl overflow-hidden transition-all duration-300 ease-out",
             isHovered
               ? "[box-shadow:0_30px_60px_rgba(0,0,0,0.15),0_0_0_12px_rgba(255,255,255,0.8)]"
-              : "[box-shadow:0_20px_40px_rgba(0,0,0,0.1),0_0_0_12px_rgba(255,255,255,0.6)]"
+              : "[box-shadow:0_20px_40px_rgba(0,0,0,0.1),0_0_0_12px_rgba(255,255,255,0.6)]",
           )}
           style={{
             transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) ${
@@ -99,7 +99,7 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
                   "w-5 h-5 transition-all",
                   isFavorited
                     ? "fill-rose-500 stroke-rose-500"
-                    : "stroke-gray-700"
+                    : "stroke-gray-700",
                 )}
               />
             </button>

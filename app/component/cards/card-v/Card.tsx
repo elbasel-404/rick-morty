@@ -1,4 +1,4 @@
-import { Character } from "@schema";
+import type { Character } from "@schema";
 
 interface CharacterCardProps {
   character: Character;

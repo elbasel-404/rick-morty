@@ -1,5 +1,5 @@
-import NextImage from "next/image";
 import { cn } from "@util";
+import NextImage from "next/image";
 
 interface ImageProps {
   src: string;
@@ -28,7 +28,7 @@ export const Image = ({
       alt={alt}
       className={cn(
         "w-full h-full object-cover transition-all duration-700",
-        imageLoaded ? "blur-0 scale-100" : "blur-2xl scale-110"
+        imageLoaded ? "blur-0 scale-100" : "blur-2xl scale-110",
       )}
       loading="lazy"
       unoptimized

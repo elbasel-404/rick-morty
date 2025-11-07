@@ -1,10 +1,10 @@
 "use client";
 
-import { ReactNode, useState, useEffect, useRef } from "react";
-import { ViewportDetector } from "../effects/ViewportDetector";
-import { LazyImage } from "../effects/LazyImage";
+import { type ReactNode, useEffect, useRef, useState } from "react";
 import { FadeIn } from "../effects/FadeIn";
 import { FadeOut } from "../effects/FadeOut";
+import { LazyImage } from "../effects/LazyImage";
+import { ViewportDetector } from "../effects/ViewportDetector";
 import { SkeletonLoader } from "../SkeletonLoader";
 
 interface CardContainerProps {
@@ -77,7 +77,7 @@ export const CardContainer = ({
       // Calculate remaining time to reach minimum visibility
       const remainingTime = Math.max(
         0,
-        minSkeletonVisibility - skeletonVisibleTime
+        minSkeletonVisibility - skeletonVisibleTime,
       );
 
       // Wait for minimum visibility time, then start skeleton fade out

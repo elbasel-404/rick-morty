@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 interface FadeOutProps {
   /** Whether the element should be hidden (faded out) */

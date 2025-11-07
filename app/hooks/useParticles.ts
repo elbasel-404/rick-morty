@@ -13,7 +13,7 @@ interface Particle {
  */
 export const generateParticles = (
   seed: number,
-  count: number = 8
+  count: number = 8,
 ): Particle[] => {
   const seededRandom = (index: number) => {
     const x = Math.sin(seed * index * 12.9898 + index * 78.233) * 43758.5453;

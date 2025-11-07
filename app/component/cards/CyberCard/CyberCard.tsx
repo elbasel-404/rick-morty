@@ -1,16 +1,16 @@
 "use client";
 
-import { useState } from "react";
 import { useCardRotation } from "@hooks";
 import { getCyberStatusConfig } from "@styles";
 import { DEFAULT_ANIMATION_TIMINGS } from "@util";
+import { useState } from "react";
 import { CardContainer } from "../CardContainer";
+import { Back } from "./Back";
+import { CornerAccents } from "./CornerAccents";
+import { Front } from "./Front";
 import { Grid } from "./Grid";
 import { ScanLine } from "./ScanLine";
-import { CornerAccents } from "./CornerAccents";
 import { Styles } from "./Styles";
-import { Front } from "./Front";
-import { Back } from "./Back";
 
 interface Character {
   id: number;

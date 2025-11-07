@@ -1,19 +1,19 @@
 "use client";
 
-import { useState } from "react";
 import { useCardRotation, useParticles } from "@hooks";
 import { getStatusColor } from "@styles";
-import { DEFAULT_ANIMATION_TIMINGS, cn } from "@util";
+import { cn, DEFAULT_ANIMATION_TIMINGS } from "@util";
+import { useState } from "react";
 import { CardContainer } from "../CardContainer";
-import { Image } from "./Image";
-import { Overlay } from "./Overlay";
 import { Effects } from "./Effects";
-import { Status } from "./Status";
 import { IdBadge } from "./IdBadge";
-import { Name } from "./Name";
-import { Stats } from "./Stats";
+import { Image } from "./Image";
 import { Locations } from "./Locations";
+import { Name } from "./Name";
+import { Overlay } from "./Overlay";
 import { Particles } from "./Particles";
+import { Stats } from "./Stats";
+import { Status } from "./Status";
 
 interface Character {
   id: number;
@@ -70,7 +70,7 @@ export const SimpleCard = ({ character }: CharacterCardProps) => {
               "relative w-full h-full bg-linear-to-br from-slate-800 to-slate-900 rounded-xl overflow-hidden transition-all duration-300 ease-out",
               isHovered
                 ? "[box-shadow:0_30px_60px_rgba(0,0,0,0.6),0_0_40px_rgba(139,92,246,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]"
-                : "[box-shadow:0_15px_30px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.05)]"
+                : "[box-shadow:0_15px_30px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.05)]",
             )}
             style={{
               transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) ${

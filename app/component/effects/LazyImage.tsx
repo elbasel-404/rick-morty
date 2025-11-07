@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState, ImgHTMLAttributes } from "react";
+import { type ImgHTMLAttributes, useEffect, useRef, useState } from "react";
 
 interface LazyImageProps
   extends Omit<ImgHTMLAttributes<HTMLImageElement>, "onLoad"> {

@@ -33,7 +33,7 @@ export interface AnimationTimings {
  * - Total: minVisibility + fadeOut + delay + fadeIn
  */
 export function calculateAnimationTimings(
-  speedModifier = 1.0
+  speedModifier = 1.0,
 ): AnimationTimings {
   // Ensure modifier is positive
   const modifier = Math.max(0.1, speedModifier);

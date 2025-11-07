@@ -38,13 +38,13 @@ const Header = ({
         className={cn(
           "h-2.5 w-2.5 rounded-full animate-pulse",
           statusConfig.bg,
-          statusConfig.glow
+          statusConfig.glow,
         )}
       />
       <span
         className={cn(
           "text-xs font-semibold uppercase tracking-wide text-white sm:text-sm",
-          statusConfig.text
+          statusConfig.text,
         )}
       >
         {status}
@@ -111,13 +111,13 @@ const InfoBox = ({
         "group relative overflow-hidden rounded-lg border bg-gradient-to-br px-3 py-2.5 sm:px-4 sm:py-3 backdrop-blur-md transition-all duration-300",
         borderColor,
         bgGradient,
-        hoverBorder
+        hoverBorder,
       )}
     >
       <p
         className={cn(
           "text-xs font-semibold uppercase tracking-wide transition-colors",
-          labelColor
+          labelColor,
         )}
       >
         {label}

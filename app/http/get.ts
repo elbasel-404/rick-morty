@@ -1,6 +1,6 @@
+import { apiResponseSchema } from "@schema";
 import type { Endpoint } from "@type";
 import { buildFetchUrl, filterObject, logError, validateJson } from "@util";
-import { apiResponseSchema } from "@schema";
 import { flattenError, type ZodError, type ZodType } from "zod";
 
 /**
@@ -80,7 +80,7 @@ export const get = async <T>({
   // Validate the result data against the endpoint-specific schema
   const resultValidation = validateJson(
     responseValidation.data.results,
-    schema
+    schema,
   );
   if (!resultValidation.valid) {
     return handleValidationError({
@@ -104,7 +104,7 @@ export const get = async <T>({
  */
 const buildQueryUrl = (
   url: string,
-  queryParams?: Record<string, string | undefined>
+  queryParams?: Record<string, string | undefined>,
 ): string => {
   const filteredQueryParams = filterObject(queryParams);
   return buildFetchUrl({
@@ -127,7 +127,7 @@ const buildQueryUrl = (
  */
 const fetchData = async (
   queryUrl: string,
-  endpointUrl: string
+  endpointUrl: string,
 ): Promise<GetDataResult<unknown>> => {
   try {
     const response = await fetch(queryUrl, {
@@ -209,7 +209,7 @@ const handleValidationError = <T>({
           .map((item) => ({
             error: Object.entries(
               flattenError(itemSchema.safeParse(item).error as ZodError)
-                .fieldErrors
+                .fieldErrors,
             )[0].join(": "),
             ...item,
           }))
@@ -225,7 +225,7 @@ const handleValidationError = <T>({
   invalidData.forEach((d) => {
     const { error, ...rest } = d;
     // Print error in red
-    console.log("\x1b[31m%s\x1b[0m", "error:", error + "\n");
+    console.log("\x1b[31m%s\x1b[0m", "error:", `${error}\n`);
     // Extract the field name from error message
     const key =
       typeof error === "string" ? error.split(":")[0].trim() : String(error);

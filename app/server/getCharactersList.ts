@@ -1,5 +1,5 @@
-import { get } from "@http";
 import { CHARACTER_ENDPOINT } from "@endpoint";
+import { get } from "@http";
 
 interface GetCharacterListParams {
   page?: string;

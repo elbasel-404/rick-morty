@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 interface FadeInProps {
   /** Whether the element should be visible */
@@ -34,8 +34,8 @@ export const FadeIn = ({
       style={{
         opacity: isVisible ? 1 : 0,
         transition: `opacity ${duration}ms ${easing} ${delay}ms`,
-        width: '100%',
-        height: '100%',
+        width: "100%",
+        height: "100%",
         ...style,
       }}
     >

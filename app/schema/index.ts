@@ -1,2 +1,2 @@
 export { apiResponseSchema } from "./apiResponseSchema";
-export { characterSchema, type Character } from "./characterSchema";
+export { type Character, characterSchema } from "./characterSchema";

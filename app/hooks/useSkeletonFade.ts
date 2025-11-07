@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface UseSkeletonFadeOptions {
   imageLoaded: boolean;
@@ -46,7 +46,7 @@ export const useSkeletonFade = ({
       // Then after skeleton fades, show card
       loadTimeoutRef.current = setTimeout(
         () => setShowCard(true),
-        fadeOutDuration
+        fadeOutDuration,
       );
 
       return () => {

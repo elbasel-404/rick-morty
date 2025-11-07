@@ -19,13 +19,13 @@ export const Status = ({ status, statusConfig }: StatusProps) => {
         className={cn(
           "w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-4 md:h-4 rounded-full animate-pulse",
           statusConfig.bg,
-          statusConfig.glow
+          statusConfig.glow,
         )}
       />
       <span
         className={cn(
           "font-bold text-xs sm:text-sm md:text-base uppercase tracking-wider",
-          statusConfig.text
+          statusConfig.text,
         )}
       >
         {status}

@@ -1,4 +1,4 @@
-import { type ZodType, type ZodError, flattenError, json } from "zod";
+import { flattenError, json, type ZodError, type ZodType } from "zod";
 
 interface ValidationSuccess<T> {
   valid: true;
@@ -46,7 +46,7 @@ type ValidationResult<T> = ValidationSuccess<T> | ValidationFailure;
  */
 export const validateJson = <T>(
   json: unknown,
-  schema: ZodType<T>
+  schema: ZodType<T>,
 ): ValidationResult<T> => {
   // Automatically wrap schema in array validator if input is an array
   const schemaToUse = Array.isArray(json) ? schema.array() : schema;

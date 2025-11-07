@@ -222,7 +222,7 @@ export const JsonViewer = ({
       typeof data === "string"
         ? JSONParser.parse(data)
         : JSONParser.parse(JSONParser.stringify(data));
-  } catch (error) {
+  } catch (_error) {
     return (
       <div className="bg-gray-900 text-red-400 p-4 rounded-lg font-mono text-sm">
         Error: Invalid JSON data

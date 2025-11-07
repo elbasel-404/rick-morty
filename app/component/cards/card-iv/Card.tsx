@@ -1,6 +1,6 @@
-import { Character } from "@schema";
-import { Star } from "lucide-react";
+import type { Character } from "@schema";
 import { cn } from "@util";
+import { Star } from "lucide-react";
 
 interface CharacterCardProps {
   character: Character;
@@ -52,7 +52,7 @@ export const CharacterCardIV = ({ character }: CharacterCardProps) => {
               className={cn(
                 "w-2 h-2 rounded-full shadow-lg",
                 statusColors[status as keyof typeof statusColors] ||
-                  statusColors.unknown
+                  statusColors.unknown,
               )}
             />
             {status}

@@ -16,7 +16,7 @@ interface LogErrorParams {
 export const logError = ({ errorContent, errorTitle }: LogErrorParams) => {
   // Print error title with red background and white text
   console.error(
-    `\x1b[41m\x1b[37m[ERROR]\x1b[0m ${errorTitle}, check console for more details.`
+    `\x1b[41m\x1b[37m[ERROR]\x1b[0m ${errorTitle}, check console for more details.`,
   );
   // Print detailed error content for debugging
   console.debug(`${errorContent}\n---\n`);

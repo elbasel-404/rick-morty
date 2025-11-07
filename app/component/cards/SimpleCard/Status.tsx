@@ -21,7 +21,7 @@ export const Status = ({ status, statusColor, isHovered }: StatusProps) => {
       <div
         className={cn(
           "w-2.5 h-2.5 rounded-full animate-pulse shadow-[0_0_10px_currentColor]",
-          statusColor
+          statusColor,
         )}
       />
       <span
