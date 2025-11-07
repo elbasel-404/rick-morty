@@ -17,7 +17,6 @@ export const generateStaticParams = () => {
     { cardNumber: "2" },
     { cardNumber: "3" },
     { cardNumber: "4" },
-    { cardNumber: "5" },
   ];
 };
 
@@ -25,7 +24,7 @@ const CardPage = async ({ params }: CardPageProps) => {
   const { cardNumber } = await params;
 
   // Validate card number
-  if (!["1", "2", "3", "4", "5"].includes(cardNumber)) {
+  if (!["1", "2", "3", "4"].includes(cardNumber)) {
     notFound();
   }
 
@@ -61,7 +60,7 @@ const CardSwitcher = ({ cardNumber = "1" }) => {
   return (
     <div className="mb-6 flex flex-wrap items-center gap-3">
       <span className="font-semibold text-lg text-white">Card Style:</span>
-      {[1, 2, 3, 4, 5].map((num) => (
+      {[1, 2, 3, 4].map((num) => (
         <Link
           href={`/cards/${num}`}
           key={num}

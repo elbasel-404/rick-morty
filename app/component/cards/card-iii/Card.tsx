@@ -167,7 +167,7 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
 
           {/* Character name overlay */}
           <div
-            className="absolute bottom-0 left-0 right-0 p-6"
+            className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-slate-950/95 via-slate-950/70 to-transparent backdrop-blur"
             style={{ transform: "translateZ(30px)" }}
           >
             <h2 className="text-5xl font-bold text-white mb-3">{name}</h2>
@@ -183,50 +183,75 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
           {/* Details overlay */}
           <div
             className={cn(
-              "absolute inset-0 p-8 space-y-6 transition-opacity duration-500 flex flex-col justify-center",
+              "absolute inset-0 px-6 py-6 transition-opacity duration-500 flex flex-col justify-between",
               isHovered ? "opacity-100" : "opacity-0 pointer-events-none"
             )}
             style={{ transform: "translateZ(20px)" }}
           >
-            {/* Status and info row */}
-            <div className="flex items-center justify-between text-base gap-3">
-              <div className="flex items-center gap-2">
+            {/* Top badges and actions */}
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-700/60 bg-slate-900/70 backdrop-blur">
                 <div
                   className={cn(
-                    "w-3 h-3 rounded-full bg-gradient-to-br",
+                    "w-2.5 h-2.5 rounded-full bg-gradient-to-br",
                     statusColor
                   )}
                 />
-                <span className="text-slate-300 font-medium text-lg">
+                <span className="text-slate-200 text-sm font-semibold">
                   {status}
                 </span>
               </div>
-              <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 rounded-full border border-slate-700/50">
-                <span className="text-slate-400 font-medium text-lg">
-                  {episode.length}
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-700/60 bg-slate-900/70 backdrop-blur">
+                <span className="text-slate-300 text-sm font-semibold">
+                  {gender}
                 </span>
-                <span className="text-slate-500 text-sm">episodes</span>
               </div>
-              <span className="text-slate-400 ml-auto text-lg">{gender}</span>
+              <div className="ml-auto flex flex-wrap items-center gap-3">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-700/60 bg-slate-900/70 backdrop-blur">
+                  <span className="text-slate-200 text-base font-semibold">
+                    {episode.length}
+                  </span>
+                  <span className="text-slate-500 text-xs uppercase tracking-[0.18em]">
+                    episodes
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setIsFavorited((prev) => !prev);
+                  }}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-700/60 bg-slate-900/70 backdrop-blur text-slate-300 transition-colors hover:border-slate-500 hover:text-rose-300"
+                >
+                  <Heart
+                    className="w-4 h-4 transition-colors"
+                    fill={isFavorited ? "currentColor" : "none"}
+                    strokeWidth={isFavorited ? 2.4 : 1.8}
+                  />
+                  <span className="text-sm font-semibold">
+                    {isFavorited ? "Favorited" : "Favorite"}
+                  </span>
+                </button>
+              </div>
             </div>
 
             {/* Location info */}
-            <div className="space-y-4 text-base border-t border-slate-700/50 pt-6">
-              <div className="flex items-center gap-3">
-                <span className="text-slate-500 min-w-fit text-lg font-semibold">
+            <div className="grid gap-4 text-base">
+              <div className="rounded-xl border border-slate-700/60 bg-slate-900/70 px-4 py-3 backdrop-blur">
+                <span className="text-slate-500 text-xs uppercase tracking-[0.18em]">
                   Origin
                 </span>
-                <span className="text-slate-200 font-medium text-lg truncate">
-                  {origin.name}
-                </span>
+                <p className="text-slate-100 text-lg font-semibold">
+                  {origin.name || "Unknown"}
+                </p>
               </div>
-              <div className="flex items-center gap-3">
-                <span className="text-slate-500 min-w-fit text-lg font-semibold">
+              <div className="rounded-xl border border-slate-700/60 bg-slate-900/70 px-4 py-3 backdrop-blur">
+                <span className="text-slate-500 text-xs uppercase tracking-[0.18em]">
                   Location
                 </span>
-                <span className="text-slate-200 font-medium text-lg truncate">
-                  {location.name}
-                </span>
+                <p className="text-slate-100 text-lg font-semibold">
+                  {location.name || "Unknown"}
+                </p>
               </div>
             </div>
           </div>
