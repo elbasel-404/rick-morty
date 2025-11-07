@@ -10,6 +10,7 @@ import {
 } from "react";
 import type { Character } from "@schema";
 import { fetchCharactersPage } from "@server";
+import { cn } from "@util";
 import { useDebounceValue } from "../hooks/useDebounceValue";
 import {
   InfiniteCharacterGrid,
@@ -43,6 +44,7 @@ const SORT_OPTIONS: { label: string; value: SortOption }[] = [
 ];
 
 const SEARCH_DEBOUNCE_MS = 400;
+const REFRESH_INTERVAL_MS = 30_000;
 
 interface CustomDropdownProps {
   value: string;
@@ -154,6 +156,8 @@ export const CharacterExplorer = ({
   });
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [timeLeftMs, setTimeLeftMs] = useState(REFRESH_INTERVAL_MS);
+  const [isAutoRefreshPaused, setIsAutoRefreshPaused] = useState(false);
   const requestIdRef = useRef(0);
   const isFirstLoadRef = useRef(true);
 
@@ -162,6 +166,7 @@ export const CharacterExplorer = ({
       characters: initialCharacters,
       nextPage: initialNextPage,
     });
+    setTimeLeftMs(REFRESH_INTERVAL_MS);
   }, [initialCharacters, initialNextPage]);
 
   const handleNameChange = useCallback(
@@ -214,61 +219,103 @@ export const CharacterExplorer = ({
     });
   }, [debouncedSearch]);
 
+  const fetchInitialPage = useCallback(async () => {
+    const requestId = requestIdRef.current + 1;
+    requestIdRef.current = requestId;
+
+    setIsFetching(true);
+    setError(null);
+
+    try {
+      const result = await fetchCharactersPage({
+        page: 1,
+        name: filters.name.trim().length > 0 ? filters.name.trim() : undefined,
+        status: filters.status === "all" ? undefined : filters.status,
+      });
+
+      if (requestIdRef.current !== requestId) {
+        return;
+      }
+
+      if (result.error) {
+        setError(result.error);
+        setGridState({ characters: [], nextPage: null });
+        return;
+      }
+
+      setGridState({
+        characters: result.characters,
+        nextPage: result.nextPage,
+      });
+    } catch (requestError) {
+      if (requestIdRef.current !== requestId) {
+        return;
+      }
+
+      const message =
+        requestError instanceof Error
+          ? requestError.message
+          : "Unknown error while fetching characters.";
+      setError(message);
+      setGridState({ characters: [], nextPage: null });
+    } finally {
+      if (requestIdRef.current === requestId) {
+        setIsFetching(false);
+      }
+    }
+  }, [filters.name, filters.status]);
+
   useEffect(() => {
     if (isFirstLoadRef.current) {
       isFirstLoadRef.current = false;
       return;
     }
 
-    const fetchInitialPage = async () => {
-      const requestId = requestIdRef.current + 1;
-      requestIdRef.current = requestId;
-
-      setIsFetching(true);
-      setError(null);
-
-      try {
-        const result = await fetchCharactersPage({
-          page: 1,
-          name:
-            filters.name.trim().length > 0 ? filters.name.trim() : undefined,
-          status: filters.status === "all" ? undefined : filters.status,
-        });
-
-        if (requestIdRef.current !== requestId) {
-          return;
-        }
-
-        if (result.error) {
-          setError(result.error);
-          setGridState({ characters: [], nextPage: null });
-          return;
-        }
-
-        setGridState({
-          characters: result.characters,
-          nextPage: result.nextPage,
-        });
-      } catch (requestError) {
-        if (requestIdRef.current !== requestId) {
-          return;
-        }
-
-        const message =
-          requestError instanceof Error
-            ? requestError.message
-            : "Unknown error while fetching characters.";
-        setError(message);
-        setGridState({ characters: [], nextPage: null });
-      } finally {
-        if (requestIdRef.current === requestId) {
-          setIsFetching(false);
-        }
-      }
-    };
-
+    setTimeLeftMs(REFRESH_INTERVAL_MS);
     void fetchInitialPage();
-  }, [filters.name, filters.status]);
+  }, [fetchInitialPage]);
+
+  useEffect(() => {
+    if (isAutoRefreshPaused) {
+      return;
+    }
+
+    const intervalId = window.setInterval(() => {
+      setTimeLeftMs((previous) => (previous <= 1000 ? 0 : previous - 1000));
+    }, 1000);
+
+    return () => window.clearInterval(intervalId);
+  }, [isAutoRefreshPaused]);
+
+  useEffect(() => {
+    if (isAutoRefreshPaused || timeLeftMs > 0) {
+      return;
+    }
+
+    setTimeLeftMs(REFRESH_INTERVAL_MS);
+
+    if (!isFetching) {
+      void fetchInitialPage();
+    }
+  }, [fetchInitialPage, isAutoRefreshPaused, isFetching, timeLeftMs]);
+
+  const toggleAutoRefresh = useCallback(() => {
+    setIsAutoRefreshPaused((previous) => !previous);
+  }, []);
+
+  const handleManualRefresh = useCallback(() => {
+    if (isFetching) {
+      return;
+    }
+
+    setTimeLeftMs(REFRESH_INTERVAL_MS);
+    void fetchInitialPage();
+  }, [fetchInitialPage, isFetching]);
+
+  const formattedSecondsLeft = useMemo(() => {
+    const totalSeconds = Math.max(0, Math.ceil(timeLeftMs / 1000));
+    return totalSeconds.toString().padStart(2, "0");
+  }, [timeLeftMs]);
 
   const gridFilters = useMemo(
     () => ({
@@ -281,6 +328,14 @@ export const CharacterExplorer = ({
 
   return (
     <section className="space-y-6">
+      <Timer
+        formattedSecondsLeft={formattedSecondsLeft}
+        isAutoRefreshPaused={isAutoRefreshPaused}
+        toggleAutoRefresh={toggleAutoRefresh}
+        handleManualRefresh={handleManualRefresh}
+        isFetching={isFetching}
+      />
+
       <nav className="relative z-20 rounded-xl border-2 border-slate-700 bg-transparent p-5 backdrop-blur">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="flex w-full flex-col gap-3 md:max-w-md md:flex-row">
@@ -336,5 +391,72 @@ export const CharacterExplorer = ({
         filters={gridFilters}
       />
     </section>
+  );
+};
+
+interface TimerProps {
+  formattedSecondsLeft: string;
+  isAutoRefreshPaused: boolean;
+  toggleAutoRefresh: () => void;
+  handleManualRefresh: () => void;
+  isFetching: boolean;
+}
+const Timer = ({
+  formattedSecondsLeft,
+  isAutoRefreshPaused,
+  toggleAutoRefresh,
+}: TimerProps) => {
+  return (
+    <div className="fixed right-6 top-6 z-50 flex flex-col items-center gap-3">
+      <div className="group relative flex h-32 w-32 items-center justify-center">
+        <div className="absolute inset-0 rounded-full border-2 border-slate-700 bg-slate-950/70 backdrop-blur-md transition-all duration-200 group-hover:border-blue-500 group-hover:shadow-[0_0_25px_rgba(59,130,246,0.25)]" />
+        <div
+          aria-live="polite"
+          className="relative z-10 flex items-center font-mono text-slate-100 transition-opacity duration-200 group-hover:opacity-0 group-focus-within:opacity-0"
+        >
+          <span className="text-5xl font-bold leading-none">
+            {formattedSecondsLeft}
+          </span>
+        </div>
+        <button
+          type="button"
+          onClick={toggleAutoRefresh}
+          aria-label={
+            isAutoRefreshPaused ? "Resume auto refresh" : "Pause auto refresh"
+          }
+          className={cn(
+            "absolute inset-0 flex items-center justify-center rounded-full text-slate-50 opacity-0 transition-opacity duration-200 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950",
+            "group-hover:opacity-100",
+            isAutoRefreshPaused ? "bg-emerald-500/90" : "bg-blue-500/90"
+          )}
+        >
+          {isAutoRefreshPaused ? (
+            <svg
+              className="h-7 w-7"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8 5v14l11-7z" />
+            </svg>
+          ) : (
+            <svg
+              className="h-7 w-7"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M10 5h-1a1 1 0 00-1 1v12a1 1 0 001 1h1a1 1 0 001-1V6a1 1 0 00-1-1zm6 0h-1a1 1 0 00-1 1v12a1 1 0 001 1h1a1 1 0 001-1V6a1 1 0 00-1-1z"
+              />
+            </svg>
+          )}
+        </button>
+      </div>
+    </div>
   );
 };

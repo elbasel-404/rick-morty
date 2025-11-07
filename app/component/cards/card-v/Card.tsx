@@ -18,21 +18,21 @@ export const CharacterCardV = ({ character }: CharacterCardProps) => {
         />
 
         {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-linear-to-t from-white via-white/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
       </div>
 
       {/* Content */}
       <div className="absolute bottom-0 p-3 sm:p-4 md:p-5 w-full">
-        <h2 className="text-base sm:text-lg md:text-xl font-bold text-black">
+        <h2 className="text-base sm:text-lg md:text-xl font-bold text-white">
           {name}
         </h2>
-        <p className="text-lg text-black mt-1">
+        <p className="text-lg text-white mt-1">
           {species}, {gender}. Currently in <strong>{location.name}</strong>.
         </p>
-        <p className="text-lg text-black mt-1">Origin: {origin.name}</p>
+        <p className="text-lg text-white mt-1">Origin: {origin.name}</p>
 
         <div className="mt-3 sm:mt-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 text-xs sm:text-sm text-gray-500">
-          <div className="text-black text-lg">
+          <div className="text-white text-lg">
             <span className="font-semibold ">Status:</span> {status}
           </div>
         </div>

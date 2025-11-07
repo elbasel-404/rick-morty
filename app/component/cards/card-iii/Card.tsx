@@ -25,7 +25,6 @@ interface CharacterCardProps {
 export const CharacterCardIII = ({ character }: CharacterCardProps) => {
   const { rotation, handleMouseMove, resetRotation } = useCardRotation();
   const [isHovered, setIsHovered] = useState(false);
-  const [isFavorited, setIsFavorited] = useState(false);
 
   const {
     name,
@@ -53,7 +52,7 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
 
   return (
     <div
-      className="relative"
+      className="relative w-full"
       style={{ perspective: "1500px" }}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
@@ -76,7 +75,7 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
 
       <div
         className={cn(
-          "relative w-full max-w-2xl bg-linear-to-b from-slate-800 to-slate-900 rounded-2xl overflow-hidden transition-all duration-300 ease-out border border-slate-700/50",
+          "relative w-full bg-linear-to-b from-slate-800 to-slate-900 rounded-2xl overflow-hidden transition-all duration-300 ease-out border border-slate-700/50",
           isHovered
             ? "[box-shadow:0_0_50px_rgba(59,130,246,0.4),0_20px_60px_rgba(0,0,0,0.6)]"
             : "[box-shadow:0_10px_30px_rgba(0,0,0,0.5),0_0_20px_rgba(59,130,246,0.1)]"
@@ -211,34 +210,17 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
                   <span className="text-slate-200 text-base font-semibold">
                     {episode.length}
                   </span>
-                  <span className="text-slate-500 text-xs uppercase tracking-[0.18em]">
+                  <span className="text-white text-xs uppercase tracking-[0.18em]">
                     episodes
                   </span>
                 </div>
-                <button
-                  type="button"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    setIsFavorited((prev) => !prev);
-                  }}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-700/60 bg-slate-900/70 backdrop-blur text-slate-300 transition-colors hover:border-slate-500 hover:text-rose-300"
-                >
-                  <Heart
-                    className="w-4 h-4 transition-colors"
-                    fill={isFavorited ? "currentColor" : "none"}
-                    strokeWidth={isFavorited ? 2.4 : 1.8}
-                  />
-                  <span className="text-sm font-semibold">
-                    {isFavorited ? "Favorited" : "Favorite"}
-                  </span>
-                </button>
               </div>
             </div>
 
             {/* Location info */}
             <div className="grid gap-4 text-base">
               <div className="rounded-xl border border-slate-700/60 bg-slate-900/70 px-4 py-3 backdrop-blur">
-                <span className="text-slate-500 text-xs uppercase tracking-[0.18em]">
+                <span className="text-white text-xs uppercase tracking-[0.18em]">
                   Origin
                 </span>
                 <p className="text-slate-100 text-lg font-semibold">
@@ -246,7 +228,7 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
                 </p>
               </div>
               <div className="rounded-xl border border-slate-700/60 bg-slate-900/70 px-4 py-3 backdrop-blur">
-                <span className="text-slate-500 text-xs uppercase tracking-[0.18em]">
+                <span className="text-white text-xs uppercase tracking-[0.18em]">
                   Location
                 </span>
                 <p className="text-slate-100 text-lg font-semibold">
