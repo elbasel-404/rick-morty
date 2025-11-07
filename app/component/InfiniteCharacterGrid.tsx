@@ -1,12 +1,19 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Virtuoso } from "react-virtuoso";
+import {
+  ComponentPropsWithoutRef,
+  forwardRef,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { VirtuosoGrid } from "react-virtuoso";
 import type { Character } from "@schema";
 import { fetchCharactersPage, type FetchCharactersResult } from "@server";
+import { cn } from "@util";
 import {
   CharacterCardIII,
-  CharacterCardIV,
   CharacterCardV,
   CyberCard,
   SimpleCard,
@@ -16,11 +23,8 @@ const CARD_VARIANTS = {
   "1": SimpleCard,
   "2": CyberCard,
   "3": CharacterCardIII,
-  "4": CharacterCardIV,
-  "5": CharacterCardV,
+  "4": CharacterCardV,
 } as const;
-
-const ROW_SIZE = 3;
 
 export type CardVariant = keyof typeof CARD_VARIANTS;
 
@@ -29,6 +33,71 @@ type FooterContext = {
   hasMore: boolean;
   error: string | null;
 };
+
+const GridList = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<"div">>(
+  ({ className, style, ...props }, ref) => (
+    <div
+      {...props}
+      ref={ref}
+      className={cn("grid content-start gap-4 md:gap-6", className)}
+      style={{
+        ...style,
+        gridTemplateColumns: "repeat(auto-fit, minmax(18rem, 1fr))",
+      }}
+    />
+  )
+);
+
+GridList.displayName = "GridList";
+
+const GridItem = forwardRef<HTMLDivElement, ComponentPropsWithoutRef<"div">>(
+  ({ className, style, ...props }, ref) => (
+    <div
+      {...props}
+      ref={ref}
+      className={cn("flex h-full", className)}
+      style={style}
+    />
+  )
+);
+
+GridItem.displayName = "GridItem";
+
+function LoadingFooter({ context }: { context?: FooterContext }) {
+  if (!context) return null;
+
+  if (context.error) {
+    return (
+      <div className="col-span-full py-6 text-center text-sm text-red-400">
+        {context.error}
+      </div>
+    );
+  }
+
+  if (context.isLoading) {
+    return (
+      <div className="col-span-full py-6 text-center text-sm text-zinc-200">
+        Loading more characters...
+      </div>
+    );
+  }
+
+  if (!context.hasMore) {
+    return (
+      <div className="col-span-full py-6 text-center text-sm text-zinc-400">
+        You&apos;ve reached the end of the list.
+      </div>
+    );
+  }
+
+  return null;
+}
+
+const GRID_COMPONENTS = {
+  List: GridList,
+  Item: GridItem,
+  Footer: LoadingFooter,
+} as const;
 
 interface InfiniteCharacterGridProps {
   initialCharacters: Character[];
@@ -49,7 +118,6 @@ export const InfiniteCharacterGrid = ({
 
   const SelectedCard = CARD_VARIANTS[cardVariant];
   const hasMore = nextPage !== null;
-  const rowCount = Math.ceil(characters.length / ROW_SIZE);
 
   const loadMore = useCallback(async () => {
     if (!nextPage || isLoading) return;
@@ -133,70 +201,28 @@ export const InfiniteCharacterGrid = ({
   }, []);
 
   return (
-    <Virtuoso
+    <VirtuosoGrid
       useWindowScroll
-      totalCount={rowCount}
+      totalCount={characters.length}
       endReached={handleEndReached}
       increaseViewportBy={200}
       context={{ isLoading, hasMore, error }}
-      components={{ Footer: LoadingFooter }}
+      components={GRID_COMPONENTS}
       computeItemKey={(index) => {
-        const startIndex = index * ROW_SIZE;
-        const ids = characters
-          .slice(startIndex, startIndex + ROW_SIZE)
-          .map((character) => character.id)
-          .join("-");
-        return ids ? `row-${ids}` : `row-${index}`;
+        const character = characters[index];
+        return character ? `character-${character.id}` : `character-${index}`;
       }}
-      itemContent={(rowIndex) => {
-        const startIndex = rowIndex * ROW_SIZE;
-        const rowCharacters = characters.slice(
-          startIndex,
-          startIndex + ROW_SIZE
-        );
+      itemContent={(index) => {
+        const character = characters[index];
 
-        if (rowCharacters.length === 0) return null;
+        if (!character) return null;
 
         return (
-          <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-3">
-            {rowCharacters.map((character) => (
-              <div key={character.id} data-character-id={character.id}>
-                <SelectedCard character={character} />
-              </div>
-            ))}
+          <div className="flex w-full" data-character-id={character.id}>
+            <SelectedCard character={character} />
           </div>
         );
       }}
     />
   );
-};
-
-const LoadingFooter = ({ context }: { context?: FooterContext }) => {
-  if (!context) return null;
-
-  if (context.error) {
-    return (
-      <div className="py-6 text-center text-sm text-red-400">
-        {context.error}
-      </div>
-    );
-  }
-
-  if (context.isLoading) {
-    return (
-      <div className="py-6 text-center text-sm text-zinc-200">
-        Loading more characters...
-      </div>
-    );
-  }
-
-  if (!context.hasMore) {
-    return (
-      <div className="py-6 text-center text-sm text-zinc-400">
-        You&apos;ve reached the end of the list.
-      </div>
-    );
-  }
-
-  return null;
 };

@@ -59,9 +59,24 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
     >
+      {/* Flowing water border effect */}
+      <div
+        className="absolute inset-0 rounded-2xl p-1 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(45deg, #0ea5e9, #06b6d4, #0369a1, #0ea5e9)",
+          backgroundSize: "300% 300%",
+          animation: "flowBorder 6s ease infinite",
+          opacity: isHovered ? 1 : 0.5,
+          transition: "opacity 0.3s ease",
+        }}
+      >
+        <div className="absolute inset-1 bg-slate-900 rounded-2xl" />
+      </div>
+
       <div
         className={cn(
-          "relative w-96 bg-gradient-to-b from-slate-800 to-slate-900 rounded-2xl overflow-hidden transition-all duration-300 ease-out border border-slate-700/50",
+          "relative w-full max-w-2xl bg-gradient-to-b from-slate-800 to-slate-900 rounded-2xl overflow-hidden transition-all duration-300 ease-out border border-slate-700/50",
           isHovered
             ? "[box-shadow:0_0_50px_rgba(59,130,246,0.4),0_20px_60px_rgba(0,0,0,0.6)]"
             : "[box-shadow:0_10px_30px_rgba(0,0,0,0.5),0_0_20px_rgba(59,130,246,0.1)]"
@@ -90,6 +105,58 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
           {/* Dark gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
 
+          {/* Water vortex effect */}
+          {isHovered && (
+            <svg
+              className="absolute inset-0 w-full h-full"
+              viewBox="0 0 400 400"
+              style={{
+                opacity: 0.6,
+                animation: "spin 6s linear infinite",
+              }}
+            >
+              <defs>
+                <linearGradient id="vortex" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#0ea5e9" stopOpacity="0.4" />
+                  <stop offset="50%" stopColor="#06b6d4" stopOpacity="0.2" />
+                  <stop offset="100%" stopColor="#0369a1" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              <circle
+                cx="200"
+                cy="200"
+                r="180"
+                fill="none"
+                stroke="url(#vortex)"
+                strokeWidth="2"
+              />
+              <circle
+                cx="200"
+                cy="200"
+                r="130"
+                fill="none"
+                stroke="url(#vortex)"
+                strokeWidth="1.5"
+              />
+              <circle
+                cx="200"
+                cy="200"
+                r="80"
+                fill="none"
+                stroke="url(#vortex)"
+                strokeWidth="1"
+              />
+              <circle
+                cx="200"
+                cy="200"
+                r="30"
+                fill="none"
+                stroke="url(#vortex)"
+                strokeWidth="0.5"
+              />
+            </svg>
+          )}
+
           {/* Status accent bar */}
           <div
             className={cn(
@@ -98,86 +165,95 @@ export const CharacterCardIII = ({ character }: CharacterCardProps) => {
             )}
           />
 
-          {/* Favorite button */}
-          <button
-            onClick={() => setIsFavorited(!isFavorited)}
-            className="absolute top-5 right-5 w-11 h-11 bg-slate-900/80 backdrop-blur-md rounded-full flex items-center justify-center transition-all hover:scale-110 active:scale-95 border border-slate-700/50 hover:border-blue-500/50"
-            style={{ transform: "translateZ(40px)" }}
-          >
-            <Heart
-              className={cn(
-                "w-5 h-5 transition-all",
-                isFavorited
-                  ? "fill-rose-500 stroke-rose-500"
-                  : "stroke-slate-300"
-              )}
-            />
-          </button>
-
           {/* Character name overlay */}
           <div
             className="absolute bottom-0 left-0 right-0 p-6"
             style={{ transform: "translateZ(30px)" }}
           >
-            <h2 className="text-3xl font-bold text-white mb-2">{name}</h2>
+            <h2 className="text-5xl font-bold text-white mb-3">{name}</h2>
             <div className="flex items-center gap-2">
-              <Zap className="w-4 h-4 text-blue-400" />
-              <p className="text-slate-300 text-sm font-medium">
+              <Zap className="w-5 h-5 text-blue-400" />
+              <p className="text-slate-300 text-base font-medium">
                 {species}
                 {type && ` • ${type}`}
               </p>
             </div>
           </div>
-        </div>
 
-        {/* Content section */}
-        <div
-          className="p-6 space-y-5"
-          style={{ transform: "translateZ(20px)" }}
-        >
-          {/* Status and info row */}
-          <div className="flex items-center justify-between text-sm gap-3">
-            <div className="flex items-center gap-2">
-              <div
-                className={cn(
-                  "w-2.5 h-2.5 rounded-full bg-gradient-to-br",
-                  statusColor
-                )}
-              />
-              <span className="text-slate-300 font-medium">{status}</span>
-            </div>
-            <div className="flex items-center gap-2 px-3 py-1 bg-slate-800/50 rounded-full border border-slate-700/50">
-              <span className="text-slate-400">{episode.length}</span>
-              <span className="text-slate-500 text-xs">episodes</span>
-            </div>
-            <span className="text-slate-400 ml-auto">{gender}</span>
-          </div>
-
-          {/* Location info */}
-          <div className="space-y-3 text-sm border-t border-slate-700/50 pt-4">
-            <div className="flex items-center gap-3">
-              <span className="text-slate-500 min-w-fit">Origin</span>
-              <span className="text-slate-200 font-medium truncate">
-                {origin.name}
-              </span>
-            </div>
-            <div className="flex items-center gap-3">
-              <span className="text-slate-500 min-w-fit">Location</span>
-              <span className="text-slate-200 font-medium truncate">
-                {location.name}
-              </span>
-            </div>
-          </div>
-
-          {/* Action button */}
-          <button
-            className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg py-3 font-semibold text-sm hover:from-blue-500 hover:to-blue-600 transition-all active:scale-95 border border-blue-500/30"
-            style={{ transform: "translateZ(10px)" }}
+          {/* Details overlay */}
+          <div
+            className={cn(
+              "absolute inset-0 p-8 space-y-6 transition-opacity duration-500 flex flex-col justify-center",
+              isHovered ? "opacity-100" : "opacity-0 pointer-events-none"
+            )}
+            style={{ transform: "translateZ(20px)" }}
           >
-            View Details
-          </button>
+            {/* Status and info row */}
+            <div className="flex items-center justify-between text-base gap-3">
+              <div className="flex items-center gap-2">
+                <div
+                  className={cn(
+                    "w-3 h-3 rounded-full bg-gradient-to-br",
+                    statusColor
+                  )}
+                />
+                <span className="text-slate-300 font-medium text-lg">
+                  {status}
+                </span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 rounded-full border border-slate-700/50">
+                <span className="text-slate-400 font-medium text-lg">
+                  {episode.length}
+                </span>
+                <span className="text-slate-500 text-sm">episodes</span>
+              </div>
+              <span className="text-slate-400 ml-auto text-lg">{gender}</span>
+            </div>
+
+            {/* Location info */}
+            <div className="space-y-4 text-base border-t border-slate-700/50 pt-6">
+              <div className="flex items-center gap-3">
+                <span className="text-slate-500 min-w-fit text-lg font-semibold">
+                  Origin
+                </span>
+                <span className="text-slate-200 font-medium text-lg truncate">
+                  {origin.name}
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-slate-500 min-w-fit text-lg font-semibold">
+                  Location
+                </span>
+                <span className="text-slate-200 font-medium text-lg truncate">
+                  {location.name}
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+        @keyframes flowBorder {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+      `}</style>
     </div>
   );
 };
