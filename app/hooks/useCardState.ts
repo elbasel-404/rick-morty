@@ -40,7 +40,7 @@ export const useCardState = ({
 
   const handleImageLoad = useCallback(
     (loaded: boolean, isCached: boolean) => {
-      if (!loaded || hasLoadedOnce) {
+      if (!loaded) {
         return;
       }
 
