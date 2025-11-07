@@ -61,7 +61,7 @@ html.scrollbar-fade-in {
 }
 
 html.scrollbar-fade-in::-webkit-scrollbar-thumb {
-  animation: scrollbarFadeIn 1s ease forwards;
+  animation: scrollbarFadeIn 5s ease forwards;
 }
 
 @keyframes scrollbarFadeIn {
