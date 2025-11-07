@@ -42,7 +42,9 @@ export const getEpisodesByIds = async ({
     if (!response.ok) {
       const errorMessage = `Episode request failed with status ${response.status}.`;
       logError({
-        errorTitle: `Failed to fetch episodes with ids ${sanitizedIds.join(",")}`,
+        errorTitle: `Failed to fetch episodes with ids ${sanitizedIds.join(
+          ","
+        )}`,
         errorContent: errorMessage,
       });
 
@@ -68,9 +70,7 @@ export const getEpisodesByIds = async ({
     }
 
     const rawEpisodes = validation.data as Episode | Episode[];
-    const episodes = Array.isArray(rawEpisodes)
-      ? rawEpisodes
-      : [rawEpisodes];
+    const episodes = Array.isArray(rawEpisodes) ? rawEpisodes : [rawEpisodes];
 
     return {
       episodes,
@@ -81,7 +81,9 @@ export const getEpisodesByIds = async ({
       error instanceof Error ? error.message : "Unknown error occurred.";
 
     logError({
-      errorTitle: `Unexpected error while fetching episodes ${sanitizedIds.join(",")}`,
+      errorTitle: `Unexpected error while fetching episodes ${sanitizedIds.join(
+        ","
+      )}`,
       errorContent: errorMessage,
     });
 
