@@ -5,30 +5,33 @@ interface FrontProps {
 
 export const Front = ({ characterImage, characterName }: FrontProps) => {
   return (
-    <div className="relative w-full h-full">
-      {/* Character image - brighter with minimal overlay */}
+    <div
+      className="relative h-full w-full overflow-hidden"
+      style={{ transformStyle: "preserve-3d" }}
+    >
       <img
         src={characterImage}
         alt={characterName}
-        className="w-full h-full object-cover filter-[contrast(1.1)_saturate(1.3)_brightness(1.05)]"
+        className="absolute inset-0 h-full w-full object-cover filter-[contrast(1.1)_saturate(1.3)_brightness(1.05)]"
       />
 
-      {/* Subtle gradient overlay for text readability */}
-      <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent" />
 
-      {/* Light cyber effects */}
-      <div className="absolute inset-0 bg-linear-to-br from-cyan-500/10 via-transparent to-pink-500/10 mix-blend-overlay" />
+      <div className="absolute inset-0 bg-linear-to-br from-cyan-500/15 via-transparent to-pink-500/15 mix-blend-overlay" />
 
-      {/* Character name at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8 md:p-10">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] uppercase tracking-tight">
-          {characterName}
-        </h2>
+      <div className="relative z-10 flex h-full flex-col justify-end px-6 py-8 sm:px-10 sm:py-10 md:px-12 md:py-12">
+        <div className="flex flex-col gap-3 max-w-72 sm:max-w-88">
+          <p className="text-[0.7rem] uppercase tracking-[0.4em] text-cyan-100/70">
+            Character Profile
+          </p>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)] uppercase">
+            {characterName}
+          </h2>
+        </div>
       </div>
 
-      {/* Holographic scan line */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute w-full h-1 bg-linear-to-r from-transparent via-cyan-400/50 to-transparent animate-[scan_4s_linear_infinite]" />
+      <div className="pointer-events-none absolute inset-x-6 bottom-8 sm:inset-x-10 sm:bottom-10">
+        <div className="h-1 w-full bg-linear-to-r from-transparent via-cyan-400/50 to-transparent animate-[scan_4s_linear_infinite]" />
       </div>
     </div>
   );

@@ -18,128 +18,179 @@ interface BackProps {
     glow: string;
     text: string;
   };
-  isHovered: boolean;
 }
 
-export const Back = ({ character, statusConfig, isHovered }: BackProps) => {
+const Header = ({
+  id,
+  status,
+  statusConfig,
+}: {
+  id: number;
+  status: string;
+  statusConfig: BackProps["statusConfig"];
+}) => (
+  <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/10 bg-black/40 px-4 py-3 sm:px-5 sm:py-3.5 backdrop-blur-sm">
+    <span className="text-xs font-mono font-bold uppercase tracking-widest text-pink-300">
+      #{id.toString().padStart(3, "0")}
+    </span>
+    <div className="flex items-center gap-3">
+      <div
+        className={cn(
+          "h-2.5 w-2.5 rounded-full animate-pulse",
+          statusConfig.bg,
+          statusConfig.glow
+        )}
+      />
+      <span
+        className={cn(
+          "text-xs font-semibold uppercase tracking-wide text-white sm:text-sm",
+          statusConfig.text
+        )}
+      >
+        {status}
+      </span>
+    </div>
+  </div>
+);
+
+const Title = ({
+  name,
+  species,
+  type,
+}: {
+  name: string;
+  species: string;
+  type: string;
+}) => (
+  <div className="mt-8 space-y-5 text-center sm:text-left">
+    <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-pink-400 to-cyan-400 uppercase tracking-tight leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">
+      {name}
+    </h2>
+    <div
+      title={type}
+      className="flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-wide text-cyan-200/90 sm:justify-start sm:text-sm whitespace-nowrap overflow-hidden"
+    >
+      <span className="text-cyan-300 font-bold">{species}</span>
+      {type && (
+        <>
+          <span className="text-pink-400">•</span>
+          <span className="text-pink-300 font-semibold">{type}</span>
+        </>
+      )}
+    </div>
+  </div>
+);
+
+const InfoBox = ({
+  label,
+  value,
+  color,
+}: {
+  label: string;
+  value: string | number;
+  color: "cyan" | "pink";
+}) => {
+  const borderColor =
+    color === "cyan" ? "border-cyan-500/20" : "border-pink-500/20";
+  const bgGradient =
+    color === "cyan"
+      ? "from-cyan-500/10 via-transparent to-pink-500/10"
+      : "from-pink-500/10 via-transparent to-cyan-500/10";
+  const labelColor =
+    color === "cyan"
+      ? "text-cyan-300/60 group-hover:text-cyan-300"
+      : "text-pink-300/60 group-hover:text-pink-300";
+  const hoverBorder =
+    color === "cyan"
+      ? "hover:border-cyan-500/40 hover:shadow-[0_0_20px_rgba(34,211,238,0.15)]"
+      : "hover:border-pink-500/40 hover:shadow-[0_0_20px_rgba(236,72,153,0.15)]";
+
   return (
-    <div className="relative w-full h-full">
-      {/* Full Background Image */}
+    <div
+      className={cn(
+        "group relative overflow-hidden rounded-lg border bg-gradient-to-br px-3 py-2.5 sm:px-4 sm:py-3 backdrop-blur-md transition-all duration-300",
+        borderColor,
+        bgGradient,
+        hoverBorder
+      )}
+    >
+      <p
+        className={cn(
+          "text-xs font-semibold uppercase tracking-wide transition-colors",
+          labelColor
+        )}
+      >
+        {label}
+      </p>
+      <p className="mt-1.5 text-sm font-bold text-white sm:text-base leading-snug truncate">
+        {value}
+      </p>
+    </div>
+  );
+};
+
+const InfoGrid = ({
+  gender,
+  episodes,
+  origin,
+  location,
+}: {
+  gender: string;
+  episodes: number;
+  origin: string;
+  location: string;
+}) => (
+  <div className="mt-auto space-y-3 sm:space-y-4">
+    <div className="grid grid-cols-2 gap-2 sm:gap-3">
+      <InfoBox label="Gender" value={gender} color="cyan" />
+      <InfoBox label="Episodes" value={episodes} color="pink" />
+    </div>
+    <div className="grid grid-cols-2 gap-2 sm:gap-3">
+      <InfoBox label="Origin" value={origin} color="cyan" />
+      <InfoBox label="Location" value={location} color="pink" />
+    </div>
+  </div>
+);
+
+const Corners = () => (
+  <>
+    <div className="absolute top-0 left-0 h-12 w-12 border-t-2 border-l-2 border-cyan-400/60" />
+    <div className="absolute top-0 right-0 h-12 w-12 border-t-2 border-r-2 border-pink-400/60" />
+    <div className="absolute bottom-0 left-0 h-12 w-12 border-b-2 border-l-2 border-pink-400/60" />
+    <div className="absolute bottom-0 right-0 h-12 w-12 border-b-2 border-r-2 border-cyan-400/60" />
+  </>
+);
+
+export const Back = ({ character, statusConfig }: BackProps) => {
+  return (
+    <div className="relative h-full w-full overflow-hidden">
       <img
         src={character.image}
         alt={character.name}
-        className="absolute inset-0 w-full h-full object-cover filter-[contrast(1.15)_saturate(1.3)_brightness(0.75)]"
+        className="absolute inset-0 h-full w-full object-cover filter-[contrast(1.2)_saturate(1.3)_brightness(0.75)]"
       />
+      <div className="absolute inset-0 bg-black/70" />
 
-      {/* Dark overlay for better text visibility */}
-      <div className="absolute inset-0 bg-black/60" />
-
-      {/* Top Bar - Status & ID */}
-      <div className="absolute top-0 left-0 right-0 flex items-center justify-between p-4">
-        {/* ID Badge - Left */}
-        <div className="flex items-center gap-2 px-3 py-1.5">
-          <span className="text-pink-400 font-black text-lg uppercase tracking-wider drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
-            #{character.id.toString().padStart(3, "0")}
-          </span>
-        </div>
-
-        {/* Status Badge - Right */}
-        <div className="flex items-center gap-2 px-3 py-1.5">
-          <div
-            className={cn(
-              "w-2 h-2 rounded-full animate-pulse",
-              statusConfig.bg,
-              statusConfig.glow
-            )}
-          />
-          <span
-            className={cn(
-              "font-black text-base uppercase tracking-wider drop-shadow-[0_2px_8px_rgba(0,0,0,1)]",
-              statusConfig.text
-            )}
-          >
-            {character.status}
-          </span>
-        </div>
+      <div className="absolute inset-0 flex flex-col px-6 py-7 sm:px-8 sm:py-10 lg:px-12 lg:py-12">
+        <Header
+          id={character.id}
+          status={character.status}
+          statusConfig={statusConfig}
+        />
+        <Title
+          name={character.name}
+          species={character.species}
+          type={character.type}
+        />
+        <InfoGrid
+          gender={character.gender}
+          episodes={character.episode.length}
+          origin={character.origin.name}
+          location={character.location.name}
+        />
       </div>
 
-      {/* Main Content - Centered Layout */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center px-8 py-16">
-        {/* Character Name - Center */}
-        <div className="text-center mb-8">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-pink-400 to-cyan-400 uppercase tracking-tighter leading-tight drop-shadow-[0_4px_12px_rgba(0,0,0,1)] mb-3 wrap-break-word hyphens-auto">
-            {character.name}
-          </h2>
-          <div className="flex items-center justify-center gap-3 text-lg">
-            <span className="text-cyan-300 font-bold uppercase tracking-wide drop-shadow-[0_2px_6px_rgba(0,0,0,1)]">
-              {character.species}
-            </span>
-            {character.type && (
-              <>
-                <span className="text-pink-400 text-2xl">•</span>
-                <span className="text-pink-300 font-bold uppercase tracking-wide drop-shadow-[0_2px_6px_rgba(0,0,0,1)]">
-                  {character.type}
-                </span>
-              </>
-            )}
-          </div>
-        </div>
-
-        {/* Info Grid - 2x2 Layout */}
-        <div className="grid grid-cols-2 gap-4 w-full max-w-2xl">
-          {/* Gender */}
-          <div className="p-4 text-center">
-            <p className="text-cyan-400 text-sm uppercase tracking-widest mb-2 font-bold drop-shadow-[0_2px_6px_rgba(0,0,0,1)]">
-              Gender
-            </p>
-            <p className="text-white font-black text-2xl uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
-              {character.gender}
-            </p>
-          </div>
-
-          {/* Episodes */}
-          <div className="p-4 text-center">
-            <p className="text-pink-400 text-sm uppercase tracking-widest mb-2 font-bold drop-shadow-[0_2px_6px_rgba(0,0,0,1)]">
-              Episodes
-            </p>
-            <p className="text-white font-black text-2xl uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
-              {character.episode.length}
-            </p>
-          </div>
-
-          {/* Origin */}
-          <div className="p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse drop-shadow-[0_0_4px_rgba(6,182,212,0.8)]" />
-              <p className="text-cyan-400 text-xs uppercase tracking-widest font-bold drop-shadow-[0_2px_6px_rgba(0,0,0,1)]">
-                Origin
-              </p>
-            </div>
-            <p className="text-white font-semibold text-sm truncate drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
-              {character.origin.name}
-            </p>
-          </div>
-
-          {/* Location */}
-          <div className="p-4">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse drop-shadow-[0_0_4px_rgba(236,72,153,0.8)]" />
-              <p className="text-pink-400 text-xs uppercase tracking-widest font-bold drop-shadow-[0_2px_6px_rgba(0,0,0,1)]">
-                Location
-              </p>
-            </div>
-            <p className="text-white font-semibold text-sm truncate drop-shadow-[0_2px_8px_rgba(0,0,0,1)]">
-              {character.location.name}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Corner Accents */}
-      <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-cyan-400/60" />
-      <div className="absolute top-0 right-0 w-12 h-12 border-t-2 border-r-2 border-pink-400/60" />
-      <div className="absolute bottom-0 left-0 w-12 h-12 border-b-2 border-l-2 border-pink-400/60" />
-      <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-cyan-400/60" />
+      <Corners />
     </div>
   );
 };

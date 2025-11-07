@@ -3,14 +3,14 @@
 import { useState } from "react";
 import { useCardRotation } from "@hooks";
 import { getCyberStatusConfig } from "@styles";
+import { DEFAULT_ANIMATION_TIMINGS } from "@util";
+import { CardContainer } from "../CardContainer";
 import { Grid } from "./Grid";
 import { ScanLine } from "./ScanLine";
 import { CornerAccents } from "./CornerAccents";
 import { Styles } from "./Styles";
 import { Front } from "./Front";
 import { Back } from "./Back";
-import { DEFAULT_ANIMATION_TIMINGS } from "@util";
-import { CardContainer } from "../CardContainer";
 
 interface Character {
   id: number;
@@ -33,7 +33,6 @@ export const CyberCard = ({ character }: CyberCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
 
-  // Custom hooks
   const { rotation, handleMouseMove, resetRotation } = useCardRotation();
 
   const statusConfig = getCyberStatusConfig(character.status);
@@ -54,17 +53,17 @@ export const CyberCard = ({ character }: CyberCardProps) => {
       imageUrl={character.image}
       imageAlt={character.name}
       skeletonVariant="card-ii"
-      skeletonClassName="sm:rounded-2xl border-4 sm:border-6 border-cyan-500/30"
-      className="w-full"
+      skeletonClassName="rounded-2xl border-4 sm:rounded-3xl sm:border-6 border-cyan-500/30"
+      className="relative mx-auto w-full max-w-88 px-5 sm:mx-0 sm:max-w-full sm:px-0"
       minSkeletonVisibility={DEFAULT_ANIMATION_TIMINGS.minSkeletonVisibility}
       skeletonFadeOutDuration={DEFAULT_ANIMATION_TIMINGS.skeletonFadeOut}
       cardFadeInDuration={DEFAULT_ANIMATION_TIMINGS.cardFadeIn}
       cardFadeInDelay={DEFAULT_ANIMATION_TIMINGS.cardFadeInDelay}
     >
-      {({ imageLoaded }) => (
+      {(_props) => (
         <>
           <div
-            className="relative w-full h-64 sm:h-80 md:h-96 lg:h-112"
+            className="relative w-full h-104 lg:h-112"
             style={{
               perspective: "1000px",
               transformStyle: "preserve-3d",
@@ -73,58 +72,62 @@ export const CyberCard = ({ character }: CyberCardProps) => {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            {/* Flip Card Container */}
             <div
-              className="relative w-full h-full"
+              className="relative h-full w-full"
               style={{
                 transformStyle: "preserve-3d",
-                transition: "transform 0.6s cubic-bezier(.5,.3,.3,1)",
-                transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
+                transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
+                transition: isHovered
+                  ? "transform 120ms cubic-bezier(.22,.61,.36,1)"
+                  : "transform 280ms cubic-bezier(.22,.61,.36,1)",
               }}
             >
-              {/* Card Front - Character Preview */}
               <div
-                className="absolute inset-0 w-full h-full rounded-xl sm:rounded-2xl overflow-hidden border-4 sm:border-6 border-cyan-500/30"
+                className="relative h-full w-full"
                 style={{
-                  backfaceVisibility: "hidden",
-                  WebkitBackfaceVisibility: "hidden",
-                  transform: "rotateY(0deg)",
                   transformStyle: "preserve-3d",
-                  boxShadow: isHovered
-                    ? "0 0 60px rgba(6, 182, 212, 0.4), 0 0 100px rgba(236, 72, 153, 0.2)"
-                    : "0 0 30px rgba(6, 182, 212, 0.2)",
+                  transition: "transform 0.6s cubic-bezier(.5,.3,.3,1)",
+                  transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
                 }}
               >
-                <Grid />
-                <ScanLine />
-                <CornerAccents />
-                <Front
-                  characterImage={character.image}
-                  characterName={character.name}
-                />
-              </div>
+                <div
+                  className="absolute inset-0 h-full w-full overflow-hidden rounded-2xl border-4 sm:rounded-3xl sm:border-6 border-cyan-500/30"
+                  style={{
+                    backfaceVisibility: "hidden",
+                    WebkitBackfaceVisibility: "hidden",
+                    transform: "rotateY(0deg)",
+                    transformStyle: "preserve-3d",
+                    boxShadow: isHovered
+                      ? "0 0 60px rgba(6, 182, 212, 0.4), 0 0 100px rgba(236, 72, 153, 0.2)"
+                      : "0 0 30px rgba(6, 182, 212, 0.2)",
+                  }}
+                >
+                  <Grid />
+                  <ScanLine />
+                  <CornerAccents />
+                  <Front
+                    characterImage={character.image}
+                    characterName={character.name}
+                  />
+                </div>
 
-              {/* Card Back - Full Character Data */}
-              <div
-                className="absolute inset-0 w-full h-full rounded-xl sm:rounded-2xl overflow-hidden border-4 sm:border-6 border-cyan-500/30"
-                style={{
-                  backfaceVisibility: "hidden",
-                  WebkitBackfaceVisibility: "hidden",
-                  transform: "rotateY(180deg)",
-                  transformStyle: "preserve-3d",
-                  boxShadow: isHovered
-                    ? "0 0 60px rgba(6, 182, 212, 0.4), 0 0 100px rgba(236, 72, 153, 0.2)"
-                    : "0 0 30px rgba(6, 182, 212, 0.2)",
-                }}
-              >
-                <Grid />
-                <ScanLine />
-                <CornerAccents />
-                <Back
-                  character={character}
-                  statusConfig={statusConfig}
-                  isHovered={isHovered}
-                />
+                <div
+                  className="absolute inset-0 h-full w-full overflow-hidden rounded-2xl border-4 sm:rounded-3xl sm:border-6 border-cyan-500/30"
+                  style={{
+                    backfaceVisibility: "hidden",
+                    WebkitBackfaceVisibility: "hidden",
+                    transform: "rotateY(180deg)",
+                    transformStyle: "preserve-3d",
+                    boxShadow: isHovered
+                      ? "0 0 60px rgba(6, 182, 212, 0.4), 0 0 100px rgba(236, 72, 153, 0.2)"
+                      : "0 0 30px rgba(6, 182, 212, 0.2)",
+                  }}
+                >
+                  <Grid />
+                  <ScanLine />
+                  <CornerAccents />
+                  <Back character={character} statusConfig={statusConfig} />
+                </div>
               </div>
             </div>
           </div>
