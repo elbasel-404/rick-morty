@@ -5,6 +5,7 @@ import {
   useEffect,
   useMemo,
   useState,
+  useRef,
   type ReactNode,
 } from "react";
 import { useRouter } from "next/navigation";
@@ -18,7 +19,11 @@ interface SlideInModalProps {
 
 const MODAL_ANIMATION_MS = 250;
 
-export const SlideInModal = ({ children, title, returnHref }: SlideInModalProps) => {
+export const SlideInModal = ({
+  children,
+  title,
+  returnHref,
+}: SlideInModalProps) => {
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(false);
   const prefersReducedMotion = useMemo(() => {
@@ -39,14 +44,30 @@ export const SlideInModal = ({ children, title, returnHref }: SlideInModalProps)
     return () => window.cancelAnimationFrame(animationFrame);
   }, [prefersReducedMotion]);
 
-  useEffect(() => {
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+  const previousOverflow = useRef<string | null>(null);
 
-    return () => {
-      document.body.style.overflow = originalOverflow;
-    };
-  }, []);
+  useEffect(() => {
+    if (typeof document === "undefined") {
+      return;
+    }
+
+    if (isVisible) {
+      previousOverflow.current = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+
+      return () => {
+        document.body.style.overflow = previousOverflow.current ?? "";
+        previousOverflow.current = null;
+      };
+    }
+
+    if (previousOverflow.current !== null) {
+      document.body.style.overflow = previousOverflow.current;
+      previousOverflow.current = null;
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [isVisible]);
 
   const dismiss = useCallback(() => {
     const animationDuration = prefersReducedMotion ? 0 : MODAL_ANIMATION_MS;
@@ -82,8 +103,8 @@ export const SlideInModal = ({ children, title, returnHref }: SlideInModalProps)
   return (
     <div
       className={cn(
-  "fixed inset-0 z-50 flex justify-end bg-slate-950/60 backdrop-blur-sm transition-opacity duration-200",
-        isVisible ? "opacity-100" : "opacity-0"
+        "fixed inset-0 z-50 flex justify-end bg-slate-950/60 backdrop-blur-sm transition-opacity duration-200",
+        isVisible ? "opacity-100" : "pointer-events-none opacity-0"
       )}
       onClick={dismiss}
     >
@@ -92,7 +113,7 @@ export const SlideInModal = ({ children, title, returnHref }: SlideInModalProps)
         aria-modal="true"
         aria-label={title ?? "Modal"}
         className={cn(
-          "relative flex h-full w-full max-w-xs sm:max-w-sm flex-col overflow-hidden border border-slate-800/70 bg-slate-950/90 text-slate-100 shadow-2xl",
+          "relative flex h-full w-full max-w-xs sm:max-w-sm flex-col overflow-hidden border border-slate-800/70 bg-white/5 text-slate-100 shadow-2xl",
           prefersReducedMotion
             ? ""
             : "transition-transform duration-300 ease-out",
@@ -100,18 +121,7 @@ export const SlideInModal = ({ children, title, returnHref }: SlideInModalProps)
         )}
         onClick={(event) => event.stopPropagation()}
       >
-        <header className="flex items-center justify-between border-b border-slate-800/80 bg-slate-950/80 px-3 py-2.5">
-          <h2 className="text-base font-semibold text-white">{title}</h2>
-          <button
-            type="button"
-            onClick={dismiss}
-            className="rounded-full border border-slate-700/70 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-300 hover:border-slate-500 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60"
-          >
-            Close
-          </button>
-        </header>
-
-        <div className="flex-1 overflow-y-auto px-3 py-3">{children}</div>
+        <div className="flex-1 overflow-y-auto pb-3">{children}</div>
       </div>
     </div>
   );

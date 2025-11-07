@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { Character, Episode } from "@schema";
 import { cn } from "@util";
+import Link from "next/link";
 
 type CharacterDetailVariant = "page" | "modal";
 
@@ -114,7 +115,9 @@ export const CharacterDetail = ({
         <dd
           className={cn(
             "font-semibold text-foreground leading-relaxed",
-            compact ? "mt-1.5 text-sm sm:text-base" : "mt-2 sm:mt-3 text-base sm:text-lg"
+            compact
+              ? "mt-1.5 text-sm sm:text-base"
+              : "mt-2 sm:mt-3 text-base sm:text-lg"
           )}
         >
           {fact.value}
@@ -137,12 +140,34 @@ export const CharacterDetail = ({
           />
         </div>
 
+        <div className="flex">
+          <h1 className="text-3xl text-center w-full sm:text-4xl font-bold text-foreground leading-tight">
+            {character.name}
+          </h1>
+          <Link
+            href={`/characters/${character.id}`}
+            prefetch
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-700/80 text-slate-200 transition hover:border-slate-500 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/60"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="h-4 w-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"
+              />
+            </svg>
+          </Link>
+        </div>
         <div className="flex flex-col gap-4 sm:gap-5">
           <header className="flex flex-col gap-2 sm:gap-3">
             <div className="flex flex-wrap items-start sm:items-center justify-between gap-2.5">
-              <h1 className="text-3xl sm:text-4xl font-bold text-foreground leading-tight">
-                {character.name}
-              </h1>
               <span
                 className={cn(
                   "inline-flex items-center rounded-full px-3 sm:px-4 py-1 sm:py-1.5 text-xs sm:text-sm font-semibold uppercase tracking-wide whitespace-nowrap shrink-0",
@@ -157,7 +182,7 @@ export const CharacterDetail = ({
             </p>
           </header>
 
-          <section className="grid gap-2 sm:gap-3 text-foreground grid-cols-1 sm:grid-cols-2">
+          <section className="grid gap-2 sm:gap-3 text-foreground grid-cols-2 sm:grid-cols-1">
             {primaryFacts.map((fact) => renderFact(fact, { compact: true }))}
           </section>
 
