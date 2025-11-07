@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 
 import { useState } from "react";
 import { Zap } from "lucide-react";
@@ -105,7 +106,9 @@ export const GradientCard = ({ character }: CharacterCardProps) => {
               className="relative h-96 overflow-hidden"
               style={{ transform: "translateZ(20px)" }}
             >
-              <img
+              <Image
+                width={300}
+                height={300}
                 src={image}
                 alt={name}
                 className={cn(

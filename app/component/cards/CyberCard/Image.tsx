@@ -12,6 +12,8 @@ export const CardImage = ({ src, alt, isHovered }: ImageProps) => {
       style={{ transform: "translateZ(30px)" }}
     >
       <Image
+        width={300}
+        height={300}
         src={src}
         alt={alt}
         className="w-full h-full object-cover filter-[contrast(1.1)_saturate(1.2)]"
