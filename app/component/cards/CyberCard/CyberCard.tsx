@@ -66,7 +66,7 @@ export const CyberCard = ({ character, hasLoadedOnce, onLoad }: CyberCardProps) 
       cardFadeInDuration={DEFAULT_ANIMATION_TIMINGS.cardFadeIn}
       cardFadeInDelay={DEFAULT_ANIMATION_TIMINGS.cardFadeInDelay}
     >
-      {(_props) => (
+      {({ isVisible, imageLoaded }) => (
         <>
           <div
             className="relative w-full h-104 lg:h-112"
@@ -114,6 +114,7 @@ export const CyberCard = ({ character, hasLoadedOnce, onLoad }: CyberCardProps) 
                   <Front
                     characterImage={character.image}
                     characterName={character.name}
+                    imageLoaded={imageLoaded}
                   />
                 </div>
 

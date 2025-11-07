@@ -67,7 +67,7 @@ export const SimpleCard = ({
       cardFadeInDuration={DEFAULT_ANIMATION_TIMINGS.cardFadeIn}
       cardFadeInDelay={DEFAULT_ANIMATION_TIMINGS.cardFadeInDelay}
     >
-      {({ imageLoaded }) => (
+      {({ isVisible, imageLoaded }) => (
         <div
           className="relative w-full h-full min-h-[400px]"
           style={{ perspective: "1000px" }}
@@ -93,7 +93,7 @@ export const SimpleCard = ({
               <Image
                 src={character.image}
                 alt={character.name}
-                isInViewport={imageLoaded}
+                isInViewport={isVisible}
                 imageLoaded={imageLoaded}
                 onLoad={() => {}}
               />

@@ -1,9 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useEffect, useState, ImgHTMLAttributes } from "react";
 
 interface LazyImageProps
-  extends Omit<ImgHTMLAttributes<HTMLImageElement>, "onLoad" | "width" | "height"> {
+  extends Omit<
+    ImgHTMLAttributes<HTMLImageElement>,
+    "onLoad" | "width" | "height"
+  > {
   /** Image source URL */
   src: string;
   /** Alt text */
@@ -37,11 +41,22 @@ export const LazyImage = ({
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    if (isInViewport && imgRef.current && !isLoaded) {
-      const img = imgRef.current;
+    if (!isInViewport || isLoaded) {
+      return;
+    }
 
+    let currentImage: HTMLImageElement | null = null;
+
+    if (mode === "preload") {
+      currentImage = new window.Image();
+      currentImage.src = src;
+    } else if (imgRef.current) {
+      currentImage = imgRef.current;
+    }
+
+    if (currentImage) {
       // Check if image is already cached
-      if (img.complete && img.naturalHeight !== 0) {
+      if (currentImage.complete && currentImage.naturalHeight !== 0) {
         setIsLoaded(true);
         onLoad?.(true, true); // loaded, cached
         return;
@@ -53,21 +68,24 @@ export const LazyImage = ({
         onLoad?.(true, false); // loaded, not cached
       };
 
-      img.addEventListener("load", handleLoad);
-      return () => img.removeEventListener("load", handleLoad);
+      currentImage.addEventListener("load", handleLoad);
+      return () => currentImage?.removeEventListener("load", handleLoad);
     }
-  }, [isInViewport, isLoaded, onLoad]);
+  }, [isInViewport, isLoaded, onLoad, src, mode]);
 
-  // Don't render anything if not in viewport
-  if (!isInViewport) return null;
+  // Don't render anything if not in viewport and not in inline mode
+  if (!isInViewport && mode !== "inline") return null;
+
+  if (mode === "preload") {
+    return null; // Don't render anything, just preload
+  }
 
   return (
-    <img
+    <Image
       ref={imgRef}
       src={src}
       alt={alt}
-      className={mode === "preload" ? "hidden" : className}
-      aria-hidden={mode === "preload" ? "true" : undefined}
+      className={className}
       width={width}
       height={height}
       {...imgProps}
