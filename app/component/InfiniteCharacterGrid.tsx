@@ -13,18 +13,12 @@ import { VirtuosoGrid } from "react-virtuoso";
 import type { Character } from "@schema";
 import { fetchCharactersPage, type FetchCharactersResult } from "@server";
 import { cn } from "@util";
-import {
-  CharacterCardIII,
-  CharacterCardV,
-  CyberCard,
-  SimpleCard,
-} from "./cards";
+import { GradientCard, CyberCard, SimpleCard } from "./cards";
 
 const CARD_VARIANTS = {
   "1": SimpleCard,
   "2": CyberCard,
-  "3": CharacterCardIII,
-  "4": CharacterCardV,
+  "3": GradientCard,
 } as const;
 
 export type CardVariant = keyof typeof CARD_VARIANTS;

@@ -1,1 +1,0 @@
-export { CharacterCardV } from "./Card";

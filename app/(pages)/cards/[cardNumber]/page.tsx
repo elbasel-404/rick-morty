@@ -64,7 +64,7 @@ const CardSwitcher = ({ cardNumber = "1" }) => {
   return (
     <div className="mb-6 flex flex-wrap items-center gap-3">
       <span className="font-semibold text-lg text-white">Card Style:</span>
-      {[1, 2, 3, 4].map((num) => (
+      {[1, 2, 3].map((num) => (
         <Link
           href={`/cards/${num}`}
           key={num}

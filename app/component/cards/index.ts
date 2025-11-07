@@ -1,5 +1,4 @@
-export { SimpleCard, SimpleCard as CharacterCardI } from "./SimpleCard";
-export { CyberCard, CyberCard as CharacterCardII } from "./CyberCard";
-export { CharacterCardIII } from "./card-iii";
-export { CharacterCardV } from "./card-v";
+export { SimpleCard } from "./SimpleCard";
+export { CyberCard } from "./CyberCard";
+export { GradientCard } from "./GradientCard";
 export { CardContainer } from "./CardContainer";

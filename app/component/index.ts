@@ -1,11 +1,4 @@
-export {
-  SimpleCard,
-  CyberCard,
-  CharacterCardI,
-  CharacterCardII,
-  CharacterCardIII,
-  CharacterCardV,
-} from "./cards";
+export { SimpleCard, CyberCard, GradientCard } from "./cards";
 export { JsonViewer } from "./JsonViewer";
 export { CharacterDetail } from "./CharacterDetail";
 export { SlideInModal } from "./SlideInModal";
